@@ -1,0 +1,38 @@
+.. _intro:
+
+Introduction to Native Tags
+===========================
+
+Necessity
+---------
+
+.. highlight:: django
+
+Turn::
+
+    {% ifnotequal blog.slug "blog-rings" %}
+        {% ifnotequal blog.slug "chatter" %}
+            {% ifnotequal blog.slug "d1scourse" %}
+            ...
+                {% include "weblogs/blog_metatags/generic.html" %}
+            ...
+            {% endifnotequal %}
+        {% endifnotequal %}
+    {% endifnotequal %}
+
+Into::
+
+.. highlight:: python
+
+the output::
+
+   def slug_in(``s``, ``*slugs``):
+       return ``s`` in ``slugs``
+
+and the template::
+
+   {% if_slug_in blog.slug blog-rings chatter d1scourse ... %}
+       {% include "weblogs/blog_metatags/generic.html" %}
+   {% endif_slug_in %}
+
+thee nd

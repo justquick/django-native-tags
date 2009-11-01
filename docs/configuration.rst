@@ -1,0 +1,46 @@
+.. _configuration:
+
+Settings
+========
+
+NATIVE_LOAD
+-----------
+
+    Boolean whether to load the native tags automatically
+    otherwise needs ``{% load native }%``. Default is ``True``
+
+NATIVE_LIBRARY
+--------------
+
+    Updates the library of tags to load by default
+    These can be created in ``settings.py`` and many other python files.
+
+       Example::
+       
+          NATIVE_LIBRARY = {
+             'functions':{
+                'add': lambda x, y: x + y,
+                #...
+             }
+             #...
+          }
+
+NATIVE_CONTRIB
+--------------
+
+    Tuple of contrib tag modules to load. 
+    Use the ones from :ref:`contrib-index` or add your own
+
+DJANGO_BUILTIN_TAGS
+-------------------
+
+    Tuple of Django templatetags/filters methods to load by default.
+    Place your most commonly used templatetags here and you will not have to ``{% load %}`` them.
+        
+        Example::
+            
+            DJANGO_BUILTIN_TAGS = (
+                'django.contrib.markup.templatetags.markup',
+                #...
+            )
+

@@ -1,0 +1,11 @@
+.. _contrib-context:
+.. highlight:: django
+
+:mod:`context` - context manipulation tags
+==========================================
+
+.. automodule:: native_tags.contrib.context
+    
+    .. autofunction:: do_del
+    .. autofunction:: do_set
+    .. autofunction:: render
