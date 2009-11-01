@@ -5,60 +5,67 @@ from django.conf import settings as djsettings
 from django.core.serializers import deserialize
 
 from native_tags import settings, register
+import atexit
 import datetime
 import os
 
 TAG_TEMPLATE = """
-
-{% for name,doc,bit in tags.values %}
-{% ifnotequal name 'calendar_yearpage' %}
+{% if_contains name 'calendar' negate %}
 <div>
-    <h1>{{ name }}</h1>
-    <pre>
-    {% highlight doc rest %}
+    <h1><a onclick="document.getElementById('doc{{ name }}').style.display = 'block';">{{ name }}</a></h1>
+    <pre id="doc{{ name }}" style="display: none;">
+    {{ doc }}
     </pre>
-    <div>
-    {{ bit }}
-    </div>
-</div>
-{% endifnotequal %}
-{% endfor %}
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {{ src }}
+    &nbsp;</div>  
+    <div style="background-color: {% if error %}red{% else %}green{% endif %}">
+    {% if error %}{{ error }}{% else %}{{ bit }}{% endif %}
+    &nbsp;</div>
+</div><hr>
+{% endif_contains %}
 """
+
+try:
+    import pygments
+    TAG_TEMPLATE = TAG_TEMPLATE.replace('{{ doc }}','{% highlight doc rest %}')
+except ImportError:
+    pygments = None
 
 TESTFILE = 'media/index.html'
 
 if os.path.isfile(TESTFILE):
     os.remove(TESTFILE)
 
+TESTFILE = open(TESTFILE,'a')
+atexit.register(TESTFILE.close)
+
+if pygments:
+    TESTFILE.write(Template('<style>{% highlight_style %}</style>').render(Context()))
+
 class TemplateTest(TestCase):
 
-    def tearDown(self):
-        self.f.write(self.template_tags())
-        #f.close()
 
-    def render(self, src, ctx=None):
-        bit = Template(src).render(Context(ctx))
+    def render(self, src, ctx=None, err=None):
         name = repr(self).split('testMethod=')[1].split('>')[0][5:]
-        self.tags[name] = (
-            name, register.get_doc(name), bit
-        )
-#        print bit
-        #self.f.write('<h2>%s</h2><div>%s</div>'%(name,bit))
-        #self.f.write('<pre>%s</pre>'%register.get_doc(name.split('_')[0]))
+        try:
+            bit = Template(src).render(Context(ctx))
+        except Exception, e:
+            if not djsettings.DEBUG:
+                bit = ''
+                err = e
+            else:
+                raise
+        TESTFILE.write(Template(TAG_TEMPLATE).render(Context({
+            'name':name, 'doc':register.get_doc(name), 'src':src, 'bit':bit, 'error':err,
+        })))
         return bit
 
     def setUp(self):
         self.test_user = User.objects.create(username='tester',email='test')
         self.hash = {'foo':'bar'}
-        self.f = open(TESTFILE,'a')
+        
         self.tags = {}
-
-    def template_tags(self):
-        from native_tags import register
-        return Template(TAG_TEMPLATE).render(Context({
-            'tags':self.tags,
-        }))
-
 
     def test_less(self):
         t = """{% if_less 1 2 %}y{% endif_less %}{% if_less_or_equal 1 2 %}y{% endif_less_or_equal %}{% if_greater 2 1 %}n{% endif_greater %}{% if_greater_or_equal 1 1 %}y{% endif_greater_or_equal %}"""
@@ -212,7 +219,7 @@ class TemplateTest(TestCase):
     try:
         import GChartWrapper
         def test_gchart(self):
-            t = '''{% gchart bvg data encoding=text width=300 %}
+            t = '''{% gchart bvg data encoding=text instance=true as chart %}
                 scale 0 59
                 color lime red blue
                 legend Goucher Truman Kansas
@@ -222,10 +229,10 @@ class TemplateTest(TestCase):
                 title mytittle
                 axes.type x
                 axes.label label2
-            {% endgchart %}'''
+            {% endgchart %}{{chart.checksum}}'''
             self.assertEquals(
                 self.render(t, {'data':[[31],[59],[4]]}),
-                '<img src="http://chart.apis.google.com/chart?chco=00FF00,FF0000,0000FF&amp;chd=t:31.0|59.0|4.0&amp;chdl=Goucher|Truman|Kansas&amp;chds=0,59&amp;chf=c,lg,45,cccccc,0,000000,1|bg,s,cccccc&amp;chs=300x150&amp;cht=bvg&amp;chtt=mytittle&amp;chxl=label2:|&amp;chxt=x" width="300" />')
+                '77f733ad30d44411b5b5fcac7e5848b5d5f2dd04')
     except ImportError:
         pass
     try:

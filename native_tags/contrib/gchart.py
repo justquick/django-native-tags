@@ -25,5 +25,7 @@ def gchart(context, nodelist, type, dataset, **kwargs):
                 else:
                     cmd = getattr(G, cmd)
                 cmd(*value.split())
+    if 'instance' in kwargs:
+        return G
     return G.img(**kwargs)
 gchart = block(gchart)
