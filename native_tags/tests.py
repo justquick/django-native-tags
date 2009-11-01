@@ -4,17 +4,31 @@ from django.test import TestCase
 from django.conf import settings as djsettings
 from django.core.serializers import deserialize
 
-from native_tags import settings
+from native_tags import settings, register
 import datetime
+import os
 
 TAG_TEMPLATE = """
 
-{% for name,func in tags %}
+{% for name,doc,bit in tags.values %}
+{% ifnotequal name 'calendar_yearpage' %}
+<div>
     <h1>{{ name }}</h1>
-    <pre>{{ func|document }}</pre>
-
+    <pre>
+    {% highlight doc rest %}
+    </pre>
+    <div>
+    {{ bit }}
+    </div>
+</div>
+{% endifnotequal %}
 {% endfor %}
 """
+
+TESTFILE = 'media/index.html'
+
+if os.path.isfile(TESTFILE):
+    os.remove(TESTFILE)
 
 class TemplateTest(TestCase):
 
@@ -25,6 +39,9 @@ class TemplateTest(TestCase):
     def render(self, src, ctx=None):
         bit = Template(src).render(Context(ctx))
         name = repr(self).split('testMethod=')[1].split('>')[0][5:]
+        self.tags[name] = (
+            name, register.get_doc(name), bit
+        )
 #        print bit
         #self.f.write('<h2>%s</h2><div>%s</div>'%(name,bit))
         #self.f.write('<pre>%s</pre>'%register.get_doc(name.split('_')[0]))
@@ -33,13 +50,13 @@ class TemplateTest(TestCase):
     def setUp(self):
         self.test_user = User.objects.create(username='tester',email='test')
         self.hash = {'foo':'bar'}
-        self.f = open('t.html','a')
+        self.f = open(TESTFILE,'a')
+        self.tags = {}
 
     def template_tags(self):
         from native_tags import register
         return Template(TAG_TEMPLATE).render(Context({
-            'tags':register.tags,
-            'doc': lambda f: f.__doc__,
+            'tags':self.tags,
         }))
 
 

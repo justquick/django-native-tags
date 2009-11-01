@@ -34,7 +34,10 @@ def highlight(code, lexer, **kwargs):
             
             {% highlight_style 'print "Hello World' python linenos=true %}
     """
-    return highlighter(code, get_lexer_by_name(lexer), HtmlFormatter(**kwargs))
+    try:
+        return highlighter(code, get_lexer_by_name(lexer), HtmlFormatter(**kwargs))
+    except:
+        return ''
 highlight = function(highlight)
 
 def block_highlight(context, nodelist, lexer, **kwargs):
@@ -56,5 +59,8 @@ def block_highlight(context, nodelist, lexer, **kwargs):
                 print '{{ request.path }}'
             {% endblock_highlight %}
     """
-    return highlighter(nodelist.render(context), get_lexer_by_name, HtmlFormatter(**kwargs))
+    try:
+        return highlighter(nodelist.render(context), get_lexer_by_name, HtmlFormatter(**kwargs))
+    except:
+        return ''
 block_highlight = block(block_highlight)
