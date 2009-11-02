@@ -8,4 +8,5 @@
     
     .. autofunction:: do_del
     .. autofunction:: do_set
-    .. autofunction:: render
+    .. autofunction:: render_block
+    .. autofunction:: document

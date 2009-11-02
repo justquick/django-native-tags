@@ -135,8 +135,8 @@ class TemplateTest(TestCase):
         t = '{% if_greater 2 1 %}yup{% endif_greater %}'
         self.assertEquals(self.render(t), u'yup')
 
-    def test_render(self):
-        t = '{% render as myvar %}hello {{ place }}{% endrender %}{{ myvar }}'
+    def test_render_block(self):
+        t = '{% render_block as myvar %}hello {{ place }}{% endrender_block %}{{ myvar }}'
         self.assertEquals(self.render(t, {'place':'world'}), 'hello world')
 
     def test_get_latest_object(self):
