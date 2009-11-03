@@ -32,7 +32,7 @@ def highlight(code, lexer, **kwargs):
             
         Example::
             
-            {% highlight_style 'print "Hello World' python linenos=true %}
+            {% highlight_style 'print "Hello World"' python linenos=true %}
     """
     try:
         return highlighter(code, get_lexer_by_name(lexer), HtmlFormatter(**kwargs))
