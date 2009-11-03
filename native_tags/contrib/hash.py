@@ -22,14 +22,14 @@ def hexd(algo, value):
     except IndexError:
         return ''
 
-def hashtag(algo):
+def hashtag(algo, lib=False):
     def inner(value):
         return hexd(algo, value)
-    return filter(function(inner),doc='Returns %s hexadecimal hash of the value' % algo.upper(),name=algo)
+    return filter(function(inner),doc='Returns %s hexadecimal hash of the value. %s' % (algo.upper(), lib and 'Requires the :mod:`hashlib` module' or ''),name=algo)
     
 md5 = hashtag( 'md5')
 sha1 = hashtag('sha1')
-sha224 = hashtag('sha224')
-sha256 = hashtag('sha256')
-sha384 = hashtag('sha384')
-sha512 = hashtag('sha512')
+sha224 = hashtag('sha224',True)
+sha256 = hashtag('sha256',True)
+sha384 = hashtag('sha384',True)
+sha512 = hashtag('sha512',True)

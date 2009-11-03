@@ -14,35 +14,39 @@ def get_latest_object(model, field=None):
     """
     Retrieves the latest object from a given model, in that model's
     default ordering, and stores it in a context variable.
+    The optional field argument specifies which field to get_latest_by, otherwise the model's default is used
     
     Syntax::
     
-        {% get_latest_object [app_name].[model_name] as [varname] %}
+        {% get_latest_object [app_name].[model_name] [field] as [varname] %}
     
     Example::
     
-        {% get_latest_object comments.freecomment as latest_comment %}
+        {% get_latest_object comments.freecomment submitted_date as latest_comment %}
     
     """
     return _get_model(model)._default_manager.latest(field)
 get_latest_object = function(get_latest_object)    
 
 
-def get_latest_objects(model, num):
+def get_latest_objects(model, num, field='?'):
     """
     Retrieves the latest ``num`` objects from a given model, in that
     model's default ordering, and stores them in a context variable.
+    The optional field argument specifies which field to get_latest_by, otherwise the model's default is used
     
     Syntax::
     
-        {% get_latest_objects [app_name].[model_name] [num] as [varname] %}
+        {% get_latest_objects [app_name].[model_name] [num] [field] as [varname] %}
     
     Example::
     
-        {% get_latest_objects comments.freecomment 5 as latest_comments %}
+        {% get_latest_objects comments.freecomment 5 submitted_date as latest_comments %}
     
     """
-    return _get_model(model)._default_manager.all()[:int(num)]
+    model = _get_model(model)
+    field = model._meta.get_latest_by and '-%s' %model._meta.get_latest_by or field
+    return model._default_manager.order_by(field)[:int(num)]
 get_latest_objects = function(get_latest_objects)
 
 def get_random_object(model):
