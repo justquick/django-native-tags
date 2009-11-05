@@ -1,6 +1,6 @@
 import settings
 
-def tag(bucket,doc):
+def tag(bucket, doc):
     def wrapped(inner, **options):
         options[bucket] = 1
         if 'name' in options:
@@ -12,7 +12,7 @@ def tag(bucket,doc):
         inner.__doc__ = inner.doc = '%s\n%s' % (inner.__doc__, ''.join([
             'This is a :ref:`%s tag<%s-tags>`. ' % (tag, tag)
             for tag in settings.TAG_TYPES
-            if hasattr(inner,tag) and
+            if hasattr(inner, tag) and
               str(inner.__doc__).find('This is a :ref:`%s' % tag)==-1]))
         return inner
     wrapped.__doc__ = doc
