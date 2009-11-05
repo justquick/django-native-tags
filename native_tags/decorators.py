@@ -9,12 +9,11 @@ def tag(bucket,doc):
             inner.__doc__ = inner.doc = options.pop('doc')
         for i in options.items():
             setattr(inner, *i)
-        newdoc = ''.join([
-            'This is a :ref:`%s tag<%s-tags>`. ' % (tag,tag)
+        inner.__doc__ = inner.doc = '%s\n%s' % (inner.__doc__, ''.join([
+            'This is a :ref:`%s tag<%s-tags>`. ' % (tag, tag)
             for tag in settings.TAG_TYPES
             if hasattr(inner,tag) and
-              str(inner.__doc__).find('This is a :ref:`%s'%tag)==-1])
-        inner.__doc__ = inner.doc = '%s\n\n%s' % (newdoc, inner.__doc__)
+              str(inner.__doc__).find('This is a :ref:`%s' % tag)==-1]))
         return inner
     wrapped.__doc__ = doc
     return wrapped

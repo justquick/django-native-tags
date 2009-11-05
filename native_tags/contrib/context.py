@@ -20,7 +20,7 @@ def do_del(context, *args):
     for name in args:
         del context[name]
     return ''
-do_del = function(do_del, do_not_resolve = 1, takes_context=1, name='del')
+do_del = function(do_del, resolve=0, takes_context=1, name='del')
 
 
 def render_block(context, nodelist):

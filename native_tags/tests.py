@@ -17,7 +17,7 @@ TAG_TEMPLATE = """
     </pre>
     <div style="background: #FFFFCC none repeat scroll 0 0;">
     {{ src }}
-    &nbsp;</div>  
+    &nbsp;</div>
     <div style="background-color: {% if error %}red{% else %}green{% endif %}">
     {% if error %}{{ error }}{% else %}{{ bit }}{% endif %}
     &nbsp;</div>
@@ -47,12 +47,12 @@ class TemplateTest(TestCase):
     def render(self, src, ctx=None):
         e = None
         name = repr(self).split('testMethod=')[1].split('>')[0][5:]
-        #try:
-        bit = Template(src).render(Context(ctx))
-        #except Exception, e:
-        #    if djsettings.DEBUG:
-        #        raise
-        #    bit = ''
+        try:
+            bit = Template(src).render(Context(ctx))
+        except Exception, e:
+            if djsettings.DEBUG:
+                raise
+            bit = ''
         TESTFILE.write(Template(TAG_TEMPLATE).render(Context({
             'name':name, 'doc':register.get_doc(name), 'src':src, 'bit':bit, 'error':e,
         })))
@@ -61,7 +61,17 @@ class TemplateTest(TestCase):
     def setUp(self):
         self.test_user = User.objects.create(username='tester',email='test')
         self.hash = {'foo':'bar'}
-        
+
+        if not 'dynamic' in register['function']:
+            register.function('dynamic', lambda *a, **kw: list(a) + sorted(kw.items()))
+
+        def no_render(*a, **kw):
+             return list(a) + sorted(kw.items())
+        no_render.resolve = 0
+
+        if not 'no_render' in register['function']:
+            register.function(no_render)
+
         self.tags = {}
 
     def test_less(self):
@@ -85,13 +95,13 @@ class TemplateTest(TestCase):
 
     def test_serialize_json(self):
         self._serialize('json')
-        
+
     def test_serialize_python(self):
         self._serialize('python')
-        
+
     def test_serialize_xml(self):
         self._serialize('xml')
-        
+
     def test_contains(self):
         t = "{% if_contains 'team' 'i' %}yup{% endif_contains %}"
         self.assertEquals(self.render(t), u'')
@@ -207,6 +217,15 @@ class TemplateTest(TestCase):
     def test_b64decode(self):
         self.assertEquals(self.render('{% b64decode encoded %}', {'encoded':'aGVsbG8gd29ybGQ='}), 'hello world')
 
+
+    def test_dynamic(self):
+        self.assertEquals(eval(self.render('{% load native %}{% dynamic a b c d=1 e=2 %}')),
+                          [u'a', u'b', u'c', ('d', 1), ('e', 2)])
+
+    def test_no_render(self):
+        self.assertEquals(eval(self.render('{% load native %}{% no_render a b c d d=1 e=2 f=var %}', {'var':'hello'})),
+                          [u'a', u'b', u'c', u'd', ('d', u'1'), ('e', u'2'), ('f', u'var')])
+
     try:
         import hashlib
         def test_sha224_hashlib(self):
@@ -227,6 +246,10 @@ class TemplateTest(TestCase):
             self.assertEqual(self.render(t,{'src':'print "hello world"'}),
                 '<div class="srcdiv"><pre><span class="k">print</span> <span class="s">&quot;hello world&quot;</span>\n</pre></div>\n')
 
+        def test_highlight_block(self):
+            t = "{% highlight_block python as source %}import this{% endhighlight_block %}{{ source|safe }}"
+            self.assertEqual(self.render(t),'<div class="highlight"><pre><span class="kn">import</span> <span class="nn">this</span>\n</pre></div>\n')
+
     try:
         import GChartWrapper
         def test_gchart(self):
@@ -240,7 +263,7 @@ class TemplateTest(TestCase):
                 title mytittle
                 axes.type x
                 axes.label label2
-            {% endgchart %}{{chart.checksum}}'''
+            {% endgchart %}{{ chart.checksum }}'''
             self.assertEquals(
                 self.render(t, {'data':[[31],[59],[4]]}),
                 '77f733ad30d44411b5b5fcac7e5848b5d5f2dd04')
@@ -261,9 +284,8 @@ class TemplateTest(TestCase):
     #   add 'django.contrib.markup'  to your INSTALLED_APPS
     try:
         import markdown
-        if 'django.contrib.markup' in djsettings.INSTALLED_APPS:
-            def test_markdown(self):
-                t = "{{ src|markdown }}"
-                self.assertEquals(self.render(t, {'src':'`i`'}), u'<p><code>i</code></p>')
+        def test_markdown(self):
+            t = "{{ src|markdown }}"
+            self.assertEquals(self.render(t, {'src':'`i`'}), u'<p><code>i</code></p>')
     except ImportError:
         pass

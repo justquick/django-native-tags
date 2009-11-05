@@ -78,14 +78,13 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-CACHE_BACKEND = 'file:///var/tmp/django_cache'
+CACHE_BACKEND = 'file://%s' % os.path.join(os.getcwd(), 'cache')
 
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.markup',
     'native_tags',
 )
 
@@ -93,3 +92,8 @@ DJANGO_BUILTIN_TAGS = (
     'django.contrib.markup.templatetags.markup',
 )
 
+try:
+    import markdown
+    INSTALLED_APPS += ('django.contrib.markup',)
+except ImportError:
+    pass

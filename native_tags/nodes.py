@@ -2,6 +2,7 @@ import re
 from shlex import split
 from django import template
 from django.template import Context, Variable, VariableDoesNotExist
+from django.utils.encoding import force_unicode
 from registry import register
 
 
@@ -17,7 +18,7 @@ def lookup(var, context, resolve=True):
             pass
         except TypeError:
             return var
-    return unicode(var)
+    return force_unicode(var)
 
 def get_signature(token, contextable=False, comparison=False):
     """
@@ -38,7 +39,7 @@ def get_signature(token, contextable=False, comparison=False):
     for bit in bits[1:]:
         match = kwarg_re.match(bit)
         if match:
-            kwargs[match.group(1)] = match.group(2)
+            kwargs[match.group(1)] = force_unicode(match.group(2))
         else:
             args += (bit,)
     return bits[0], args, kwargs
@@ -53,7 +54,9 @@ class NativeNode(template.Node):
         self.kwargs = kwargs
 
     def render(self, context):
-        resolve = not (hasattr(self.func, 'do_not_resolve') and getattr(self.func, 'do_not_resolve'))
+        resolve = True
+        if hasattr(self.func, 'resolve'):
+            resolve = getattr(self.func, 'resolve')
         self.args = (lookup(var, context, resolve) for var in self.args)
         if hasattr(self.func, 'takes_context') and getattr(self.func, 'takes_context'):
             self.args = (context,) + tuple(self.args)
@@ -67,7 +70,6 @@ class ComparisonNode(NativeNode):
         nodelist_false = self.kwargs.pop('nodelist_false')
         nodelist_true = self.kwargs.pop('nodelist_true')
         negate = self.kwargs.pop('negate', False)
-
         try:
             if self.func(*self.args, **self.kwargs):
                 if negate:
@@ -147,7 +149,9 @@ def do_function(parser, token):
 
     Examples::
 
-        {% listdir '.' colors=True as list %}
+        {% search '^(\d{3})$' 800 as match %}
+
+        {% map sha1 hello world %}
 
     """
     name, args, kwargs = get_signature(token, True, True)
@@ -177,10 +181,13 @@ def do_block(parser, token):
 
     Examples::
 
-        {% count_nodes as nodecount %}
-            {{ node1 }}
-            ...
-        {% endcount_nodes %}
+        {% render_block as rendered_output %}
+            {{ request.path }}/blog/{{ blog.slug }}
+        {% endrender_block %}
+
+        {% highlight_block python as source %}
+            import this
+        {% endhighlight_block %}
 
     """
     name, args, kwargs = get_signature(token, contextable=True)

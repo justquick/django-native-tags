@@ -8,16 +8,16 @@ def highlight_style(cssclass='highlight', **kwargs):
     """
     Returns the CSS from the ``HtmlFormatter``.
     ``cssclass`` is the name of the ``div`` css class to use
-    
+
         Syntax::
-            
+
             {% highlight_style [cssclass] [formatter options] %}
-            
+
         Example::
-            
+
             {% highlight_style code linenos=true %}
     """
-    return HtmlFormatter(**kwargs).get_style_defs('.%s' % cssclass)    
+    return HtmlFormatter(**kwargs).get_style_defs('.%s' % cssclass)
 highlight_style = function(highlight_style)
 
 def highlight(code, lexer, **kwargs):
@@ -25,42 +25,36 @@ def highlight(code, lexer, **kwargs):
     Returns highlighted code ``div`` tag from ``HtmlFormatter``
     Lexer is guessed by ``lexer`` name
     arguments are passed into the formatter
-    
+
         Syntax::
-            
+
             {% highlight [source code] [lexer name] [formatter options] %}
-            
+
         Example::
-            
+
             {% highlight_style 'print "Hello World"' python linenos=true %}
     """
-    try:
-        return highlighter(code, get_lexer_by_name(lexer), HtmlFormatter(**kwargs))
-    except:
-        return ''
+    return highlighter(code or '', get_lexer_by_name(lexer), HtmlFormatter(**kwargs))
 highlight = function(highlight)
 
-def block_highlight(context, nodelist, lexer, **kwargs):
+def highlight_block(context, nodelist, lexer, **kwargs):
     """
     Code is nodelist ``rendered`` in ``context``
     Returns highlighted code ``div`` tag from ``HtmlFormatter``
     Lexer is guessed by ``lexer`` name
     arguments are passed into the formatter
-    
+
         Syntax::
-            
-            {% block_highlight [lexer name] [formatter options] %}
+
+            {% highlight_block [lexer name] [formatter options] %}
                 ... source code ..
-            {% endblock_highlight %}
-            
+            {% endhighlight_block %}
+
         Example::
-            
-            {% block_highlight python linenos=true %}
+
+            {% highlight_block python linenos=true %}
                 print '{{ request.path }}'
-            {% endblock_highlight %}
+            {% endhighlight_block %}
     """
-    try:
-        return highlighter(nodelist.render(context), get_lexer_by_name, HtmlFormatter(**kwargs))
-    except:
-        return ''
-block_highlight = block(block_highlight)
+    return highlighter(nodelist.render(context) or '', get_lexer_by_name(lexer), HtmlFormatter(**kwargs))
+highlight_block = block(highlight_block)
