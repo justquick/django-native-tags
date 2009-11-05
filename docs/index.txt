@@ -12,6 +12,7 @@ Documentation
    intro
    concepts
    configuration
+   decorators
    contrib/index
 
 Indices and tables

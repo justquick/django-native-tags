@@ -1,7 +1,7 @@
 import settings
 
 def tag(bucket,doc):
-    def wrapped(inner,**opts):
+    def wrapped(inner, **options):
         opts[bucket] = 1
         if 'name' in opts:
             inner.__name__ = inner.name = opts.pop('name')
@@ -9,7 +9,7 @@ def tag(bucket,doc):
             inner.__doc__ = inner.doc = opts.pop('doc')
         for i in opts.items():
             setattr(inner, *i)
-        newdoc = '\n'.join([
+        newdoc = ''.join([
             'This is a :ref:`%s tag<%s-tags>`. ' % (tag,tag)
             for tag in settings.TAG_TYPES
             if hasattr(inner,tag) and
@@ -44,7 +44,7 @@ Filter tag function decorator
 Syntax::
 
     @filter([**options]):
-    def my_filter(value):
+    def my_filter(value, *args):
         return value
 """)
 function = tag('function',"""
@@ -54,5 +54,5 @@ Syntax::
 
     @filter([**options]):
     def my_function([*args], [**kwargs]):
-        return args,kwargs
+        return args, kwargs
 """)

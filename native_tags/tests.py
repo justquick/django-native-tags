@@ -10,7 +10,6 @@ import datetime
 import os
 
 TAG_TEMPLATE = """
-{% if_contains name 'calendar' negate %}
 <div>
     <h1><a onclick="document.getElementById('doc{{ name }}').style.display = 'block';">{{ name }}</a></h1>
     <pre id="doc{{ name }}" style="display: none;">
@@ -23,7 +22,6 @@ TAG_TEMPLATE = """
     {% if error %}{{ error }}{% else %}{{ bit }}{% endif %}
     &nbsp;</div>
 </div><hr>
-{% endif_contains %}
 """
 
 try:
@@ -46,18 +44,17 @@ if pygments:
 class TemplateTest(TestCase):
 
 
-    def render(self, src, ctx=None, err=None):
+    def render(self, src, ctx=None):
+        e = None
         name = repr(self).split('testMethod=')[1].split('>')[0][5:]
-        try:
-            bit = Template(src).render(Context(ctx))
-        except Exception, e:
-            if not djsettings.DEBUG:
-                bit = ''
-                err = e
-            else:
-                raise
+        #try:
+        bit = Template(src).render(Context(ctx))
+        #except Exception, e:
+        #    if djsettings.DEBUG:
+        #        raise
+        #    bit = ''
         TESTFILE.write(Template(TAG_TEMPLATE).render(Context({
-            'name':name, 'doc':register.get_doc(name), 'src':src, 'bit':bit, 'error':err,
+            'name':name, 'doc':register.get_doc(name), 'src':src, 'bit':bit, 'error':e,
         })))
         return bit
 
@@ -79,11 +76,22 @@ class TemplateTest(TestCase):
         t = "{% del test %}{{ test }}"
         self.assertEquals(self.render(t,{'test': 'yup'}), u'')
 
-    def test_serialize(self):
-        t = "{% serialize json users %}"
-        json = self.render(t, {'users':User.objects.all()})
-        self.assertEquals(deserialize('json', json).next().object.username, 'tester')
 
+    def _serialize(self, format):
+        t = "{% serialize format users as seria %}{{ seria|safe }}"
+        seria = self.render(t, {'format':format,'users':User.objects.all()})
+        if format == 'python': seria = eval(seria)
+        self.assertEquals(deserialize(format, seria).next().object.username, 'tester')
+
+    def test_serialize_json(self):
+        self._serialize('json')
+        
+    def test_serialize_python(self):
+        self._serialize('python')
+        
+    def test_serialize_xml(self):
+        self._serialize('xml')
+        
     def test_contains(self):
         t = "{% if_contains 'team' 'i' %}yup{% endif_contains %}"
         self.assertEquals(self.render(t), u'')
@@ -107,13 +115,6 @@ class TemplateTest(TestCase):
     def test_startswith_negate_else(self):
         t = "{% if_startswith 'python' 'p' negate %}yup{% else %}nope{% endif_startswith %}"
         self.assertEquals(self.render(t), u'nope')
-
-    def test_serialize_formats(self):
-        for format in ('json','python','xml'):
-            t = "{% serialize format users as seria %}{{ seria|safe }}"
-            seria = self.render(t, {'format':format,'users':User.objects.all()})
-            if format == 'python': seria = eval(seria)
-            self.assertEquals(deserialize(format, seria).next().object.username, 'tester')
 
     def test_setting(self):
         t = "{% if_setting 'DEBUG' %}debug{% endif_setting %}"
@@ -188,7 +189,6 @@ class TemplateTest(TestCase):
     def test_calendar_yearpage(self):
         self.assert_(self.render('{% calendar yearpage 2009 %}').startswith('<?xml version="1.0" encoding="ascii"?>'))
 
-
     def test_randrange(self):
         self.assert_(self.render('{% randrange 10 %}' in map(str,range(10))))
 
@@ -205,7 +205,7 @@ class TemplateTest(TestCase):
         self.assertEquals(self.render('{% b64encode "hello world" %}'), 'aGVsbG8gd29ybGQ=')
 
     def test_b64decode(self):
-        self.assertEquals(self.render( '{% b64decode encoded %}',{'encoded':"aGVsbG8gd29ybGQ="}), 'hello world')
+        self.assertEquals(self.render('{% b64decode encoded %}', {'encoded':'aGVsbG8gd29ybGQ='}), 'hello world')
 
     try:
         import hashlib
@@ -215,6 +215,17 @@ class TemplateTest(TestCase):
             self.assertEquals(self.render('{{ foo|sha224 }}{% sha224 foo %}', ctx), sha224*2)
     except ImportError:
         pass
+
+
+    if pygments:
+        def test_highlight_style(self):
+            t = '<style>{% highlight_style style=native cssclass=srcdiv %}</style>'
+            self.assert_(self.render(t).startswith('<style>.srcdiv .hll { background-color: #404040 }'))
+
+        def test_highlight(self):
+            t = '{% highlight src python cssclass=srcdiv %}'
+            self.assertEqual(self.render(t,{'src':'print "hello world"'}),
+                '<div class="srcdiv"><pre><span class="k">print</span> <span class="s">&quot;hello world&quot;</span>\n</pre></div>\n')
 
     try:
         import GChartWrapper
@@ -233,18 +244,6 @@ class TemplateTest(TestCase):
             self.assertEquals(
                 self.render(t, {'data':[[31],[59],[4]]}),
                 '77f733ad30d44411b5b5fcac7e5848b5d5f2dd04')
-    except ImportError:
-        pass
-    try:
-        import pygments
-        def test_highlight_style(self):
-            t = '<style>{% highlight_style style=native cssclass=srcdiv %}</style>'
-            self.assert_(self.render(t).startswith('<style>.srcdiv .hll { background-color: #404040 }'))
-
-        def test_highlight(self):
-            t = '{% highlight src python cssclass=srcdiv %}'
-            self.assertEqual(self.render(t,{'src':'print "hello world"'}),
-                '<div class="srcdiv"><pre><span class="k">print</span> <span class="s">&quot;hello world&quot;</span>\n</pre></div>\n')
     except ImportError:
         pass
 

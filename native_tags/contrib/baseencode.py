@@ -1,16 +1,16 @@
 import base64
 from native_tags.decorators import function, filter
 
-def codectag(encoding,codec=True):
+def codectag(encoding, codec=True):
     codec = 'b%d%s' % (encoding, codec and 'encode' or 'decode')
-    def inner(s, **kwargs):
-        return getattr(base64, codec)(s, **kwargs)
+    def inner(s, *args, **kwargs):
+        return getattr(base64, codec)(s, *args, **kwargs)
     inner.__name__ = codec 
     inner.__doc__ = getattr(base64, codec).__doc__ + """
+
+Syntax::
     
-        Syntax::
-            
-            {%% %s [string] %%}
+    {%% %s [string] [options] %%}
     """ % codec
     return filter(function(inner))
     

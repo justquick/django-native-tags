@@ -1,0 +1,15 @@
+.. _decorators:
+
+
+Native Tag Decorators
+===========================
+
+.. highlight:: python
+.. automodule:: native_tags.decorators
+    
+    .. autofunction:: function
+    .. autofunction:: comparison
+    .. autofunction:: block
+    .. autofunction:: filter
+
+

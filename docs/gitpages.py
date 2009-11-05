@@ -1,6 +1,10 @@
+#!/usr/bin/env python
+
 import unicodedata
 import re
 import os
+import conf
+
 
 TARGETS = ('static','sources')
 
@@ -27,3 +31,5 @@ converter()
 
 for x in TARGETS:
     os.system('mv ./build/html/_%s ./build/html/sphinx_%s' % (x,x))
+
+os.system('mv ./build/html %s' % slugify(conf.project))
