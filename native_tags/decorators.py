@@ -2,12 +2,12 @@ import settings
 
 def tag(bucket,doc):
     def wrapped(inner, **options):
-        opts[bucket] = 1
-        if 'name' in opts:
-            inner.__name__ = inner.name = opts.pop('name')
-        if 'doc' in opts:
-            inner.__doc__ = inner.doc = opts.pop('doc')
-        for i in opts.items():
+        options[bucket] = 1
+        if 'name' in options:
+            inner.__name__ = inner.name = options.pop('name')
+        if 'doc' in options:
+            inner.__doc__ = inner.doc = options.pop('doc')
+        for i in options.items():
             setattr(inner, *i)
         newdoc = ''.join([
             'This is a :ref:`%s tag<%s-tags>`. ' % (tag,tag)
