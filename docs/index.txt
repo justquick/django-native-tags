@@ -6,11 +6,31 @@ Documentation
 .. automodule:: native_tags
 .. moduleauthor:: Justin Quick <justquick@gmail.com>
 
+Django Native Tags is a way of making the creation of most template tags stupidly simple.
+Tags are "native" because there is a much closer relationship between the tag in the template and a Python function behind the scenes
+The app abstracts most of the work needed to parse out the templatetag syntax into a useable form for a Python function.
+For example:
+
+Define a comparison function in your templatetags::
+
+   def slug_in(test_slug, *slugs):
+      return test_slug in slugs
+   slug_in.comparison = True
+   
+Use the function in your template::
+
+   {% ifslug_in blog.slug 'business' 'politics' 'national news' %}
+      You are reading a boring blog
+   {% endifslug_in %}
+
+The real power of the module comes in the contrib package which has 66 included tags right out of the box and ready to use.
+See the contrib page for more info.
+
 .. toctree::
    :maxdepth: 1
    
-   intro
    concepts
+   features
    configuration
    decorators
    contrib/index

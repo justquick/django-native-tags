@@ -1,0 +1,34 @@
+.. _intro:
+.. highlight:: django
+
+Features
+========
+
+Quoted Strings
+--------------
+
+Using the ``shlex`` module, double/single quoted strings are interpreted as a single string element now.
+Take this example templatetag: ``{% myfunc 'hello world' %}``. If you were to write your own templatetag from scratch to handle this
+when calling ``token.contents.split()`` it would return ``["'hello", "world'"]`` and ruin the continuity of the string. With Native Tags quoted
+strings act just like they should and the arguments parsed from the above example would be ``['hello world']`` as expected.
+
+Keyword arguments
+-----------------
+
+Arguments and keyword arguments are parsed out of the template to more closely match the Python API. That way
+``{% myfunc arg1 arg2 kwarg1=value1 kwarg2=value2 %}`` represents the function with signature ``def myfunc(arg1, arg2, kwarg1=None, kwarg2=None)``.
+This also means that ``*args`` and ``**kwargs`` can also be used in native tag functions.
+
+Auto resolve
+------------
+
+By default variables passed into Native Tags are by default resolved in the tag's context. If a variable cannot be found,
+then the string is just returned. This functionality can be turned off by setting the tag function's ``resolve`` attribute to ``False``.
+
+Auto load
+---------
+
+Tired of calling ``{% load %}`` on every single template you want to use your favorite tags on?
+Native Tags lets you define templatetags as part of the builtins which are loaded automagically.
+You can configure which tags are loaded automagically by checking out the :ref:`configuration` section.
+

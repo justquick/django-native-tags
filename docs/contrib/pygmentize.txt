@@ -8,4 +8,4 @@
     
     .. autofunction:: highlight_style    
     .. autofunction:: highlight
-    .. autofunction:: block_highlight    
+    .. autofunction:: highlight_block

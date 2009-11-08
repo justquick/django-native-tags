@@ -1,11 +1,49 @@
 .. _decorators:
 
 
-Native Tag Decorators
+Decorators
 ===========================
 
 .. highlight:: python
 .. automodule:: native_tags.decorators
+
+The decorators that come with this app are there for convienence but are not necessary to use.
+Their purpose is to just set some important attributes on the wrapped function and maintain docstrings.
+
+The normal syntax (without decorators)::
+
+    def myfunc():
+        return
+    myfunc.function = 1
+    myfunc.name = 'my_function_tag'
+    
+Is equivalent to::
+
+    from native_tags.decorators import function
+    
+    @function(name='my_function_tag')
+    def myfunc():
+        return
+
+Important Attributes
+--------------------
+
+    ``function``, ``filter``, ``comparison``, ``block`` - boolean. Determines which kind of tag the function represents.
+    A function can have multiple uses (eg. function and filter)
+
+    ``name`` - string. The actual name of the tag to use in the template. Defaults to the function name.
+
+    ``resolve`` - boolean. If ``True``, all argments are resolved in the context of the tag.
+    Set to ``False`` to parse your own raw text arguments. Default is ``True``
+    
+    ``takes_context`` - boolean. If ``True`` the context itself is prepended to the function arguments. Default is ``False``
+    
+    ``inclusion`` - boolean. If ``True`` then the function is treated as an inclusion tag. Inclusion tags work a bit differently in
+    native tags, the function must return a tuple of (``template_name``, ``context``)
+    
+
+Decorator Types
+---------------
     
     .. autofunction:: function
     .. autofunction:: comparison
