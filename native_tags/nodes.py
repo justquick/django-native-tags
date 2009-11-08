@@ -128,7 +128,7 @@ class FunctionNode(NativeNode):
         super(FunctionNode, self).render(context)
         varname = self.kwargs.pop('varname', None)
         result = self.func(*self.args, **self.kwargs)
-        if hasattr(self.func, 'is_inclusion') and getattr(self.func, 'is_inclusion'):
+        if hasattr(self.func, 'inclusion') and getattr(self.func, 'inclusion'):
             template_name, ctx = result
             if not isinstance(ctx, Context):
                 ctx = Context(ctx)
