@@ -36,7 +36,7 @@ Proper use of the Contrib Add Ons makes this app a functional replacement to `Ja
 
 For full documentation, checkout the `fancy Sphinx doc`_
 
-.. _fancy Sphinx doc: http://justquick.gitpages.com/django-native-tags/
+.. _fancy Sphinx doc: http://justquick.github.com/django-native-tags/
 
 Email me with any questions/concerns/issues/hate mail:
 
