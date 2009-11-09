@@ -1,0 +1,1339 @@
+<style>.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #808080 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0040D0 } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+<div>
+    <h1><a onclick="document.getElementById('docb64decode').style.display = 'block';">b64decode</a></h1>
+    <pre id="docb64decode" style="display: none;">
+    <div class="highlight"><pre>Decode a Base64 encoded string.
+
+    s is the string to decode.  Optional altchars must be a string of at least
+    length 2 (additional characters are ignored) which specifies the
+    alternative alphabet used instead of the &#39;+&#39; and &#39;/&#39; characters.
+
+    The decoded string is returned.  A TypeError is raised if s were
+    incorrectly padded or if there are non-alphabet characters present in the
+    string.
+    
+
+Syntax<span class="se">::</span>
+    
+<span class="s">    {% b64decode [string] [options] %}</span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+This is a <span class="na">:ref:</span><span class="nv">`filter tag&lt;filter-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% b64decode encoded %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    hello world
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docb64encode').style.display = 'block';">b64encode</a></h1>
+    <pre id="docb64encode" style="display: none;">
+    <div class="highlight"><pre>Encode a string using Base64.
+
+    s is the string to encode.  Optional altchars must be a string of at least
+    length 2 (additional characters are ignored) which specifies an
+    alternative alphabet for the &#39;+&#39; and &#39;/&#39; characters.  This allows an
+    application to e.g. generate url or filesystem safe Base64 strings.
+
+    The encoded string is returned.
+    
+
+Syntax<span class="se">::</span>
+    
+<span class="s">    {% b64encode [string] [options] %}</span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+This is a <span class="na">:ref:</span><span class="nv">`filter tag&lt;filter-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% b64encode &quot;hello world&quot; %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    aGVsbG8gd29ybGQ=
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('doccalendar_month').style.display = 'block';">calendar_month</a></h1>
+    <pre id="doccalendar_month" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% calendar month 2009 10 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    <table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">October 2009</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="thu">1</td><td class="fri">2</td><td class="sat">3</td><td class="sun">4</td></tr>
+<tr><td class="mon">5</td><td class="tue">6</td><td class="wed">7</td><td class="thu">8</td><td class="fri">9</td><td class="sat">10</td><td class="sun">11</td></tr>
+<tr><td class="mon">12</td><td class="tue">13</td><td class="wed">14</td><td class="thu">15</td><td class="fri">16</td><td class="sat">17</td><td class="sun">18</td></tr>
+<tr><td class="mon">19</td><td class="tue">20</td><td class="wed">21</td><td class="thu">22</td><td class="fri">23</td><td class="sat">24</td><td class="sun">25</td></tr>
+<tr><td class="mon">26</td><td class="tue">27</td><td class="wed">28</td><td class="thu">29</td><td class="fri">30</td><td class="sat">31</td><td class="noday">&nbsp;</td></tr>
+</table>
+
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('doccalendar_year').style.display = 'block';">calendar_year</a></h1>
+    <pre id="doccalendar_year" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% calendar year 2009 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    <table border="0" cellpadding="0" cellspacing="0" class="year">
+<tr><th colspan="3" class="year">2009</th></tr><tr><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">January</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="thu">1</td><td class="fri">2</td><td class="sat">3</td><td class="sun">4</td></tr>
+<tr><td class="mon">5</td><td class="tue">6</td><td class="wed">7</td><td class="thu">8</td><td class="fri">9</td><td class="sat">10</td><td class="sun">11</td></tr>
+<tr><td class="mon">12</td><td class="tue">13</td><td class="wed">14</td><td class="thu">15</td><td class="fri">16</td><td class="sat">17</td><td class="sun">18</td></tr>
+<tr><td class="mon">19</td><td class="tue">20</td><td class="wed">21</td><td class="thu">22</td><td class="fri">23</td><td class="sat">24</td><td class="sun">25</td></tr>
+<tr><td class="mon">26</td><td class="tue">27</td><td class="wed">28</td><td class="thu">29</td><td class="fri">30</td><td class="sat">31</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">February</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="sun">1</td></tr>
+<tr><td class="mon">2</td><td class="tue">3</td><td class="wed">4</td><td class="thu">5</td><td class="fri">6</td><td class="sat">7</td><td class="sun">8</td></tr>
+<tr><td class="mon">9</td><td class="tue">10</td><td class="wed">11</td><td class="thu">12</td><td class="fri">13</td><td class="sat">14</td><td class="sun">15</td></tr>
+<tr><td class="mon">16</td><td class="tue">17</td><td class="wed">18</td><td class="thu">19</td><td class="fri">20</td><td class="sat">21</td><td class="sun">22</td></tr>
+<tr><td class="mon">23</td><td class="tue">24</td><td class="wed">25</td><td class="thu">26</td><td class="fri">27</td><td class="sat">28</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">March</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="sun">1</td></tr>
+<tr><td class="mon">2</td><td class="tue">3</td><td class="wed">4</td><td class="thu">5</td><td class="fri">6</td><td class="sat">7</td><td class="sun">8</td></tr>
+<tr><td class="mon">9</td><td class="tue">10</td><td class="wed">11</td><td class="thu">12</td><td class="fri">13</td><td class="sat">14</td><td class="sun">15</td></tr>
+<tr><td class="mon">16</td><td class="tue">17</td><td class="wed">18</td><td class="thu">19</td><td class="fri">20</td><td class="sat">21</td><td class="sun">22</td></tr>
+<tr><td class="mon">23</td><td class="tue">24</td><td class="wed">25</td><td class="thu">26</td><td class="fri">27</td><td class="sat">28</td><td class="sun">29</td></tr>
+<tr><td class="mon">30</td><td class="tue">31</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td></tr><tr><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">April</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="wed">1</td><td class="thu">2</td><td class="fri">3</td><td class="sat">4</td><td class="sun">5</td></tr>
+<tr><td class="mon">6</td><td class="tue">7</td><td class="wed">8</td><td class="thu">9</td><td class="fri">10</td><td class="sat">11</td><td class="sun">12</td></tr>
+<tr><td class="mon">13</td><td class="tue">14</td><td class="wed">15</td><td class="thu">16</td><td class="fri">17</td><td class="sat">18</td><td class="sun">19</td></tr>
+<tr><td class="mon">20</td><td class="tue">21</td><td class="wed">22</td><td class="thu">23</td><td class="fri">24</td><td class="sat">25</td><td class="sun">26</td></tr>
+<tr><td class="mon">27</td><td class="tue">28</td><td class="wed">29</td><td class="thu">30</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">May</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="fri">1</td><td class="sat">2</td><td class="sun">3</td></tr>
+<tr><td class="mon">4</td><td class="tue">5</td><td class="wed">6</td><td class="thu">7</td><td class="fri">8</td><td class="sat">9</td><td class="sun">10</td></tr>
+<tr><td class="mon">11</td><td class="tue">12</td><td class="wed">13</td><td class="thu">14</td><td class="fri">15</td><td class="sat">16</td><td class="sun">17</td></tr>
+<tr><td class="mon">18</td><td class="tue">19</td><td class="wed">20</td><td class="thu">21</td><td class="fri">22</td><td class="sat">23</td><td class="sun">24</td></tr>
+<tr><td class="mon">25</td><td class="tue">26</td><td class="wed">27</td><td class="thu">28</td><td class="fri">29</td><td class="sat">30</td><td class="sun">31</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">June</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="mon">1</td><td class="tue">2</td><td class="wed">3</td><td class="thu">4</td><td class="fri">5</td><td class="sat">6</td><td class="sun">7</td></tr>
+<tr><td class="mon">8</td><td class="tue">9</td><td class="wed">10</td><td class="thu">11</td><td class="fri">12</td><td class="sat">13</td><td class="sun">14</td></tr>
+<tr><td class="mon">15</td><td class="tue">16</td><td class="wed">17</td><td class="thu">18</td><td class="fri">19</td><td class="sat">20</td><td class="sun">21</td></tr>
+<tr><td class="mon">22</td><td class="tue">23</td><td class="wed">24</td><td class="thu">25</td><td class="fri">26</td><td class="sat">27</td><td class="sun">28</td></tr>
+<tr><td class="mon">29</td><td class="tue">30</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td></tr><tr><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">July</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="wed">1</td><td class="thu">2</td><td class="fri">3</td><td class="sat">4</td><td class="sun">5</td></tr>
+<tr><td class="mon">6</td><td class="tue">7</td><td class="wed">8</td><td class="thu">9</td><td class="fri">10</td><td class="sat">11</td><td class="sun">12</td></tr>
+<tr><td class="mon">13</td><td class="tue">14</td><td class="wed">15</td><td class="thu">16</td><td class="fri">17</td><td class="sat">18</td><td class="sun">19</td></tr>
+<tr><td class="mon">20</td><td class="tue">21</td><td class="wed">22</td><td class="thu">23</td><td class="fri">24</td><td class="sat">25</td><td class="sun">26</td></tr>
+<tr><td class="mon">27</td><td class="tue">28</td><td class="wed">29</td><td class="thu">30</td><td class="fri">31</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">August</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="sat">1</td><td class="sun">2</td></tr>
+<tr><td class="mon">3</td><td class="tue">4</td><td class="wed">5</td><td class="thu">6</td><td class="fri">7</td><td class="sat">8</td><td class="sun">9</td></tr>
+<tr><td class="mon">10</td><td class="tue">11</td><td class="wed">12</td><td class="thu">13</td><td class="fri">14</td><td class="sat">15</td><td class="sun">16</td></tr>
+<tr><td class="mon">17</td><td class="tue">18</td><td class="wed">19</td><td class="thu">20</td><td class="fri">21</td><td class="sat">22</td><td class="sun">23</td></tr>
+<tr><td class="mon">24</td><td class="tue">25</td><td class="wed">26</td><td class="thu">27</td><td class="fri">28</td><td class="sat">29</td><td class="sun">30</td></tr>
+<tr><td class="mon">31</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">September</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="tue">1</td><td class="wed">2</td><td class="thu">3</td><td class="fri">4</td><td class="sat">5</td><td class="sun">6</td></tr>
+<tr><td class="mon">7</td><td class="tue">8</td><td class="wed">9</td><td class="thu">10</td><td class="fri">11</td><td class="sat">12</td><td class="sun">13</td></tr>
+<tr><td class="mon">14</td><td class="tue">15</td><td class="wed">16</td><td class="thu">17</td><td class="fri">18</td><td class="sat">19</td><td class="sun">20</td></tr>
+<tr><td class="mon">21</td><td class="tue">22</td><td class="wed">23</td><td class="thu">24</td><td class="fri">25</td><td class="sat">26</td><td class="sun">27</td></tr>
+<tr><td class="mon">28</td><td class="tue">29</td><td class="wed">30</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td></tr><tr><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">October</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="thu">1</td><td class="fri">2</td><td class="sat">3</td><td class="sun">4</td></tr>
+<tr><td class="mon">5</td><td class="tue">6</td><td class="wed">7</td><td class="thu">8</td><td class="fri">9</td><td class="sat">10</td><td class="sun">11</td></tr>
+<tr><td class="mon">12</td><td class="tue">13</td><td class="wed">14</td><td class="thu">15</td><td class="fri">16</td><td class="sat">17</td><td class="sun">18</td></tr>
+<tr><td class="mon">19</td><td class="tue">20</td><td class="wed">21</td><td class="thu">22</td><td class="fri">23</td><td class="sat">24</td><td class="sun">25</td></tr>
+<tr><td class="mon">26</td><td class="tue">27</td><td class="wed">28</td><td class="thu">29</td><td class="fri">30</td><td class="sat">31</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">November</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="sun">1</td></tr>
+<tr><td class="mon">2</td><td class="tue">3</td><td class="wed">4</td><td class="thu">5</td><td class="fri">6</td><td class="sat">7</td><td class="sun">8</td></tr>
+<tr><td class="mon">9</td><td class="tue">10</td><td class="wed">11</td><td class="thu">12</td><td class="fri">13</td><td class="sat">14</td><td class="sun">15</td></tr>
+<tr><td class="mon">16</td><td class="tue">17</td><td class="wed">18</td><td class="thu">19</td><td class="fri">20</td><td class="sat">21</td><td class="sun">22</td></tr>
+<tr><td class="mon">23</td><td class="tue">24</td><td class="wed">25</td><td class="thu">26</td><td class="fri">27</td><td class="sat">28</td><td class="sun">29</td></tr>
+<tr><td class="mon">30</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">December</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="tue">1</td><td class="wed">2</td><td class="thu">3</td><td class="fri">4</td><td class="sat">5</td><td class="sun">6</td></tr>
+<tr><td class="mon">7</td><td class="tue">8</td><td class="wed">9</td><td class="thu">10</td><td class="fri">11</td><td class="sat">12</td><td class="sun">13</td></tr>
+<tr><td class="mon">14</td><td class="tue">15</td><td class="wed">16</td><td class="thu">17</td><td class="fri">18</td><td class="sat">19</td><td class="sun">20</td></tr>
+<tr><td class="mon">21</td><td class="tue">22</td><td class="wed">23</td><td class="thu">24</td><td class="fri">25</td><td class="sat">26</td><td class="sun">27</td></tr>
+<tr><td class="mon">28</td><td class="tue">29</td><td class="wed">30</td><td class="thu">31</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td></tr></table>
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('doccalendar_yearpage').style.display = 'block';">calendar_yearpage</a></h1>
+    <pre id="doccalendar_yearpage" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% calendar yearpage 2009 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    <?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ascii" />
+<link rel="stylesheet" type="text/css" href="calendar.css" />
+<title>Calendar for 2009</title>
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" class="year">
+<tr><th colspan="3" class="year">2009</th></tr><tr><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">January</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="thu">1</td><td class="fri">2</td><td class="sat">3</td><td class="sun">4</td></tr>
+<tr><td class="mon">5</td><td class="tue">6</td><td class="wed">7</td><td class="thu">8</td><td class="fri">9</td><td class="sat">10</td><td class="sun">11</td></tr>
+<tr><td class="mon">12</td><td class="tue">13</td><td class="wed">14</td><td class="thu">15</td><td class="fri">16</td><td class="sat">17</td><td class="sun">18</td></tr>
+<tr><td class="mon">19</td><td class="tue">20</td><td class="wed">21</td><td class="thu">22</td><td class="fri">23</td><td class="sat">24</td><td class="sun">25</td></tr>
+<tr><td class="mon">26</td><td class="tue">27</td><td class="wed">28</td><td class="thu">29</td><td class="fri">30</td><td class="sat">31</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">February</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="sun">1</td></tr>
+<tr><td class="mon">2</td><td class="tue">3</td><td class="wed">4</td><td class="thu">5</td><td class="fri">6</td><td class="sat">7</td><td class="sun">8</td></tr>
+<tr><td class="mon">9</td><td class="tue">10</td><td class="wed">11</td><td class="thu">12</td><td class="fri">13</td><td class="sat">14</td><td class="sun">15</td></tr>
+<tr><td class="mon">16</td><td class="tue">17</td><td class="wed">18</td><td class="thu">19</td><td class="fri">20</td><td class="sat">21</td><td class="sun">22</td></tr>
+<tr><td class="mon">23</td><td class="tue">24</td><td class="wed">25</td><td class="thu">26</td><td class="fri">27</td><td class="sat">28</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">March</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="sun">1</td></tr>
+<tr><td class="mon">2</td><td class="tue">3</td><td class="wed">4</td><td class="thu">5</td><td class="fri">6</td><td class="sat">7</td><td class="sun">8</td></tr>
+<tr><td class="mon">9</td><td class="tue">10</td><td class="wed">11</td><td class="thu">12</td><td class="fri">13</td><td class="sat">14</td><td class="sun">15</td></tr>
+<tr><td class="mon">16</td><td class="tue">17</td><td class="wed">18</td><td class="thu">19</td><td class="fri">20</td><td class="sat">21</td><td class="sun">22</td></tr>
+<tr><td class="mon">23</td><td class="tue">24</td><td class="wed">25</td><td class="thu">26</td><td class="fri">27</td><td class="sat">28</td><td class="sun">29</td></tr>
+<tr><td class="mon">30</td><td class="tue">31</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td></tr><tr><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">April</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="wed">1</td><td class="thu">2</td><td class="fri">3</td><td class="sat">4</td><td class="sun">5</td></tr>
+<tr><td class="mon">6</td><td class="tue">7</td><td class="wed">8</td><td class="thu">9</td><td class="fri">10</td><td class="sat">11</td><td class="sun">12</td></tr>
+<tr><td class="mon">13</td><td class="tue">14</td><td class="wed">15</td><td class="thu">16</td><td class="fri">17</td><td class="sat">18</td><td class="sun">19</td></tr>
+<tr><td class="mon">20</td><td class="tue">21</td><td class="wed">22</td><td class="thu">23</td><td class="fri">24</td><td class="sat">25</td><td class="sun">26</td></tr>
+<tr><td class="mon">27</td><td class="tue">28</td><td class="wed">29</td><td class="thu">30</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">May</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="fri">1</td><td class="sat">2</td><td class="sun">3</td></tr>
+<tr><td class="mon">4</td><td class="tue">5</td><td class="wed">6</td><td class="thu">7</td><td class="fri">8</td><td class="sat">9</td><td class="sun">10</td></tr>
+<tr><td class="mon">11</td><td class="tue">12</td><td class="wed">13</td><td class="thu">14</td><td class="fri">15</td><td class="sat">16</td><td class="sun">17</td></tr>
+<tr><td class="mon">18</td><td class="tue">19</td><td class="wed">20</td><td class="thu">21</td><td class="fri">22</td><td class="sat">23</td><td class="sun">24</td></tr>
+<tr><td class="mon">25</td><td class="tue">26</td><td class="wed">27</td><td class="thu">28</td><td class="fri">29</td><td class="sat">30</td><td class="sun">31</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">June</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="mon">1</td><td class="tue">2</td><td class="wed">3</td><td class="thu">4</td><td class="fri">5</td><td class="sat">6</td><td class="sun">7</td></tr>
+<tr><td class="mon">8</td><td class="tue">9</td><td class="wed">10</td><td class="thu">11</td><td class="fri">12</td><td class="sat">13</td><td class="sun">14</td></tr>
+<tr><td class="mon">15</td><td class="tue">16</td><td class="wed">17</td><td class="thu">18</td><td class="fri">19</td><td class="sat">20</td><td class="sun">21</td></tr>
+<tr><td class="mon">22</td><td class="tue">23</td><td class="wed">24</td><td class="thu">25</td><td class="fri">26</td><td class="sat">27</td><td class="sun">28</td></tr>
+<tr><td class="mon">29</td><td class="tue">30</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td></tr><tr><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">July</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="wed">1</td><td class="thu">2</td><td class="fri">3</td><td class="sat">4</td><td class="sun">5</td></tr>
+<tr><td class="mon">6</td><td class="tue">7</td><td class="wed">8</td><td class="thu">9</td><td class="fri">10</td><td class="sat">11</td><td class="sun">12</td></tr>
+<tr><td class="mon">13</td><td class="tue">14</td><td class="wed">15</td><td class="thu">16</td><td class="fri">17</td><td class="sat">18</td><td class="sun">19</td></tr>
+<tr><td class="mon">20</td><td class="tue">21</td><td class="wed">22</td><td class="thu">23</td><td class="fri">24</td><td class="sat">25</td><td class="sun">26</td></tr>
+<tr><td class="mon">27</td><td class="tue">28</td><td class="wed">29</td><td class="thu">30</td><td class="fri">31</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">August</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="sat">1</td><td class="sun">2</td></tr>
+<tr><td class="mon">3</td><td class="tue">4</td><td class="wed">5</td><td class="thu">6</td><td class="fri">7</td><td class="sat">8</td><td class="sun">9</td></tr>
+<tr><td class="mon">10</td><td class="tue">11</td><td class="wed">12</td><td class="thu">13</td><td class="fri">14</td><td class="sat">15</td><td class="sun">16</td></tr>
+<tr><td class="mon">17</td><td class="tue">18</td><td class="wed">19</td><td class="thu">20</td><td class="fri">21</td><td class="sat">22</td><td class="sun">23</td></tr>
+<tr><td class="mon">24</td><td class="tue">25</td><td class="wed">26</td><td class="thu">27</td><td class="fri">28</td><td class="sat">29</td><td class="sun">30</td></tr>
+<tr><td class="mon">31</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">September</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="tue">1</td><td class="wed">2</td><td class="thu">3</td><td class="fri">4</td><td class="sat">5</td><td class="sun">6</td></tr>
+<tr><td class="mon">7</td><td class="tue">8</td><td class="wed">9</td><td class="thu">10</td><td class="fri">11</td><td class="sat">12</td><td class="sun">13</td></tr>
+<tr><td class="mon">14</td><td class="tue">15</td><td class="wed">16</td><td class="thu">17</td><td class="fri">18</td><td class="sat">19</td><td class="sun">20</td></tr>
+<tr><td class="mon">21</td><td class="tue">22</td><td class="wed">23</td><td class="thu">24</td><td class="fri">25</td><td class="sat">26</td><td class="sun">27</td></tr>
+<tr><td class="mon">28</td><td class="tue">29</td><td class="wed">30</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td></tr><tr><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">October</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="thu">1</td><td class="fri">2</td><td class="sat">3</td><td class="sun">4</td></tr>
+<tr><td class="mon">5</td><td class="tue">6</td><td class="wed">7</td><td class="thu">8</td><td class="fri">9</td><td class="sat">10</td><td class="sun">11</td></tr>
+<tr><td class="mon">12</td><td class="tue">13</td><td class="wed">14</td><td class="thu">15</td><td class="fri">16</td><td class="sat">17</td><td class="sun">18</td></tr>
+<tr><td class="mon">19</td><td class="tue">20</td><td class="wed">21</td><td class="thu">22</td><td class="fri">23</td><td class="sat">24</td><td class="sun">25</td></tr>
+<tr><td class="mon">26</td><td class="tue">27</td><td class="wed">28</td><td class="thu">29</td><td class="fri">30</td><td class="sat">31</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">November</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="sun">1</td></tr>
+<tr><td class="mon">2</td><td class="tue">3</td><td class="wed">4</td><td class="thu">5</td><td class="fri">6</td><td class="sat">7</td><td class="sun">8</td></tr>
+<tr><td class="mon">9</td><td class="tue">10</td><td class="wed">11</td><td class="thu">12</td><td class="fri">13</td><td class="sat">14</td><td class="sun">15</td></tr>
+<tr><td class="mon">16</td><td class="tue">17</td><td class="wed">18</td><td class="thu">19</td><td class="fri">20</td><td class="sat">21</td><td class="sun">22</td></tr>
+<tr><td class="mon">23</td><td class="tue">24</td><td class="wed">25</td><td class="thu">26</td><td class="fri">27</td><td class="sat">28</td><td class="sun">29</td></tr>
+<tr><td class="mon">30</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td><td><table border="0" cellpadding="0" cellspacing="0" class="month">
+<tr><th colspan="7" class="month">December</th></tr>
+<tr><th class="mon">Mon</th><th class="tue">Tue</th><th class="wed">Wed</th><th class="thu">Thu</th><th class="fri">Fri</th><th class="sat">Sat</th><th class="sun">Sun</th></tr>
+<tr><td class="noday">&nbsp;</td><td class="tue">1</td><td class="wed">2</td><td class="thu">3</td><td class="fri">4</td><td class="sat">5</td><td class="sun">6</td></tr>
+<tr><td class="mon">7</td><td class="tue">8</td><td class="wed">9</td><td class="thu">10</td><td class="fri">11</td><td class="sat">12</td><td class="sun">13</td></tr>
+<tr><td class="mon">14</td><td class="tue">15</td><td class="wed">16</td><td class="thu">17</td><td class="fri">18</td><td class="sat">19</td><td class="sun">20</td></tr>
+<tr><td class="mon">21</td><td class="tue">22</td><td class="wed">23</td><td class="thu">24</td><td class="fri">25</td><td class="sat">26</td><td class="sun">27</td></tr>
+<tr><td class="mon">28</td><td class="tue">29</td><td class="wed">30</td><td class="thu">31</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td><td class="noday">&nbsp;</td></tr>
+</table>
+</td></tr></table></body>
+</html>
+
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('doccontains').style.display = 'block';">contains</a></h1>
+    <pre id="doccontains" style="display: none;">
+    <div class="highlight"><pre>String comparison. True if x contains y anywhere
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_contains &#39;team&#39; &#39;i&#39; %}yup{% endif_contains %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docdel').style.display = 'block';">del</a></h1>
+    <pre id="docdel" style="display: none;">
+    <div class="highlight"><pre>Deletes template variables from the context
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% del test %}{{ test }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docdivisible').style.display = 'block';">divisible</a></h1>
+    <pre id="docdivisible" style="display: none;">
+    <div class="highlight"><pre>Numeric comparison. True if x is divisible by y
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_divisible_by 150 5 %}buzz{% endif_divisible_by %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    buzz
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docdynamic').style.display = 'block';">dynamic</a></h1>
+    <pre id="docdynamic" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% load native %}{% dynamic a b c d=1 e=2 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    [u'a', u'b', u'c', ('d', 1), ('e', 2)]
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docfilter_args').style.display = 'block';">filter_args</a></h1>
+    <pre id="docfilter_args" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% load native %}{{ var|myfilter:&quot;baz&quot; }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    foobarbaz
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docgchart').style.display = 'block';">gchart</a></h1>
+    <pre id="docgchart" style="display: none;">
+    <div class="highlight"><pre>None
+This is a <span class="na">:ref:</span><span class="nv">`block tag&lt;block-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% gchart bvg data encoding=text instance=true as chart %}
+                scale 0 59
+                color lime red blue
+                legend Goucher Truman Kansas
+                fill c lg 45 cccccc 0 black 1
+                fill bg s cccccc
+                size 200 100
+                title mytittle
+                axes.type x
+                axes.label label2
+            {% endgchart %}{{ chart.checksum }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    77f733ad30d44411b5b5fcac7e5848b5d5f2dd04
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docget_latest_object').style.display = 'block';">get_latest_object</a></h1>
+    <pre id="docget_latest_object" style="display: none;">
+    <div class="highlight"><pre>    Retrieves the latest <span class="s">``num``</span> objects from a given model, in that
+    model&#39;s default ordering, and stores them in a context variable.
+    The optional field argument specifies which field to get_latest_by, otherwise the model&#39;s default is used
+    
+    Syntax<span class="se">::</span>
+    
+<span class="s">        {% get_latest_objects [app_name].[model_name] [num] [field] as [varname] %}</span>
+<span class="s">    </span>
+<span class="s">    Example::</span>
+<span class="s">    </span>
+<span class="s">        {% get_latest_objects comments.freecomment 5 submitted_date as latest_comments %}</span>
+<span class="s">    </span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% get_latest_object auth.user date_joined %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    tester
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docget_latest_objects').style.display = 'block';">get_latest_objects</a></h1>
+    <pre id="docget_latest_objects" style="display: none;">
+    <div class="highlight"><pre>    Retrieves the latest <span class="s">``num``</span> objects from a given model, in that
+    model&#39;s default ordering, and stores them in a context variable.
+    The optional field argument specifies which field to get_latest_by, otherwise the model&#39;s default is used
+    
+    Syntax<span class="se">::</span>
+    
+<span class="s">        {% get_latest_objects [app_name].[model_name] [num] [field] as [varname] %}</span>
+<span class="s">    </span>
+<span class="s">    Example::</span>
+<span class="s">    </span>
+<span class="s">        {% get_latest_objects comments.freecomment 5 submitted_date as latest_comments %}</span>
+<span class="s">    </span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% get_latest_objects auth.user 10 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    [<User: tester>]
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docget_random_object').style.display = 'block';">get_random_object</a></h1>
+    <pre id="docget_random_object" style="display: none;">
+    <div class="highlight"><pre>    Retrieves a random object from a given model, and stores it in a
+    context variable.
+    
+    Syntax<span class="se">::</span>
+    
+<span class="s">        {% get_random_object [app_name].[model_name] as [varname] %}</span>
+<span class="s">    </span>
+<span class="s">    Example::</span>
+<span class="s">    </span>
+<span class="s">        {% get_random_object comments.freecomment as random_comment %}</span>
+<span class="s">    </span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% get_random_object auth.user %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    tester
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docget_random_objects').style.display = 'block';">get_random_objects</a></h1>
+    <pre id="docget_random_objects" style="display: none;">
+    <div class="highlight"><pre>    Retrieves <span class="s">``num``</span> random objects from a given model, and stores
+    them in a context variable.
+    
+    Syntax<span class="se">::</span>
+    
+<span class="s">        {% get_random_objects [app_name].[model_name] [num] as [varname] %}</span>
+<span class="s">    </span>
+<span class="s">    Example::</span>
+<span class="s">    </span>
+<span class="s">        {% get_random_objects comments.freecomment 5 as random_comments %}</span>
+<span class="s">    </span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% get_random_objects auth.user 10 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    [<User: tester>]
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docgreater').style.display = 'block';">greater</a></h1>
+    <pre id="docgreater" style="display: none;">
+    <div class="highlight"><pre>True if x is greater than y
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_greater 2 1 %}yup{% endif_greater %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    yup
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('dochighlight').style.display = 'block';">highlight</a></h1>
+    <pre id="dochighlight" style="display: none;">
+    <div class="highlight"><pre>    Returns the CSS from the <span class="s">``HtmlFormatter``</span>.
+    <span class="s">``cssclass``</span> is the name of the <span class="s">``div``</span> css class to use
+
+        Syntax<span class="se">::</span>
+
+<span class="s">            {% highlight_style [cssclass] [formatter options] %}</span>
+
+        Example<span class="se">::</span>
+
+<span class="s">            {% highlight_style code linenos=true %}</span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% highlight src python cssclass=srcdiv %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    <div class="srcdiv"><pre><span class="k">print</span> <span class="s">&quot;hello world&quot;</span>
+</pre></div>
+
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('dochighlight_block').style.display = 'block';">highlight_block</a></h1>
+    <pre id="dochighlight_block" style="display: none;">
+    <div class="highlight"><pre>    Code is nodelist <span class="s">``rendered``</span> in <span class="s">``context``</span>
+    Returns highlighted code <span class="s">``div``</span> tag from <span class="s">``HtmlFormatter``</span>
+    Lexer is guessed by <span class="s">``lexer``</span> name
+    arguments are passed into the formatter
+
+        Syntax<span class="se">::</span>
+
+<span class="s">            {% highlight_block [lexer name] [formatter options] %}</span>
+<span class="s">                ... source code ..</span>
+<span class="s">            {% endhighlight_block %}</span>
+
+        Example<span class="se">::</span>
+
+<span class="s">            {% highlight_block python linenos=true %}</span>
+<span class="s">                print &#39;{{ request.path }}&#39;</span>
+<span class="s">            {% endhighlight_block %}</span>
+    
+This is a <span class="na">:ref:</span><span class="nv">`block tag&lt;block-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% highlight_block python as source %}import this{% endhighlight_block %}{{ source|safe }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    <div class="highlight"><pre><span class="kn">import</span> <span class="nn">this</span>
+</pre></div>
+
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('dochighlight_style').style.display = 'block';">highlight_style</a></h1>
+    <pre id="dochighlight_style" style="display: none;">
+    <div class="highlight"><pre>    Returns the CSS from the <span class="s">``HtmlFormatter``</span>.
+    <span class="s">``cssclass``</span> is the name of the <span class="s">``div``</span> css class to use
+
+        Syntax<span class="se">::</span>
+
+<span class="s">            {% highlight_style [cssclass] [formatter options] %}</span>
+
+        Example<span class="se">::</span>
+
+<span class="s">            {% highlight_style code linenos=true %}</span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    &lt;style&gt;{% highlight_style style=native cssclass=srcdiv %}&lt;/style&gt;
+    &nbsp;</div>
+    <div style="background-color: green">
+    <style>.srcdiv .hll { background-color: #404040 }
+.srcdiv  { background: #202020; color: #d0d0d0 }
+.srcdiv .c { color: #999999; font-style: italic } /* Comment */
+.srcdiv .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.srcdiv .g { color: #d0d0d0 } /* Generic */
+.srcdiv .k { color: #6ab825; font-weight: bold } /* Keyword */
+.srcdiv .l { color: #d0d0d0 } /* Literal */
+.srcdiv .n { color: #d0d0d0 } /* Name */
+.srcdiv .o { color: #d0d0d0 } /* Operator */
+.srcdiv .x { color: #d0d0d0 } /* Other */
+.srcdiv .p { color: #d0d0d0 } /* Punctuation */
+.srcdiv .cm { color: #999999; font-style: italic } /* Comment.Multiline */
+.srcdiv .cp { color: #cd2828; font-weight: bold } /* Comment.Preproc */
+.srcdiv .c1 { color: #999999; font-style: italic } /* Comment.Single */
+.srcdiv .cs { color: #e50808; font-weight: bold; background-color: #520000 } /* Comment.Special */
+.srcdiv .gd { color: #d22323 } /* Generic.Deleted */
+.srcdiv .ge { color: #d0d0d0; font-style: italic } /* Generic.Emph */
+.srcdiv .gr { color: #d22323 } /* Generic.Error */
+.srcdiv .gh { color: #ffffff; font-weight: bold } /* Generic.Heading */
+.srcdiv .gi { color: #589819 } /* Generic.Inserted */
+.srcdiv .go { color: #cccccc } /* Generic.Output */
+.srcdiv .gp { color: #aaaaaa } /* Generic.Prompt */
+.srcdiv .gs { color: #d0d0d0; font-weight: bold } /* Generic.Strong */
+.srcdiv .gu { color: #ffffff; text-decoration: underline } /* Generic.Subheading */
+.srcdiv .gt { color: #d22323 } /* Generic.Traceback */
+.srcdiv .kc { color: #6ab825; font-weight: bold } /* Keyword.Constant */
+.srcdiv .kd { color: #6ab825; font-weight: bold } /* Keyword.Declaration */
+.srcdiv .kn { color: #6ab825; font-weight: bold } /* Keyword.Namespace */
+.srcdiv .kp { color: #6ab825 } /* Keyword.Pseudo */
+.srcdiv .kr { color: #6ab825; font-weight: bold } /* Keyword.Reserved */
+.srcdiv .kt { color: #6ab825; font-weight: bold } /* Keyword.Type */
+.srcdiv .ld { color: #d0d0d0 } /* Literal.Date */
+.srcdiv .m { color: #3677a9 } /* Literal.Number */
+.srcdiv .s { color: #ed9d13 } /* Literal.String */
+.srcdiv .na { color: #bbbbbb } /* Name.Attribute */
+.srcdiv .nb { color: #24909d } /* Name.Builtin */
+.srcdiv .nc { color: #447fcf; text-decoration: underline } /* Name.Class */
+.srcdiv .no { color: #40ffff } /* Name.Constant */
+.srcdiv .nd { color: #ffa500 } /* Name.Decorator */
+.srcdiv .ni { color: #d0d0d0 } /* Name.Entity */
+.srcdiv .ne { color: #bbbbbb } /* Name.Exception */
+.srcdiv .nf { color: #447fcf } /* Name.Function */
+.srcdiv .nl { color: #d0d0d0 } /* Name.Label */
+.srcdiv .nn { color: #447fcf; text-decoration: underline } /* Name.Namespace */
+.srcdiv .nx { color: #d0d0d0 } /* Name.Other */
+.srcdiv .py { color: #d0d0d0 } /* Name.Property */
+.srcdiv .nt { color: #6ab825; font-weight: bold } /* Name.Tag */
+.srcdiv .nv { color: #40ffff } /* Name.Variable */
+.srcdiv .ow { color: #6ab825; font-weight: bold } /* Operator.Word */
+.srcdiv .w { color: #666666 } /* Text.Whitespace */
+.srcdiv .mf { color: #3677a9 } /* Literal.Number.Float */
+.srcdiv .mh { color: #3677a9 } /* Literal.Number.Hex */
+.srcdiv .mi { color: #3677a9 } /* Literal.Number.Integer */
+.srcdiv .mo { color: #3677a9 } /* Literal.Number.Oct */
+.srcdiv .sb { color: #ed9d13 } /* Literal.String.Backtick */
+.srcdiv .sc { color: #ed9d13 } /* Literal.String.Char */
+.srcdiv .sd { color: #ed9d13 } /* Literal.String.Doc */
+.srcdiv .s2 { color: #ed9d13 } /* Literal.String.Double */
+.srcdiv .se { color: #ed9d13 } /* Literal.String.Escape */
+.srcdiv .sh { color: #ed9d13 } /* Literal.String.Heredoc */
+.srcdiv .si { color: #ed9d13 } /* Literal.String.Interpol */
+.srcdiv .sx { color: #ffa500 } /* Literal.String.Other */
+.srcdiv .sr { color: #ed9d13 } /* Literal.String.Regex */
+.srcdiv .s1 { color: #ed9d13 } /* Literal.String.Single */
+.srcdiv .ss { color: #ed9d13 } /* Literal.String.Symbol */
+.srcdiv .bp { color: #24909d } /* Name.Builtin.Pseudo */
+.srcdiv .vc { color: #40ffff } /* Name.Variable.Class */
+.srcdiv .vg { color: #40ffff } /* Name.Variable.Global */
+.srcdiv .vi { color: #40ffff } /* Name.Variable.Instance */
+.srcdiv .il { color: #3677a9 } /* Literal.Number.Integer.Long */</style>
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docless').style.display = 'block';">less</a></h1>
+    <pre id="docless" style="display: none;">
+    <div class="highlight"><pre>True if x is less than y
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_less 1 2 %}y{% endif_less %}{% if_less_or_equal 1 2 %}y{% endif_less_or_equal %}{% if_greater 2 1 %}n{% endif_greater %}{% if_greater_or_equal 1 1 %}y{% endif_greater_or_equal %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    yyny
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docmap').style.display = 'block';">map</a></h1>
+    <pre id="docmap" style="display: none;">
+    <div class="highlight"><pre>    Return a list of the results of applying the function to the items of
+    the argument sequence(s).  
+    
+    Functions may be registered with <span class="s">``native_tags``</span> 
+    or can be <span class="s">``builtins``</span> or from the <span class="s">``operator``</span> module
+    
+    If more than one sequence is given, the
+    function is called with an argument list consisting of the corresponding
+    item of each sequence, substituting None for missing values when not all
+    sequences have the same length.  If the function is None, return a list of
+    the items of the sequence (or a list of tuples if more than one sequence).
+
+    Syntax<span class="se">::</span>
+    
+<span class="s">        {% map [function] [sequence] %}        </span>
+<span class="s">        {% map [function] [item1 item2 ...] %}</span>
+
+    For example<span class="se">::</span>
+    
+<span class="s">        {% map sha1 hello world %}</span>
+<span class="s">        </span>
+    calculates<span class="se">::</span>
+        
+<span class="s">        [sha1(hello), sha1(world)]</span>
+
+    
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% map sha1 hello world as hashes %}{{ hashes|join:&quot;-&quot; }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d-7c211433f02071597741e6ff5a8ea34789abbf43
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docmarkdown').style.display = 'block';">markdown</a></h1>
+    <pre id="docmarkdown" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {{ src|markdown }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    <p><code>i</code></p>
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docmatches').style.display = 'block';">matches</a></h1>
+    <pre id="docmatches" style="display: none;">
+    <div class="highlight"><pre>String comparison. True if string <span class="s">``text``</span> matches regex <span class="s">``pattern``</span>
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_matches &#39;\w{4}&#39; &#39;hiya&#39; %}yup{% endif_matches %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    yup
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docmd5_2X').style.display = 'block';">md5_2X</a></h1>
+    <pre id="docmd5_2X" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {{ foo|md5 }}{% md5 foo %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    37b51d194a7513e45b56f6524f2d51f237b51d194a7513e45b56f6524f2d51f2
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docno_render').style.display = 'block';">no_render</a></h1>
+    <pre id="docno_render" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% load native %}{% no_render a b c d d=1 e=2 f=var %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    [u'a', u'b', u'c', u'd', ('d', u'1'), ('e', u'2'), ('f', u'var')]
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docparse_feed').style.display = 'block';">parse_feed</a></h1>
+    <pre id="docparse_feed" style="display: none;">
+    <div class="highlight"><pre>    Parses a given feed and returns the result in a given context
+    variable.
+    
+    It is <span class="gs">**highly**</span> recommended that you use `Django&#39;s template
+    fragment caching`_ to cache the output of this tag for a
+    reasonable amount of time (e.g., one hour); polling a feed too
+    often is impolite, wastes bandwidth and may lead to the feed
+    provider banning your IP address.
+    
+<span class="cp">    .. _Django&#39;s template fragment caching: http://www.djangoproject.com/documentation/cache/#template-fragment-caching</span>
+<span class="cp">    </span>
+<span class="cp">    Arguments should be:</span>
+<span class="cp">    </span>
+<span class="cp">    1. The URL of the feed to parse.</span>
+<span class="cp">    </span>
+<span class="cp">    Requires the Universal Feed Parser, which can be obtained at</span>
+<span class="cp">    http://feedparser.org/. See `its documentation`_ for details of the</span>
+<span class="cp">    parsed feed object.</span>
+<span class="cp">    </span>
+<span class="cp">    .. _its documentation: http://feedparser.org/docs/</span>
+<span class="cp">    </span>
+<span class="cp">    Syntax::</span>
+<span class="cp">    </span>
+<span class="cp">        {% parse_feed [feed_url] as [varname] %}</span>
+<span class="cp">    </span>
+<span class="cp">    Example::</span>
+<span class="cp">    </span>
+<span class="cp">        {% parse_feed &quot;http://www2.ljworld.com/rss/headlines/&quot; as ljworld_feed %}</span>
+<span class="cp">    </span>
+<span class="cp">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% load cache %}{% cache 3600 ljworld %}{% parse_feed &quot;http://www2.ljworld.com/rss/headlines/&quot; as ljworld_feed %}{{ ljworld_feed.keys|safe }}{% endcache %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    ['feed', 'status', 'version', 'encoding', 'bozo', 'headers', 'etag', 'href', 'namespaces', 'entries']
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docrandchoice').style.display = 'block';">randchoice</a></h1>
+    <pre id="docrandchoice" style="display: none;">
+    <div class="highlight"><pre>Choose a random element from a non-empty sequence.
+
+    Syntax<span class="se">::</span>
+        
+<span class="s">        {% randchoice [sequence] %}</span>
+<span class="s">        {% randchoice [choice1 choice2 ...] %}</span>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    False
+    &nbsp;</div>
+    <div style="background-color: green">
+    False
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docrandint').style.display = 'block';">randint</a></h1>
+    <pre id="docrandint" style="display: none;">
+    <div class="highlight"><pre>Return random integer in range [a, b], including both end points.
+        
+
+    Syntax::
+        
+        {% randint [a] [b] %}
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% randint 0 10 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    3
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docrandom').style.display = 'block';">random</a></h1>
+    <pre id="docrandom" style="display: none;">
+    <div class="highlight"><pre>random() -&gt; x in the interval [0, 1).
+
+    Syntax::
+        
+        {% random %}
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% random %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    0.35883805221
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docrandrange').style.display = 'block';">randrange</a></h1>
+    <pre id="docrandrange" style="display: none;">
+    <div class="highlight"><pre>Choose a random item from range(start, stop[, step]).
+
+        This fixes the problem with randint() which includes the
+        endpoint; in Python this is usually not what you want.
+        Do not supply the &#39;int&#39;, &#39;default&#39;, and &#39;maxwidth&#39; arguments.
+        
+
+    Syntax<span class="se">::</span>
+        
+<span class="s">        {% randrange [stop] [options] %}</span>
+<span class="s">        {% randrange [start] [stop] [step] [options] %}</span>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    False
+    &nbsp;</div>
+    <div style="background-color: green">
+    False
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docreduce').style.display = 'block';">reduce</a></h1>
+    <pre id="docreduce" style="display: none;">
+    <div class="highlight"><pre>    Apply a function of two arguments cumulatively to the items of a sequence,
+    from left to right, so as to reduce the sequence to a single value.
+    
+    Functions may be registered with <span class="s">``native_tags``</span> 
+    or can be <span class="s">``builtins``</span> or from the <span class="s">``operator``</span> module
+    
+    Syntax<span class="se">::</span>
+    
+<span class="s">        {% reduce [function] [sequence] %}        </span>
+<span class="s">        {% reduce [function] [item1 item2 ...] %}</span>
+    
+    For example<span class="se">::</span>
+    
+<span class="s">        {% reduce add 1 2 3 4 5 %}</span>
+<span class="s">        </span>
+    calculates<span class="se">::</span>
+    
+<span class="s">        ((((1+2)+3)+4)+5) = 15</span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% reduce add 300 30 3 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    333
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docrender_block').style.display = 'block';">render_block</a></h1>
+    <pre id="docrender_block" style="display: none;">
+    <div class="highlight"><pre>Simply renders the nodelist with the current context
+This is a <span class="na">:ref:</span><span class="nv">`block tag&lt;block-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% render_block as myvar %}hello {{ place }}{% endrender_block %}{{ myvar }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    hello world
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docretrieve_object').style.display = 'block';">retrieve_object</a></h1>
+    <pre id="docretrieve_object" style="display: none;">
+    <div class="highlight"><pre>    Retrieves a specific object from a given model by primary-key
+    lookup, and stores it in a context variable.
+    
+    Syntax<span class="se">::</span>
+    
+<span class="s">        {% retrieve_object [app_name].[model_name] [pk] as [varname] %}</span>
+<span class="s">    </span>
+<span class="s">    Example::</span>
+<span class="s">    </span>
+<span class="s">        {% retrieve_object flatpages.flatpage 12 as my_flat_page %}</span>
+<span class="s">    </span>
+<span class="s">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% retrieve_object auth.user username=tester %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    tester
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docsearch').style.display = 'block';">search</a></h1>
+    <pre id="docsearch" style="display: none;">
+    <div class="highlight"><pre>Regex pattern search. Returns match if <span class="s">``pattern``</span> is found in <span class="s">``text``</span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% search &#39;^(\d{3})$&#39; 800 as match %}{{ match.groups|safe }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    ('800',)
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docserialize_json').style.display = 'block';">serialize_json</a></h1>
+    <pre id="docserialize_json" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% serialize format users as seria %}{{ seria|safe }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    [{"pk": 1, "model": "auth.user", "fields": {"username": "tester", "first_name": "", "last_name": "", "is_active": true, "is_superuser": false, "is_staff": false, "last_login": "2009-11-09 12:46:20", "groups": [], "user_permissions": [], "password": "", "email": "test", "date_joined": "2009-11-09 12:46:20"}}]
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docserialize_python').style.display = 'block';">serialize_python</a></h1>
+    <pre id="docserialize_python" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% serialize format users as seria %}{{ seria|safe }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    [{'pk': 1, 'model': u'auth.user', 'fields': {'username': u'tester', 'first_name': u'', 'last_name': u'', 'is_active': True, 'is_superuser': False, 'is_staff': False, 'last_login': datetime.datetime(2009, 11, 9, 12, 46, 20, 372497), 'groups': [], 'user_permissions': [], 'password': u'', 'email': u'test', 'date_joined': datetime.datetime(2009, 11, 9, 12, 46, 20, 372505)}}]
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docserialize_xml').style.display = 'block';">serialize_xml</a></h1>
+    <pre id="docserialize_xml" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% serialize format users as seria %}{{ seria|safe }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    <?xml version="1.0" encoding="utf-8"?>
+<django-objects version="1.0"><object pk="1" model="auth.user"><field type="CharField" name="username">tester</field><field type="CharField" name="first_name"></field><field type="CharField" name="last_name"></field><field type="CharField" name="email">test</field><field type="CharField" name="password"></field><field type="BooleanField" name="is_staff">False</field><field type="BooleanField" name="is_active">True</field><field type="BooleanField" name="is_superuser">False</field><field type="DateTimeField" name="last_login">2009-11-09 12:46:20</field><field type="DateTimeField" name="date_joined">2009-11-09 12:46:20</field><field to="auth.group" name="groups" rel="ManyToManyRel"></field><field to="auth.permission" name="user_permissions" rel="ManyToManyRel"></field></object></django-objects>
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docset').style.display = 'block';">set</a></h1>
+    <pre id="docset" style="display: none;">
+    <div class="highlight"><pre>Updates the context with the keyword arguments
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% set src=&#39;import this&#39; %}{{ src }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    import this
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docsetting').style.display = 'block';">setting</a></h1>
+    <pre id="docsetting" style="display: none;">
+    <div class="highlight"><pre>True if setting x is defined in your settings
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_setting &#39;DEBUG&#39; %}debug{% endif_setting %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    debug
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docsha1_filter').style.display = 'block';">sha1_filter</a></h1>
+    <pre id="docsha1_filter" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {{ foo|sha1 }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    62cdb7020ff920e5aa642c3d4066950dd1f01f4d
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docsha1_function').style.display = 'block';">sha1_function</a></h1>
+    <pre id="docsha1_function" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% sha1 foo %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    62cdb7020ff920e5aa642c3d4066950dd1f01f4d
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docsha224_hashlib').style.display = 'block';">sha224_hashlib</a></h1>
+    <pre id="docsha224_hashlib" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {{ foo|sha224 }}{% sha224 foo %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    07daf010de7f7f0d8d76a76eb8d1eb40182c8d1e7a3877a6686c9bf007daf010de7f7f0d8d76a76eb8d1eb40182c8d1e7a3877a6686c9bf0
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docstartswith').style.display = 'block';">startswith</a></h1>
+    <pre id="docstartswith" style="display: none;">
+    <div class="highlight"><pre>String comparison. True if x startswith y
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_startswith &#39;python&#39; &#39;p&#39; %}yup{% endif_startswith %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    yup
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docstartswith_negate').style.display = 'block';">startswith_negate</a></h1>
+    <pre id="docstartswith_negate" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_startswith &#39;python&#39; &#39;p&#39; negate %}yup{% endif_startswith %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docstartswith_negate_else').style.display = 'block';">startswith_negate_else</a></h1>
+    <pre id="docstartswith_negate_else" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_startswith &#39;python&#39; &#39;p&#39; negate %}yup{% else %}nope{% endif_startswith %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    nope
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docsubset').style.display = 'block';">subset</a></h1>
+    <pre id="docsubset" style="display: none;">
+    <div class="highlight"><pre>Set comparison. True if x is a subset of y
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_subset l1 l2 %}yup{% endif_subset %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    yup
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docsubstitute').style.display = 'block';">substitute</a></h1>
+    <pre id="docsubstitute" style="display: none;">
+    <div class="highlight"><pre>Regex substitution function. Replaces regex <span class="s">``search``</span> with <span class="s">``replace``</span> in <span class="s">``text``</span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% substitute &#39;ROAD$&#39; &#39;RD.&#39; &#39;100 NORTH MAIN ROAD&#39; %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    100 NORTH MAIN RD.
+    &nbsp;</div>
+</div><hr>

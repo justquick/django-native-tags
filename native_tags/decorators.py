@@ -43,7 +43,7 @@ Filter tag function decorator
 Syntax::
 
     @filter([**options]):
-    def my_filter(value, *args):
+    def my_filter(value, arg):
         return value
 """)
 function = tag('function',"""

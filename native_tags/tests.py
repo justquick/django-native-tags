@@ -72,6 +72,12 @@ class TemplateTest(TestCase):
         if not 'no_render' in register['function']:
             register.function(no_render)
 
+        def myfilter(value, a,):# a, b, c):
+            return value + a
+        
+        if not 'myfilter' in register['filter']:
+            register.filter(myfilter)
+            
         self.tags = {}
 
     def test_less(self):
@@ -225,6 +231,9 @@ class TemplateTest(TestCase):
     def test_no_render(self):
         self.assertEquals(eval(self.render('{% load native %}{% no_render a b c d d=1 e=2 f=var %}', {'var':'hello'})),
                           [u'a', u'b', u'c', u'd', ('d', u'1'), ('e', u'2'), ('f', u'var')])
+
+    def test_filter_args(self):
+        self.assertEqual(self.render('{% load native %}{{ var|myfilter:"baz" }}', {'var':'foobar'}), 'foobarbaz')
 
     try:
         import hashlib

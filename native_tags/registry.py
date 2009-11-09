@@ -107,6 +107,7 @@ for app in djsettings.INSTALLED_APPS:
     except ImportError:
         continue
 
+    # TODO: Make this hurt less
     for f in listdir(mod.__path__[0]):
         if f.endswith('.py') and not f.startswith('__'):
             try:

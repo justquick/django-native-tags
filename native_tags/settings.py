@@ -20,7 +20,7 @@ CONTRIB = getattr(settings, 'NATIVE_CONTRIB', (
     # Tags that have dependencies
     'native_tags.contrib.gchart', # GChartWrapper
     'native_tags.contrib.pygmentize', # Pygments
-    'native_tags.contrib.feeds', # Feedburner
+    'native_tags.contrib.feeds', # Feedparser
     
     # Implementation of ``django.template.defaulttags`` in native_tags
     # not really usefull, just proof of concept

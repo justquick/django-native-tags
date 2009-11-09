@@ -1,10 +1,5 @@
-.. _index:
-
 Native Tags Documentation
 =========================
-
-.. automodule:: native_tags
-.. moduleauthor:: Justin Quick <justquick@gmail.com>
 
 Django Native Tags is a way of making the creation of template tags stupidly simple.
 Tags are "native" because there is a much closer relationship between the tag in the template and a Python function behind the scenes.
@@ -26,34 +21,15 @@ Which outputs::
 
    1,100
    
-Other :ref:`Features <features>` of Native Tags:
+Other features of Native Tags:
  
  * Keyword argument parsing
  * Quoted strings parsed corectly
  * No ``{% load %}`` tags required
  * Auto resolve of template variables
 
-The real power of the module comes in the :ref:`contrib-index` which has tons of tags right out of the box, ready to use.
-Proper use of the :ref:`contrib-index` makes this app a functional replacement to `James Bennett`_'s `django-template-utils`_
+The real power of the module comes in the Contrib Add Ons which has tons of tags right out of the box, ready to use.
+Proper use of the Contrib Add Ons makes this app a functional replacement to `James Bennett`_'s `django-template-utils`_
 
 .. _django-template-utils: http://bitbucket.org/ubernostrum/django-template-utils/
 .. _James Bennett: http://www.b-list.org/
-
-Contents
-=========
-
-.. toctree::
-   :maxdepth: 1
-   
-   concepts
-   features
-   configuration
-   decorators
-   contrib/index
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
