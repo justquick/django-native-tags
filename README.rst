@@ -33,3 +33,11 @@ Proper use of the Contrib Add Ons makes this app a functional replacement to `Ja
 
 .. _django-template-utils: http://bitbucket.org/ubernostrum/django-template-utils/
 .. _James Bennett: http://www.b-list.org/
+
+For full documentation, checkout the `fancy Sphinx doc`_
+
+.. _fancy Sphinx doc: http://justquick.gitpages.com/django-native-tags/
+
+Email me with any questions/concerns/issues/hate mail:
+
+   justquick [@] the gmails .com
