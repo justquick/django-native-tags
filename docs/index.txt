@@ -11,7 +11,7 @@ Tags are "native" because there is a much closer relationship between the tag in
 The app abstracts the work needed to parse out the templatetag syntax into a useable form for a Python function.
 For example:
 
-Define a comparison function in your templatetags::
+Define an arbitrary function in your templatetags::
 
    def add(x, y):
       return x + y
