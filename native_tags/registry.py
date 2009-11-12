@@ -6,9 +6,11 @@ import settings
 
 
 class AlreadyRegistered(Exception):
+    "The function you are trying to register is already in the registry"
     pass
 
 class NotRegistered(Exception):
+    "The function you are trying to unregister is not in the registry"
     pass
 
 class Library(dict):
@@ -48,7 +50,7 @@ class Library(dict):
         self.register('function', *a, **kw)
 
     def comparison(self, *a, **kw):
-        self.register('function', *a, **kw)
+        self.register('comparison', *a, **kw)
 
     def filter(self, *a, **kw):
         self.register('filter', *a, **kw)
@@ -57,22 +59,27 @@ class Library(dict):
         self.register('block', *a, **kw)
 
     def get_doc(self, tag_name):
+        "Get documentation for the first tag matching the given name"
         for tag,func in self.tags:
             if tag.startswith(tag_name) and func.__doc__:
                 return func.__doc__
 
     def get_bucket(self, name):
+        "Find out which bucket a given tag name is in"
         for bucket in self:
             for k,v in self[bucket].items():
                 if k == name:
                     return bucket
 
     def get(self, name):
+        "Get the first tag function matching the given name"
         for bucket in self:
             for k,v in self[bucket].items():
                 if k == name:
                     return v
+                
     def tags(self):
+        "Iterate over all tags yielding (name, function)"
         for bucket in self:
             for k,v in self[bucket].items():
                 yield k,v
