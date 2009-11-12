@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 
-setup(name='native_tags',
+setup(name='django-native-tags',
       version='0.1',
       description='Pythonic Templatetags for Django',
       author='Justin Quick',
