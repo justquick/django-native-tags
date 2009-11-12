@@ -9,6 +9,7 @@ CONTRIB = getattr(settings, 'NATIVE_CONTRIB', (
     'native_tags.contrib.comparison',
     'native_tags.contrib.context',
     'native_tags.contrib.generic_content',
+    'native_tags.contrib.generic_markup',
     'native_tags.contrib.hash',
     'native_tags.contrib.serializers',
     'native_tags.contrib.baseencode',
