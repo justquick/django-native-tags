@@ -87,6 +87,26 @@ INSTALLED_APPS = (
     'native_tags',
 )
 
+NATIVE_CONTRIB = (
+    'native_tags.contrib.comparison',
+    'native_tags.contrib.context',
+    'native_tags.contrib.generic_content',
+    'native_tags.contrib.generic_markup',
+    'native_tags.contrib.hash',
+    'native_tags.contrib.serializers',
+    'native_tags.contrib.baseencode',
+    'native_tags.contrib.regex',
+    'native_tags.contrib.mapreduce',    
+    'native_tags.contrib.cal',
+    'native_tags.contrib.rand',
+        
+    'native_tags.contrib.gchart', # GChartWrapper
+    'native_tags.contrib.pygmentize', # Pygments
+    'native_tags.contrib.feeds', # Feedparser
+    
+    #'native_tags.contrib._django',
+)
+
 DJANGO_BUILTIN_TAGS = (
     'django.contrib.markup.templatetags.markup',
 )

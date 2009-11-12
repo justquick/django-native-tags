@@ -16,7 +16,7 @@ Keyword arguments
 -----------------
 
 Arguments and keyword arguments are parsed out of the template to more closely match the Python API. That way
-``{% myfunc arg1 arg2 kwarg1=value1 kwarg2=value2 %}`` represents the function with signature ``def myfunc(arg1, arg2, kwarg1=None, kwarg2=None)``.
+``{% myfunc arg1 arg2 kwarg1=value1 kwarg2=value2 %}`` represents the function with signature ``def myfunc(arg1, arg2, kwarg1=value1, kwarg2=value2)``.
 This also means that ``*args`` and ``**kwargs`` can also be used in native tag functions.
 
 Auto resolve

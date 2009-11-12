@@ -1,0 +1,10 @@
+.. _contrib-generic_markup:
+.. highlight:: django
+
+:mod:`generic_markup` - filters for converting plain text to HTML
+=================================================================
+
+.. automodule:: native_tags.contrib.generic_markup
+    
+    .. autofunction:: apply_markup
+    .. autofunction:: smartypants

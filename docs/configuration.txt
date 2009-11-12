@@ -3,6 +3,19 @@
 Settings
 ========
 
+DJANGO_BUILTIN_TAGS
+-------------------
+
+    Tuple of Django templatetags/filters methods to load by default.
+    Place your most commonly used templatetags here and you will not have to ``{% load %}`` them.
+        
+    Example::
+            
+        DJANGO_BUILTIN_TAGS = (
+            'django.contrib.markup.templatetags.markup',
+            #...
+        )
+        
 NATIVE_LOAD
 -----------
 
@@ -15,15 +28,15 @@ NATIVE_LIBRARY
     Updates the library of tags to load by default
     These can be created in ``settings.py`` and many other python files.
 
-       Example::
-       
-          NATIVE_LIBRARY = {
-             'functions':{
+    Example::
+    
+       NATIVE_LIBRARY = {
+            'functions':{
                 'add': lambda x, y: x + y,
                 #...
-             }
-             #...
-          }
+            },
+            #...
+        }
 
 NATIVE_CONTRIB
 --------------
@@ -31,16 +44,26 @@ NATIVE_CONTRIB
     Tuple of contrib tag modules to load. 
     Use the ones from :ref:`contrib-index` or add your own
 
-DJANGO_BUILTIN_TAGS
--------------------
-
-    Tuple of Django templatetags/filters methods to load by default.
-    Place your most commonly used templatetags here and you will not have to ``{% load %}`` them.
-        
-        Example::
+    Out of the box, this is set to::
+    
+        NATIVE_CONTRIB = (
+            'native_tags.contrib.comparison',
+            'native_tags.contrib.context',
+            'native_tags.contrib.generic_content',
+            'native_tags.contrib.generic_markup',
+            'native_tags.contrib.hash',
+            'native_tags.contrib.serializers',
+            'native_tags.contrib.baseencode',
+            'native_tags.contrib.regex',
+            'native_tags.contrib.mapreduce',    
+            'native_tags.contrib.cal',
+            'native_tags.contrib.rand',
             
-            DJANGO_BUILTIN_TAGS = (
-                'django.contrib.markup.templatetags.markup',
-                #...
-            )
+            # Tags that have dependencies
+            #'native_tags.contrib.gchart', # GChartWrapper
+            #'native_tags.contrib.pygmentize', # Pygments
+            #'native_tags.contrib.feeds', # Feedparser
+        )
+
+            
 

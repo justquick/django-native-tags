@@ -19,11 +19,11 @@ CONTRIB = getattr(settings, 'NATIVE_CONTRIB', (
     'native_tags.contrib.rand',
         
     # Tags that have dependencies
-    'native_tags.contrib.gchart', # GChartWrapper
-    'native_tags.contrib.pygmentize', # Pygments
-    'native_tags.contrib.feeds', # Feedparser
+    #'native_tags.contrib.gchart', # GChartWrapper
+    #'native_tags.contrib.pygmentize', # Pygments
+    #'native_tags.contrib.feeds', # Feedparser
     
-    # Implementation of ``django.template.defaulttags`` in native_tags
+    # Implementation of django.template.defaulttags in Native Tags
     # not really usefull, just proof of concept
     #'native_tags.contrib._django',
 ))
