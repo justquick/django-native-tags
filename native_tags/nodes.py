@@ -2,7 +2,9 @@ import re
 from shlex import split
 from django import template
 from django.template import Context, Variable, VariableDoesNotExist
+from django.template.loader import get_template
 from django.utils.encoding import force_unicode
+from django.utils.safestring import mark_safe
 from registry import register
 
 
@@ -17,6 +19,7 @@ def lookup(var, context, resolve=True):
         except VariableDoesNotExist:
             pass
         except TypeError:
+            # already resolved
             return var
     return force_unicode(var)
 
@@ -27,15 +30,16 @@ def get_signature(token, contextable=False, comparison=False):
     comparison if true uses ``negate`` (p) to ``not`` the result (~p)
     returns (``tag_name``, ``args``, ``kwargs``)
     """
-    bits = map(lambda bit: filter(lambda char: char != '\x00', bit), split(token.contents))
+    # shelx.split has a bad habbit of inserting null bytes where they are not wanted
+    bits = map(lambda bit: filter(lambda c: c != '\x00', bit), split(token.contents))
     args, kwargs = (), {}
     if comparison and bits[-1] == 'negate':
-        bits = bits[:-1]
         kwargs['negate'] = True
+        bits = bits[:-1]
     if contextable and len(bits) > 2 and bits[-2] == 'as':
         kwargs['varname'] = bits[-1]
         bits = bits[:-2]
-    kwarg_re = re.compile(r'(^[-\w]+)\=(.*)$')
+    kwarg_re = re.compile(r'^([-\w]+)\=(.*)$')
     for bit in bits[1:]:
         match = kwarg_re.match(bit)
         if match:
@@ -61,38 +65,57 @@ class NativeNode(template.Node):
         if hasattr(self.func, 'takes_context') and getattr(self.func, 'takes_context'):
             self.args = (context,) + tuple(self.args)
         self.kwargs = dict(((k, lookup(var, context, resolve)) for k, var in self.kwargs.items()))
-        return ''
+        varname = self.kwargs.pop('varname', None)
+
+        result = self.get_result(context)
+
+        if hasattr(self.func, 'is_safe') and getattr(self.func, 'is_safe'):
+            result = mark_safe(result)
+            
+        if varname:
+            context[varname] = result
+            return ''
+        return result
+    
+    def get_result(self, context):
+        raise NotImplementedError
 
 class ComparisonNode(NativeNode):
     bucket = 'comparison'
-    def render(self, context):
-        super(ComparisonNode, self).render(context)
+    def get_result(self, context):
         nodelist_false = self.kwargs.pop('nodelist_false')
         nodelist_true = self.kwargs.pop('nodelist_true')
         negate = self.kwargs.pop('negate', False)
+        
         try:
-            if self.func(*self.args, **self.kwargs):
-                if negate:
-                    return nodelist_false.render(context)
-                return nodelist_true.render(context)
-        # If the types don't permit comparison, return nothing.
+            truth_value = self.func(*self.args, **self.kwargs)
         except TypeError:
+            # If the types don't permit comparison, return nothing.
             return ''
-        if negate:
+        
+        if truth_value and negate:
+            return nodelist_false.render(context)
+        elif truth_value:
             return nodelist_true.render(context)
-        return nodelist_false.render(context)
-
+        elif negate:
+            return nodelist_true.render(context)
+        else:
+            return nodelist_false.render(context)
 
 def do_comparison(parser, token):
     """
-    Compares two values.
-
+    Compares passed arguments. 
+    Attached functions should return boolean ``True`` or ``False``.
+    If the attached function returns ``True``, the first node list is rendered.
+    If the attached function returns ``False``, the second optional node list is rendered (part after the ``{% else %}`` statement). 
+    If the last argument in the tag is ``negate``, then the opposite node list is rendered (like an ``ifnot`` tag).
+    
     Syntax::
 
-        {% if_[comparison] [var1] [var2] [var...] [negate] %}
-        ...
+        {% if_[comparison] [var args...] [name=value kwargs...] [negate] %}
+            {# first node list in here #}
         {% else %}
-        ...
+            {# second optional node list in here #}
         {% endif_[comparison] %}
 
 
@@ -103,11 +126,11 @@ def do_comparison(parser, token):
     Examples::
 
         {% if_less some_object.id 3 %}
-        <p>{{ some_object }} has an id less than 3.</p>
+        {{ some_object }} has an id less than 3.
         {% endif_less %}
 
         {% if_match request.path '^/$' %}
-        <p>Welcome home</p>
+        Welcome home
         {% endif_match %}
 
     """
@@ -124,24 +147,20 @@ def do_comparison(parser, token):
 
 class FunctionNode(NativeNode):
     bucket = 'function'
-    def render(self, context):
-        super(FunctionNode, self).render(context)
-        varname = self.kwargs.pop('varname', None)
+    def get_result(self, context):
         result = self.func(*self.args, **self.kwargs)
         if hasattr(self.func, 'inclusion') and getattr(self.func, 'inclusion'):
             template_name, ctx = result
             if not isinstance(ctx, Context):
                 ctx = Context(ctx)
-            result = get_template(template_name).render(ctx)
-        if varname:
-            context[varname] = result
-            return ''
+            return get_template(template_name).render(ctx)
         return result
-
 
 def do_function(parser, token):
     """
-    Performs a defined function an either outputs results, or stores results in template variable
+    Performs a defined function on the passed arguments.
+    Normally this returns the output of the function into the template.
+    If the second to last argument is ``as``, the result of the function is stored in the context and is named whatever the last argument is.
 
     Syntax::
 
@@ -159,19 +178,14 @@ def do_function(parser, token):
 
 class BlockNode(NativeNode):
     bucket = 'block'
-    def render(self, context):
-        super(BlockNode, self).render(context)
-        varname = self.kwargs.pop('varname', None)
-        result = self.func(context, self.kwargs.pop('nodelist'), *self.args, **self.kwargs)
-        if varname:
-            context[varname] = result
-            return ''
-        return result
+    def get_result(self, context):
+        return self.func(context, self.kwargs.pop('nodelist'), *self.args, **self.kwargs)
 
 def do_block(parser, token):
     """
     Process several nodes inside a single block
-    Takes context, nodelist and template arguments
+    Block functions take ``context``, ``nodelist`` as first arguments
+    If the second to last argument is ``as``, the rendered result is stored in the context and is named whatever the last argument is.
 
     Syntax::
 
@@ -185,7 +199,7 @@ def do_block(parser, token):
             {{ request.path }}/blog/{{ blog.slug }}
         {% endrender_block %}
 
-        {% highlight_block python as source %}
+        {% highlight_block python %}
             import this
         {% endhighlight_block %}
 
