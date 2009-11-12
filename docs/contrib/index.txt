@@ -13,6 +13,7 @@ Tags ported from `django-template-utils`_ and other sources
 .. toctree::
    :maxdepth: 1
 
+   cal
    context
    comparison
    hash
@@ -20,10 +21,10 @@ Tags ported from `django-template-utils`_ and other sources
    gchart
    mapreduce
    generic_content
+   generic_markup
    rand
    regex
    serializers
-   cal
    pygmentize
    baseencode
    

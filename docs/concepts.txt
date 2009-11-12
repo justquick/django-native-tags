@@ -36,3 +36,11 @@ Block tags
 Filter tags
 --------------
 
+Native Filter tags are pretty much the same as regular Django filter tags.
+There is no special sauce here because the arguments that you can pass filter tags is very limited and is currently being expanded `in this issue <http://code.djangoproject.com/ticket/1199>`_.
+Filters take the piped value as the first argument and as of now *only one* extra argument like so::
+
+
+
+    {{ value|filter:arg }}
+

@@ -39,7 +39,8 @@ Important Attributes
     ``takes_context`` - boolean. If ``True`` the context itself is prepended to the function arguments. Default is ``False``
     
     ``inclusion`` - boolean. If ``True`` then the function is treated as an inclusion tag. Inclusion tags work a bit differently in
-    native tags, the function must return a tuple of (``template_name``, ``context``)
+    native tags, the function must return a tuple of (``template_name``, ``context``). This lets you dynamically define the name of
+    the template to use in rendering.
     
 
 Decorator Types
