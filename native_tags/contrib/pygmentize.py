@@ -35,7 +35,7 @@ def highlight(code, lexer, **kwargs):
             {% highlight_style 'print "Hello World"' python linenos=true %}
     """
     return highlighter(code or '', get_lexer_by_name(lexer), HtmlFormatter(**kwargs))
-highlight = function(highlight)
+highlight = function(highlight, is_safe=True)
 
 def highlight_block(context, nodelist, lexer, **kwargs):
     """
@@ -57,4 +57,4 @@ def highlight_block(context, nodelist, lexer, **kwargs):
             {% endhighlight_block %}
     """
     return highlighter(nodelist.render(context) or '', get_lexer_by_name(lexer), HtmlFormatter(**kwargs))
-highlight_block = block(highlight_block)
+highlight_block = block(highlight_block, is_safe=True)
