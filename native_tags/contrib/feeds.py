@@ -9,7 +9,6 @@ djangosnippets at http://www.djangosnippets.org/snippets/311/
 
 import datetime
 import feedparser
-from django.template.loader import render_to_string
 
 from native_tags.decorators import function
 
@@ -52,11 +51,11 @@ def include_feed(feed_url, template_name, num_items=None):
     
     Syntax::
     
-        {% include_feed [feed_url] [num_items] [template_name] %}
+        {% include_feed [feed_url] [template_name] [num_items] %}
     
     Example::
     
-        {% include_feed "http://www2.ljworld.com/rss/headlines/" 10 feed_includes/ljworld_headlines.html %}
+        {% include_feed "http://www2.ljworld.com/rss/headlines/" feed_includes/ljworld_headlines.html 10 %}
     
     """
     feed = feedparser.parse(feed_url)
@@ -69,8 +68,8 @@ def include_feed(feed_url, template_name, num_items=None):
                        'summary': feed['entries'][i].summary,
                        'link': feed['entries'][i].link,
                        'date': published })
-    return render_to_string(template_name, { 'items': items, 'feed': feed })
-include_feed = function(include_feed)
+    return template_name, { 'items': items, 'feed': feed }
+include_feed = function(include_feed, inclusion=True)
 
 def parse_feed(feed_url):
     """
