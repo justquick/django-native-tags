@@ -61,6 +61,21 @@
 .highlight .vi { color: #19177C } /* Name.Variable.Instance */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
 <div>
+    <h1><a onclick="document.getElementById('docadder').style.display = 'block';">adder</a></h1>
+    <pre id="docadder" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% load native humanize %}{% add 1000 100 as num %}{{ num|intcomma }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    1,100
+    &nbsp;</div>
+</div><hr>
+
+<div>
     <h1><a onclick="document.getElementById('docb64decode').style.display = 'block';">b64decode</a></h1>
     <pre id="docb64decode" style="display: none;">
     <div class="highlight"><pre>Decode a Base64 encoded string.
@@ -411,6 +426,21 @@ This is a <span class="na">:ref:</span><span class="nv">`filter tag&lt;filter-ta
 </div><hr>
 
 <div>
+    <h1><a onclick="document.getElementById('doccmp_kwargs').style.display = 'block';">cmp_kwargs</a></h1>
+    <pre id="doccmp_kwargs" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% load native %}{% if_cmp_kwargs foo=bar %}yup{% endif_cmp_kwargs %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    yup
+    &nbsp;</div>
+</div><hr>
+
+<div>
     <h1><a onclick="document.getElementById('doccontains').style.display = 'block';">contains</a></h1>
     <pre id="doccontains" style="display: none;">
     <div class="highlight"><pre>String comparison. True if x contains y anywhere
@@ -470,6 +500,22 @@ This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;compa
     &nbsp;</div>
     <div style="background-color: green">
     [u'a', u'b', u'c', ('d', 1), ('e', 2)]
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docendswith').style.display = 'block';">endswith</a></h1>
+    <pre id="docendswith" style="display: none;">
+    <div class="highlight"><pre>String comparison. True if x endswith y
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_endswith &#39;python&#39; &#39;n&#39; %}yup{% endif_endswith %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    yup
     &nbsp;</div>
 </div><hr>
 
@@ -798,6 +844,80 @@ This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;functio
 </div><hr>
 
 <div>
+    <h1><a onclick="document.getElementById('docinclude_feed').style.display = 'block';">include_feed</a></h1>
+    <pre id="docinclude_feed" style="display: none;">
+    <div class="highlight"><pre>    Parse an RSS or Atom feed and render a given number of its items
+    into HTML.
+    
+    It is <span class="gs">**highly**</span> recommended that you use `Django&#39;s template
+    fragment caching`_ to cache the output of this tag for a
+    reasonable amount of time (e.g., one hour); polling a feed too
+    often is impolite, wastes bandwidth and may lead to the feed
+    provider banning your IP address.
+    
+<span class="cp">    .. _Django&#39;s template fragment caching: http://www.djangoproject.com/documentation/cache/#template-fragment-caching</span>
+<span class="cp">    </span>
+<span class="cp">    Arguments should be:</span>
+<span class="cp">    </span>
+<span class="cp">    1. The URL of the feed to parse.</span>
+<span class="cp">    </span>
+<span class="cp">    2. The name of a template to use for rendering the results into HTML.</span>
+
+<span class="cp">    3. The number of items to render (if not supplied, renders all</span>
+<span class="cp">       items in the feed).</span>
+<span class="cp">           </span>
+<span class="cp">    The template used to render the results will receive two variables:</span>
+<span class="cp">    </span>
+<span class="cp">    ``items``</span>
+<span class="cp">        A list of dictionaries representing feed items, each with</span>
+<span class="cp">        &#39;title&#39;, &#39;summary&#39;, &#39;link&#39; and &#39;date&#39; members.</span>
+<span class="cp">    </span>
+<span class="cp">    ``feed``</span>
+<span class="cp">        The feed itself, for pulling out arbitrary attributes.</span>
+<span class="cp">    </span>
+<span class="cp">    Requires the Universal Feed Parser, which can be obtained at</span>
+<span class="cp">    http://feedparser.org/. See `its documentation`_ for details of the</span>
+<span class="cp">    parsed feed object.</span>
+<span class="cp">    </span>
+<span class="cp">    .. _its documentation: http://feedparser.org/docs/</span>
+<span class="cp">    </span>
+<span class="cp">    Syntax::</span>
+<span class="cp">    </span>
+<span class="cp">        {% include_feed [feed_url] [template_name] [num_items] %}</span>
+<span class="cp">    </span>
+<span class="cp">    Example::</span>
+<span class="cp">    </span>
+<span class="cp">        {% include_feed &quot;http://www2.ljworld.com/rss/headlines/&quot; feed_includes/ljworld_headlines.html 10 %}</span>
+<span class="cp">    </span>
+<span class="cp">    </span>
+This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% include_feed &quot;http://www2.ljworld.com/rss/headlines/&quot; feeds.html 10 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    10 10
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docinclusion').style.display = 'block';">inclusion</a></h1>
+    <pre id="docinclusion" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% load native %}{% myinc cheese %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    im just here for the cheese
+    &nbsp;</div>
+</div><hr>
+
+<div>
     <h1><a onclick="document.getElementById('docless').style.display = 'block';">less</a></h1>
     <pre id="docless" style="display: none;">
     <div class="highlight"><pre>True if x is less than y
@@ -851,6 +971,21 @@ This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;functio
     &nbsp;</div>
     <div style="background-color: green">
     aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d-7c211433f02071597741e6ff5a8ea34789abbf43
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docmap_builtins').style.display = 'block';">map_builtins</a></h1>
+    <pre id="docmap_builtins" style="display: none;">
+    <div class="highlight"><pre>
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% map len l1 l2 l3 %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    [1, 2, 3]
     &nbsp;</div>
 </div><hr>
 
@@ -996,7 +1131,7 @@ This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;functio
     {% randint 0 10 %}
     &nbsp;</div>
     <div style="background-color: green">
-    3
+    6
     &nbsp;</div>
 </div><hr>
 
@@ -1015,7 +1150,7 @@ This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;functio
     {% random %}
     &nbsp;</div>
     <div style="background-color: green">
-    0.35883805221
+    0.247235483459
     &nbsp;</div>
 </div><hr>
 
@@ -1102,11 +1237,11 @@ This is a <span class="na">:ref:</span><span class="nv">`block tag&lt;block-tags
     
     Syntax<span class="se">::</span>
     
-<span class="s">        {% retrieve_object [app_name].[model_name] [pk] as [varname] %}</span>
+<span class="s">        {% retrieve_object [app_name].[model_name] [lookup kwargs] as [varname] %}</span>
 <span class="s">    </span>
 <span class="s">    Example::</span>
 <span class="s">    </span>
-<span class="s">        {% retrieve_object flatpages.flatpage 12 as my_flat_page %}</span>
+<span class="s">        {% retrieve_object flatpages.flatpage pk=12 as my_flat_page %}</span>
 <span class="s">    </span>
 <span class="s">    </span>
 This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;function-tags&gt;`</span>. 
@@ -1148,7 +1283,7 @@ This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;functio
     {% serialize format users as seria %}{{ seria|safe }}
     &nbsp;</div>
     <div style="background-color: green">
-    [{"pk": 1, "model": "auth.user", "fields": {"username": "tester", "first_name": "", "last_name": "", "is_active": true, "is_superuser": false, "is_staff": false, "last_login": "2009-11-09 12:46:20", "groups": [], "user_permissions": [], "password": "", "email": "test", "date_joined": "2009-11-09 12:46:20"}}]
+    [{"pk": 1, "model": "auth.user", "fields": {"username": "tester", "first_name": "", "last_name": "", "is_active": true, "is_superuser": false, "is_staff": false, "last_login": "2009-11-12 13:43:31", "groups": [], "user_permissions": [], "password": "", "email": "test", "date_joined": "2009-11-12 13:43:31"}}]
     &nbsp;</div>
 </div><hr>
 
@@ -1163,7 +1298,7 @@ This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;functio
     {% serialize format users as seria %}{{ seria|safe }}
     &nbsp;</div>
     <div style="background-color: green">
-    [{'pk': 1, 'model': u'auth.user', 'fields': {'username': u'tester', 'first_name': u'', 'last_name': u'', 'is_active': True, 'is_superuser': False, 'is_staff': False, 'last_login': datetime.datetime(2009, 11, 9, 12, 46, 20, 372497), 'groups': [], 'user_permissions': [], 'password': u'', 'email': u'test', 'date_joined': datetime.datetime(2009, 11, 9, 12, 46, 20, 372505)}}]
+    [{'pk': 1, 'model': u'auth.user', 'fields': {'username': u'tester', 'first_name': u'', 'last_name': u'', 'is_active': True, 'is_superuser': False, 'is_staff': False, 'last_login': datetime.datetime(2009, 11, 12, 13, 43, 31, 913507), 'groups': [], 'user_permissions': [], 'password': u'', 'email': u'test', 'date_joined': datetime.datetime(2009, 11, 12, 13, 43, 31, 913518)}}]
     &nbsp;</div>
 </div><hr>
 
@@ -1179,7 +1314,7 @@ This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;functio
     &nbsp;</div>
     <div style="background-color: green">
     <?xml version="1.0" encoding="utf-8"?>
-<django-objects version="1.0"><object pk="1" model="auth.user"><field type="CharField" name="username">tester</field><field type="CharField" name="first_name"></field><field type="CharField" name="last_name"></field><field type="CharField" name="email">test</field><field type="CharField" name="password"></field><field type="BooleanField" name="is_staff">False</field><field type="BooleanField" name="is_active">True</field><field type="BooleanField" name="is_superuser">False</field><field type="DateTimeField" name="last_login">2009-11-09 12:46:20</field><field type="DateTimeField" name="date_joined">2009-11-09 12:46:20</field><field to="auth.group" name="groups" rel="ManyToManyRel"></field><field to="auth.permission" name="user_permissions" rel="ManyToManyRel"></field></object></django-objects>
+<django-objects version="1.0"><object pk="1" model="auth.user"><field type="CharField" name="username">tester</field><field type="CharField" name="first_name"></field><field type="CharField" name="last_name"></field><field type="CharField" name="email">test</field><field type="CharField" name="password"></field><field type="BooleanField" name="is_staff">False</field><field type="BooleanField" name="is_active">True</field><field type="BooleanField" name="is_superuser">False</field><field type="DateTimeField" name="last_login">2009-11-12 13:43:31</field><field type="DateTimeField" name="date_joined">2009-11-12 13:43:31</field><field to="auth.group" name="groups" rel="ManyToManyRel"></field><field to="auth.permission" name="user_permissions" rel="ManyToManyRel"></field></object></django-objects>
     &nbsp;</div>
 </div><hr>
 
@@ -1261,6 +1396,28 @@ This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;compa
 </div><hr>
 
 <div>
+    <h1><a onclick="document.getElementById('docsmartypants').style.display = 'block';">smartypants</a></h1>
+    <pre id="docsmartypants" style="display: none;">
+    <div class="highlight"><pre>    Applies SmartyPants to a piece of text, applying typographic
+    niceties.
+    
+    Requires the Python SmartyPants library to be installed; see
+    http://web.chad.org/projects/smartypants.py/
+    
+    
+This is a <span class="na">:ref:</span><span class="nv">`filter tag&lt;filter-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {{ value|smartypants }}
+    &nbsp;</div>
+    <div style="background-color: green">
+    wtf
+    &nbsp;</div>
+</div><hr>
+
+<div>
     <h1><a onclick="document.getElementById('docstartswith').style.display = 'block';">startswith</a></h1>
     <pre id="docstartswith" style="display: none;">
     <div class="highlight"><pre>String comparison. True if x startswith y
@@ -1335,5 +1492,21 @@ This is a <span class="na">:ref:</span><span class="nv">`function tag&lt;functio
     &nbsp;</div>
     <div style="background-color: green">
     100 NORTH MAIN RD.
+    &nbsp;</div>
+</div><hr>
+
+<div>
+    <h1><a onclick="document.getElementById('docsuperset').style.display = 'block';">superset</a></h1>
+    <pre id="docsuperset" style="display: none;">
+    <div class="highlight"><pre>Set comparison. True if x is a superset of y
+This is a <span class="na">:ref:</span><span class="nv">`comparison tag&lt;comparison-tags&gt;`</span>. 
+</pre></div>
+
+    </pre>
+    <div style="background: #FFFFCC none repeat scroll 0 0;">
+    {% if_superset l1 l2 %}yup{% endif_superset %}
+    &nbsp;</div>
+    <div style="background-color: green">
+    yup
     &nbsp;</div>
 </div><hr>
