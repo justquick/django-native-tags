@@ -4,11 +4,15 @@ Template tags which can do retrieval of content from any model.
 """
 
 from django.db.models import get_model
-
+from django.template import TemplateSyntaxError
 from native_tags.decorators import function
 
 
-def _get_model(model): return get_model(*model.split('.'))
+def _get_model(model):
+    m = get_model(*model.split('.'))
+    if m is None:
+        raise TemplateSyntaxError("Generic content tag got invalid model: %s" % model)
+    return m
 
 def get_latest_object(model, field=None):
     """
@@ -45,7 +49,7 @@ def get_latest_objects(model, num, field='?'):
     
     """
     model = _get_model(model)
-    field = model._meta.get_latest_by and '-%s' %model._meta.get_latest_by or field
+    field = model._meta.get_latest_by and '-%s' % model._meta.get_latest_by or field
     return model._default_manager.order_by(field)[:int(num)]
 get_latest_objects = function(get_latest_objects)
 
@@ -93,16 +97,15 @@ def retrieve_object(model, **kwargs):
     
     Syntax::
     
-        {% retrieve_object [app_name].[model_name] [pk] as [varname] %}
+        {% retrieve_object [app_name].[model_name] [lookup kwargs] as [varname] %}
     
     Example::
     
-        {% retrieve_object flatpages.flatpage 12 as my_flat_page %}
+        {% retrieve_object flatpages.flatpage pk=12 as my_flat_page %}
     
     """
-    model = _get_model(model)
     try:
-        return model._default_manager.get(**kwargs)
+        return _get_model(model)._default_manager.get(**kwargs)
     except model.DoesNotExist:
         return ''
 retrieve_object = function(retrieve_object)
