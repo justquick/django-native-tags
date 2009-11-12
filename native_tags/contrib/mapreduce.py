@@ -8,7 +8,7 @@ def get_func(func_name, op=True):
     except KeyError:
         pass
     if func_name in __builtins__:
-        return getattr(__builtins__, func_name)
+        return __builtins__[func_name]
     elif hasattr(operator, func_name):
         return getattr(operator, func_name)
     return lambda: None
