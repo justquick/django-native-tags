@@ -9,11 +9,11 @@ djangosnippets at http://www.djangosnippets.org/snippets/311/
 
 import datetime
 import feedparser
-
+from django.template import TemplateSyntaxError
 from native_tags.decorators import function
 
 
-def include_feed(feed_url, template_name, num_items=None):
+def include_feed(feed_url, *args):
     """
     Parse an RSS or Atom feed and render a given number of its items
     into HTML.
@@ -52,16 +52,26 @@ def include_feed(feed_url, template_name, num_items=None):
     
     Syntax::
     
-        {% include_feed [feed_url] [template_name] [num_items] %}
+        {% include_feed [feed_url] [num_items] [template_name] %}
     
     Example::
     
-        {% include_feed "http://www2.ljworld.com/rss/headlines/" feed_includes/ljworld_headlines.html 10 %}
+        {% include_feed "http://www2.ljworld.com/rss/headlines/" 10 feed_includes/ljworld_headlines.html %}
     
     """
     feed = feedparser.parse(feed_url)
     items = []
-    num_items = int(num_items or len(feed['entries']))
+    
+    if len(args) == 2:
+        # num_items, template_name
+        num_items, template_name = args
+    elif len(args) == 1:
+        # template_name
+        num_items, template_name = None, args[0]
+    else:
+        raise TemplateSyntaxError("'include_feed' tag takes either two or three arguments")
+        
+    num_items = int(num_items) or len(feed['entries'])
     for i in range(num_items):
         pub_date = feed['entries'][i].updated_parsed
         published = datetime.date(pub_date[0], pub_date[1], pub_date[2])

@@ -266,7 +266,7 @@ class TemplateTest(TestCase):
             self.assertEqual(render(t), "['feed', 'status', 'version', 'encoding', 'bozo', 'headers', 'etag', 'href', 'namespaces', 'entries']")
 
         def test_include_feed(self):
-            self.assertEqual(render('{% load cache %}{% cache 3600 ljworld2 %}{% include_feed "http://www2.ljworld.com/rss/headlines/" feeds.html 10 %}{% endcache %}'), '10 10')
+            self.assertEqual(render('{% load cache %}{% cache 3600 ljworld2 %}{% include_feed "http://www2.ljworld.com/rss/headlines/" 10 feeds.html %}{% endcache %}'), '10 10')
     except ImportError:
         pass
 

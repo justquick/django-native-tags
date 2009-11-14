@@ -90,7 +90,7 @@ def get_random_objects(model, num):
     return _get_model(model)._default_manager.order_by('?')[:int(num)]
 get_random_objects = function(get_random_objects)
 
-def retrieve_object(model, **kwargs):
+def retrieve_object(model, *args, **kwargs):
     """
     Retrieves a specific object from a given model by primary-key
     lookup, and stores it in a context variable.
@@ -104,6 +104,8 @@ def retrieve_object(model, **kwargs):
         {% retrieve_object flatpages.flatpage pk=12 as my_flat_page %}
     
     """
+    if len(args) == 1:
+        kwargs.update({'pk': args[0]})
     try:
         return _get_model(model)._default_manager.get(**kwargs)
     except model.DoesNotExist:
