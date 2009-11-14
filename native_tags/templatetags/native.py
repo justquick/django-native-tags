@@ -6,7 +6,9 @@ from native_tags import register as native_register
 register = Library()
 
 for tag_name in native_register['comparison']:
-    register.tags['if_%s' % tag_name] = do_comparison
+    if not tag_name.startswith('if'):
+        tag_name = 'if_%s' % tag_name 
+    register.tags[tag_name] = do_comparison
     
 for tag_name in native_register['function']:
     register.tags[tag_name] = do_function
