@@ -87,7 +87,11 @@ INSTALLED_APPS = (
     'native_tags',
 )
 
-NATIVE_CONTRIB = (
+NATIVE_TAGS = (
+    # Example Native Tags in app
+    'app.templatetags.app_tags',
+
+    # Extra native contrib tags to test
     'native_tags.contrib.comparison',
     'native_tags.contrib.context',
     'native_tags.contrib.generic_content',
@@ -99,12 +103,12 @@ NATIVE_CONTRIB = (
     'native_tags.contrib.mapreduce',    
     'native_tags.contrib.cal',
     'native_tags.contrib.rand',
+    'native_tags.contrib.smart_if',
         
+    # Native tags with dependencies
     'native_tags.contrib.gchart', # GChartWrapper
     'native_tags.contrib.pygmentize', # Pygments
     'native_tags.contrib.feeds', # Feedparser
-    
-    #'native_tags.contrib._django',
 )
 
 DJANGO_BUILTIN_TAGS = (
