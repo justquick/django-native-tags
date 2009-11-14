@@ -1,16 +1,24 @@
 import math
 
-from native_tags.decorators import function, filter
+from native_tags.decorators import function, filter, comparison
 
 def func_factory(method):
-    func = getattr(math, method)
-    def inner(*args):
-        return func(*args)
+    try:
+        func = getattr(math, method)
+    except AttributeError:
+        return
+    def inner(arg1, arg2=None):
+        try:
+            return func(arg1, arg2)
+        except TypeError:
+            return func(arg1)
     inner.__name__ = method
     doc = func.__doc__.splitlines()
     if len(doc) > 1 and not doc[1]:
         doc = doc[2:]
     inner.__doc__ = '\n'.join(doc)
+    if method.startswith('is'):
+        return comparison(inner)
     return filter(function(inner))
 
 

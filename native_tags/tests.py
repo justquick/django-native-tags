@@ -205,6 +205,13 @@ class TemplateTest(TestCase):
     def test_filter_faker(self):
         self.assertRaises(TemplateSyntaxError, render, '{% sha1 "my | filter | faker" %}')
 
+    def test_math(self):
+        import math
+        self.assertAlmostEqual(float(render('{% acos .3 %}')), 1.26610367278)
+        self.assertEqual(float(render('{{ 1.5|floor }}')), 1.)
+        self.assertEqual(float(render('{{ 4|sqrt }}')), 2.)
+        self.assertAlmostEqual(float(render('{{ 180|radians }}')), math.pi)
+
     try:
         import hashlib
         def test_sha224_hashlib(self):

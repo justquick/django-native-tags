@@ -102,6 +102,7 @@ NATIVE_TAGS = (
     'native_tags.contrib.regex',
     'native_tags.contrib.mapreduce',    
     'native_tags.contrib.cal',
+    'native_tags.contrib.math_',
     'native_tags.contrib.rand',
     'native_tags.contrib.smart_if',
         
