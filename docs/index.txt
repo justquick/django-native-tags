@@ -3,8 +3,9 @@
 Native Tags Documentation
 =========================
 
-.. automodule:: native_tags
-.. moduleauthor:: Justin Quick <justquick@gmail.com>
+:Authors:
+   Justin Quick <justquick@gmail.com>
+:Version: 0.2
 
 Django Native Tags is a way of making the creation of template tags stupidly simple.
 Tags are "native" because there is a much closer relationship between the tag in the template and a Python function behind the scenes.
@@ -29,12 +30,12 @@ Which outputs::
 Other :ref:`Features <features>` of Native Tags:
  
  * Keyword argument parsing
- * Quoted strings parsed corectly
+ * Quoted strings parsed correctly
  * Add templatetags to Django's builtins (no ``{% load %}`` required)
  * Auto resolve of template variables
 
 The real power of the module comes in the :ref:`contrib-index` which has tons of tags for various uses including
-comparisons, regex operations, random functions, and much more. By default it is a functional replacement to `James Bennett`_'s `django-template-utils`_ right out of the box
+comparisons, regex operations, math operaions, and much more. By default it is a functional replacement to `James Bennett`_'s `django-template-utils`_ right out of the box
 
 .. _django-template-utils: http://bitbucket.org/ubernostrum/django-template-utils/
 .. _James Bennett: http://www.b-list.org/
