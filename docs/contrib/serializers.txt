@@ -7,8 +7,5 @@
 Serialize Django :class:`QuerySets` directly into templates
 
 .. automodule:: native_tags.contrib.serializers
-    
-    .. autofunction:: serialize
-    .. autofunction:: serialize_json
-    .. autofunction:: serialize_xml
-    .. autofunction:: serialize_python
+    :members:
+

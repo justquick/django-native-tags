@@ -1,4 +1,5 @@
 .. _configuration:
+.. highlight:: python
 
 Settings
 ========
@@ -6,64 +7,65 @@ Settings
 DJANGO_BUILTIN_TAGS
 -------------------
 
-    Tuple of Django templatetags/filters methods to load by default.
-    Place your most commonly used templatetags here and you will not have to ``{% load %}`` them.
+    Tuple of Django templatetags modules to load by default.
+    This places them in the Django template Library builtins.
+    Place your most commonly used templatetags here and you will never have to ``{% load %}`` them.
         
     Example::
             
         DJANGO_BUILTIN_TAGS = (
+            'native_tags.templatetags.native',
             'django.contrib.markup.templatetags.markup',
             #...
         )
-        
-NATIVE_LOAD
------------
-
-    Boolean whether to load the native tags automatically
-    otherwise needs ``{% load native }%``. Default is ``True``
 
 NATIVE_LIBRARY
 --------------
 
-    Updates the library of tags to load by default
-    These can be created in ``settings.py`` and many other python files.
-
+    Updates the library of tags to load by default.
+    Define any valid types of functions here.
+    Lets you define them right in ``settings.py``
+    
     Example::
     
        NATIVE_LIBRARY = {
-            'functions':{
-                'add': lambda x, y: x + y,
-                #...
-            },
-            #...
+            'function':{ 'add': lambda x, y: x + y },
+            'comparison':{ 'is_in': lambda x, y: x in y },
+            'filter':{ 'rstrip': lambda s: s.rstrip() },
+            'block':{ 'comment': lambda: '' }
         }
 
-NATIVE_CONTRIB
+NATIVE_TAGS
 --------------
 
     Tuple of contrib tag modules to load. 
     Use the ones from :ref:`contrib-index` or add your own
 
-    Out of the box, this is set to::
+    Out of the box, this is just the set of tags needed to be a functional replacement to django-template-utils
     
-        NATIVE_CONTRIB = (
-            'native_tags.contrib.comparison',
-            'native_tags.contrib.context',
-            'native_tags.contrib.generic_content',
-            'native_tags.contrib.generic_markup',
-            'native_tags.contrib.hash',
-            'native_tags.contrib.serializers',
-            'native_tags.contrib.baseencode',
-            'native_tags.contrib.regex',
-            'native_tags.contrib.mapreduce',    
-            'native_tags.contrib.cal',
-            'native_tags.contrib.rand',
+    All available options included in this app::
+    
+        'native_tags.contrib.comparison',
+        'native_tags.contrib.context',
+        'native_tags.contrib.generic_content',
+        'native_tags.contrib.generic_markup',
+        'native_tags.contrib.hash',
+        'native_tags.contrib.serializers',
+        'native_tags.contrib.baseencode',
+        'native_tags.contrib.regex',
+        'native_tags.contrib.math',
+        'native_tags.contrib.mapreduce',    
+        'native_tags.contrib.cal',
+        'native_tags.contrib.rand',
+        'native_tags.contrib.smart_if',
             
-            # Tags that have dependencies
-            #'native_tags.contrib.gchart', # GChartWrapper
-            #'native_tags.contrib.pygmentize', # Pygments
-            #'native_tags.contrib.feeds', # Feedparser
-        )
+        # Native tags with dependencies
+        'native_tags.contrib.gchart', # GChartWrapper
+        'native_tags.contrib.pygmentize', # Pygments
+        'native_tags.contrib.feeds', # Feedparser        
+
+    .. _django-template-utils: http://bitbucket.org/ubernostrum/django-template-utils/
+
 
             
 

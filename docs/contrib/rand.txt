@@ -5,7 +5,5 @@
 =======================================
 
 .. automodule:: native_tags.contrib.rand
-    
-    .. autofunction:: randint
-    .. autofunction:: random
-    .. autofunction:: randchoice
+    :members:
+

@@ -5,8 +5,5 @@
 ==========================================
 
 .. automodule:: native_tags.contrib.context
-    
-    .. autofunction:: do_del
-    .. autofunction:: do_set
-    .. autofunction:: render_block
-    .. autofunction:: document
+    :members:
+

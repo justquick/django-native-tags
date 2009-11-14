@@ -5,7 +5,5 @@
 ==================================================================
 
 .. automodule:: native_tags.contrib.pygmentize
-    
-    .. autofunction:: highlight_style    
-    .. autofunction:: highlight
-    .. autofunction:: highlight_block
+    :members:
+

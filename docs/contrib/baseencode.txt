@@ -5,12 +5,5 @@
 ====================================================
 
 .. automodule:: native_tags.contrib.baseencode
+    :members:
 
-    .. autofunction:: b16decode
-    .. autofunction:: b16encode
-    
-    .. autofunction:: b32encode
-    .. autofunction:: b32decode
-
-    .. autofunction:: b64encode
-    .. autofunction:: b64decode

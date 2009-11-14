@@ -5,6 +5,5 @@
 =================================================================
 
 .. automodule:: native_tags.contrib.generic_markup
-    
-    .. autofunction:: apply_markup
-    .. autofunction:: smartypants
+    :members:
+

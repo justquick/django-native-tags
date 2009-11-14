@@ -20,6 +20,7 @@ Tags ported from `django-template-utils`_ and other sources
    feeds
    gchart
    mapreduce
+   math
    generic_content
    generic_markup
    rand

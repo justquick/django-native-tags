@@ -42,6 +42,9 @@ Important Attributes
     native tags, the function must return a tuple of (``template_name``, ``context``). This lets you dynamically define the name of
     the template to use in rendering.
     
+    ``apply_filters`` - boolean. If ``True``, the filter expressions are resolved for each argument and keyword argument if present.
+    Default is ``True``
+    
 
 Decorator Types
 ---------------

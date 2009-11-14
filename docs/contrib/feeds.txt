@@ -5,6 +5,5 @@
 ========================================================
 
 .. automodule:: native_tags.contrib.feeds
-    
-    .. autofunction:: include_feed
-    .. autofunction:: parse_feed
+    :members:
+
