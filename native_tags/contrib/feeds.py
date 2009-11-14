@@ -12,6 +12,7 @@ import feedparser
 
 from native_tags.decorators import function
 
+
 def include_feed(feed_url, template_name, num_items=None):
     """
     Parse an RSS or Atom feed and render a given number of its items
