@@ -7,8 +7,13 @@ from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from registry import register
 
+class Constant(unicode):
+    """Just a placeholder unicode constant so you can tell
+    which variables failed lookup and should be considered constant.
+    You can tell by using ``isinstance(var_or_constant, Constant)``"""
+    pass
 
-def lookup(var, context, resolve=True):
+def lookup(parser, var, context, resolve=True, apply_filters=True):
     """
     Try to resolve the varialbe in a context
     If ``resolve`` is ``False``, only string variables are returned
@@ -17,7 +22,9 @@ def lookup(var, context, resolve=True):
         try:
             return Variable(var).resolve(context)
         except VariableDoesNotExist:
-            pass
+            if apply_filters and var.find('|') > -1:
+                return parser.compile_filter(var).resolve(context)
+            return Constant(force_unicode(var))
         except TypeError:
             # already resolved
             return var
@@ -51,7 +58,8 @@ def get_signature(token, contextable=False, comparison=False):
 
 class NativeNode(template.Node):
     bucket = None
-    def __init__(self, name, *args, **kwargs):
+    def __init__(self, parser, name, *args, **kwargs):
+        self.parser = parser
         self.func = register[self.bucket][name]
         self.name = name
         self.args = args
@@ -61,10 +69,13 @@ class NativeNode(template.Node):
         resolve = True
         if hasattr(self.func, 'resolve'):
             resolve = getattr(self.func, 'resolve')
-        self.args = (lookup(var, context, resolve) for var in self.args)
+        apply_filters = True
+        if hasattr(self.func, 'apply_filters'):
+            apply_filters = getattr(self.func, 'apply_filters')
+        self.args = (lookup(self.parser, var, context, resolve) for var in self.args)
         if hasattr(self.func, 'takes_context') and getattr(self.func, 'takes_context'):
             self.args = (context,) + tuple(self.args)
-        self.kwargs = dict(((k, lookup(var, context, resolve)) for k, var in self.kwargs.items()))
+        self.kwargs = dict(((k, lookup(self.parser, var, context, resolve)) for k, var in self.kwargs.items()))
         varname = self.kwargs.pop('varname', None)
 
         result = self.get_result(context)
@@ -135,6 +146,7 @@ def do_comparison(parser, token):
 
     """
     name, args, kwargs = get_signature(token, comparison=True)
+    name = name.replace('if_if', 'if')
     end_tag = 'end' + name
     kwargs['nodelist_true'] = parser.parse(('else', end_tag))
     token = parser.next_token()
@@ -143,7 +155,9 @@ def do_comparison(parser, token):
         parser.delete_first_token()
     else:
         kwargs['nodelist_false'] = template.NodeList()
-    return ComparisonNode(name.split('if_')[1], *args, **kwargs)
+    if name.startswith('if_'):
+        name = name.split('if_')[1]
+    return ComparisonNode(parser, name, *args, **kwargs)
 
 class FunctionNode(NativeNode):
     bucket = 'function'
@@ -174,7 +188,7 @@ def do_function(parser, token):
 
     """
     name, args, kwargs = get_signature(token, True, True)
-    return FunctionNode(name, *args, **kwargs)
+    return FunctionNode(parser, name, *args, **kwargs)
 
 class BlockNode(NativeNode):
     bucket = 'block'
@@ -207,4 +221,4 @@ def do_block(parser, token):
     name, args, kwargs = get_signature(token, contextable=True)
     kwargs['nodelist'] = parser.parse(('end%s' % name,))
     parser.delete_first_token()
-    return BlockNode(name, *args, **kwargs)
+    return BlockNode(parser, name, *args, **kwargs)
