@@ -1,0 +1,8 @@
+.. _contrib-math:
+.. highlight:: django
+
+:mod:`math` - mathematical operations
+======================================================
+
+.. automodule:: native_tags.contrib.math_
+    :members:
