@@ -91,12 +91,16 @@ class Library(dict):
 register = Library()
 
 def load_module(*module):
-    if len(module) == 1 and module[0].find('.')>-1:
+    """
+    Load a module string like django.contrib.markup.templatetags.markup into the registry
+    Iterates through the module looking for callables w/ attributes matching Native Tags
+    """
+    if len(module) == 1 and module[0].find('.') > -1:
         a = module[0].split('.')
         module = ('.%s' % a[-1], '.'.join(a[:-1]))
     try:
         mod = import_module(*module)
-    except ImportError, e:
+    except ImportError:
         return
     for name in dir(mod):
         obj = getattr(mod, name)
@@ -108,6 +112,7 @@ def load_module(*module):
                     else:
                         register.register(tag, obj)
 
+# Comb through installed apps w/ templatetags looking for native tags
 for app in djsettings.INSTALLED_APPS:
     try:
         mod = import_module('.templatetags', app)
@@ -122,5 +127,12 @@ for app in djsettings.INSTALLED_APPS:
             except ImportError:
                 continue
 
-map(load_module, settings.CONTRIB)
-map(add_to_builtins, settings.BUILTIN_TAGS)
+# Load up the native contrib tags
+map(load_module, settings.TAGS)
+
+# Add the BUILTIN_TAGS to Django's builtins
+for mod in settings.BUILTIN_TAGS:
+    # if it tries to add iself in here it blows up really badly
+    # this part is done in models.py
+    if mod != 'native_tags.templatetags.native':
+        add_to_builtins(mod)
