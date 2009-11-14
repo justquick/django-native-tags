@@ -1,0 +1,23 @@
+.. _changelog:
+.. highlight:: django
+
+Change Log
+===========
+
+v0.2
+----
+
+    * Filter expressions render correctly
+    * ``math_`` and ``smart_if`` contrib packages added
+    * ``NATIVE_CONTRIB`` setting changed to ``NATIVE_TAGS``
+    * No more ``NATIVE_LOAD`` setting
+    * Ability to have custom names for comparison tags (no prepended ``if_``)
+
+v0.1
+-----
+
+    * ``django-template-tags`` functionality
+    * Auto load tags
+    * Parsing with ``shlex``
+    * Auto resolve template arguments and keyword arguments
+    * ``function``, ``comparison``, ``block``, and ``filter`` native tag types
