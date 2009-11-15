@@ -63,7 +63,8 @@ def cycle(context, *cyclevars):
     """
 
     return itertools_cycle(cyclevars).next()
-    
+cycle.function = 1
+
 def debug(context):
     """
     Outputs a whole load of debugging information, including the current
@@ -81,7 +82,7 @@ def debug(context):
     output.append('\n\n')
     output.append(pformat(sys.modules))
     return ''.join(output)
-
+debug.function = 1
 
 def filter(context, nodelist, filter_exp):
     """
@@ -102,6 +103,7 @@ def filter(context, nodelist, filter_exp):
     filtered = filter_expr.resolve(context)
     context.pop()
     return filtered
+filter.block = 1
 
 def firstof(*vars):
     """
@@ -140,6 +142,7 @@ def firstof(*vars):
     for var in vars:
         if var:
             return var
+firstof.function = 1
 
 def regroup(target, expression):
     """
@@ -195,7 +198,8 @@ def regroup(target, expression):
         for key, val in
         groupby(obj_list, lambda v, f=expression.resolve: f(v, True))
     ]
-    
+regroup.function = 1
+
 def now(format_string):
     """
     Displays the date, formatted according to the given string.
@@ -210,6 +214,7 @@ def now(format_string):
     from datetime import datetime
     from django.utils.dateformat import DateFormat
     return DateFormat(datetime.now()).format(self.format_string)
+now.function = 1
 
 def spaceless(context, nodelists):
     """
@@ -239,6 +244,7 @@ def spaceless(context, nodelists):
 
     from django.utils.html import strip_spaces_between_tags
     return strip_spaces_between_tags(nodelist.render(context).strip())
+spaceless.block = 1
 
 def widthratio(value, maxvalue, max_width):
     """
@@ -253,7 +259,6 @@ def widthratio(value, maxvalue, max_width):
     the above example will be 88 pixels wide (because 175/200 = .875;
     .875 * 100 = 87.5 which is rounded up to 88).
     """
-
     try:
         max_width = int(max_width)
     except ValueError:
@@ -265,8 +270,9 @@ def widthratio(value, maxvalue, max_width):
     except (ValueError, ZeroDivisionError):
         return ''
     return str(int(round(ratio)))
+widthratio.function = 1
 
-def with(context, nodelist, val):
+def with_(context, nodelist, val):
     """
     Adds a value to the context (inside of this block) for caching and easy
     access.
@@ -282,4 +288,4 @@ def with(context, nodelist, val):
     output = nodelist.render(context)
     context.pop()
     return output
-
+with_.block = 1
