@@ -197,8 +197,12 @@ class TemplateTest(TestCase):
         self.assertEqual(render('{{ value|smartypants }}', {'value': 'wtf'}), 'wtf')
 
     def test_smart_if(self):
-        self.assertEqual(render('{% if articles|length >= 5 %}...{% endif %}', {'articles': range(5)}), '...')
-
+        self.assertEqual(render('{% if articles|length >= 5 %}yup{% endif %}', {'articles': range(5)}), 'yup')
+        self.assertEqual(render('{% if a > b and b < c %}yup{% endif %}', {'a': 2, 'b': 1, 'c': 3}), 'yup')
+        self.assertEqual(render('{% if not 0 and not 0 %}yup{% endif %}'), 'yup')
+        self.assertEqual(render('{% if 1 not = 1 %}yup{% else %}nope{% endif %}'), 'nope')
+        self.assertEqual(render('{% if 2 not in l %}yup{% else %}nope{% endif %}', {'l':[2, 3]}), 'nope')
+        
     def test_custom_if(self):
         self.assertEqual(render('{% ifsomething %}yup{% endifsomething %}'), 'yup')
 
@@ -211,6 +215,8 @@ class TemplateTest(TestCase):
         self.assertEqual(float(render('{{ 1.5|floor }}')), 1.)
         self.assertEqual(float(render('{{ 4|sqrt }}')), 2.)
         self.assertAlmostEqual(float(render('{{ 180|radians }}')), math.pi)
+
+
 
     try:
         import hashlib
@@ -280,3 +286,4 @@ class TemplateTest(TestCase):
             self.assertEqual(render(t, {'src':'`i`'}), '<p><code>i</code></p>')
     except ImportError:
         pass
+

@@ -24,11 +24,11 @@ def lookup(parser, var, context, resolve=True, apply_filters=True):
         except VariableDoesNotExist:
             if apply_filters and var.find('|') > -1:
                 return parser.compile_filter(var).resolve(context)
-            return Constant(force_unicode(var))
+            return Constant(var)
         except TypeError:
             # already resolved
             return var
-    return force_unicode(var)
+    return var
 
 def get_signature(token, contextable=False, comparison=False):
     """
@@ -79,7 +79,6 @@ class NativeNode(template.Node):
         varname = self.kwargs.pop('varname', None)
 
         result = self.get_result(context)
-
         if hasattr(self.func, 'is_safe') and getattr(self.func, 'is_safe'):
             result = mark_safe(result)
             
@@ -103,7 +102,7 @@ class ComparisonNode(NativeNode):
         except TypeError:
             # If the types don't permit comparison, return nothing.
             return ''
-        
+
         if truth_value and negate:
             return nodelist_false.render(context)
         elif truth_value:
