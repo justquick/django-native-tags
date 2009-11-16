@@ -17,7 +17,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = ':memory'             # Or path to database file if using sqlite3.
+DATABASE_NAME = 'test.db'             # Or path to database file if using sqlite3.
 DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
@@ -68,6 +68,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 ROOT_URLCONF = 'example_project.urls'
@@ -83,14 +84,22 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.admin',
+    'django.contrib.flatpages',
     'django.contrib.humanize',
     'native_tags',
+    'app',
 )
 
-NATIVE_TAGS = (
-    # Example Native Tags in app
-    'app.templatetags.app_tags',
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+)
 
+
+NATIVE_TAGS = (
     # Extra native contrib tags to test
     'native_tags.contrib.comparison',
     'native_tags.contrib.context',
@@ -104,7 +113,7 @@ NATIVE_TAGS = (
     'native_tags.contrib.cal',
     'native_tags.contrib.math_',
     'native_tags.contrib.rand',
-    'native_tags.contrib.smart_if',
+    #'native_tags.contrib.smart_if',
         
     # Native tags with dependencies
     'native_tags.contrib.gchart', # GChartWrapper
@@ -113,6 +122,7 @@ NATIVE_TAGS = (
 )
 
 DJANGO_BUILTIN_TAGS = (
+    'native_tags.templatetags.native',
     'django.contrib.markup.templatetags.markup',
 )
 

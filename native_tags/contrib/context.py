@@ -1,4 +1,6 @@
 from native_tags.decorators import function, block, filter
+from django.template import Template
+
 
 def document(o):
     'Returns the docstring for a given object'
@@ -27,3 +29,21 @@ def render_block(context, nodelist):
     'Simply renders the nodelist with the current context'
     return nodelist.render(context)
 render_block = block(render_block)
+
+
+def template_string(context, template):
+    'Return the rendered template content with the current context'
+    return Template(template).render(context)
+template_string = function(template_string, takes_context=1)
+
+
+def template_block(context, nodelist):
+    'Return the rendered block\'s content with the current context'
+    return Template(nodelist.render(context)).render(context)
+template_block = block(template_block)
+
+def native_debug():
+    from pprint import pformat
+    from native_tags import register
+    return pformat(register)
+native_debug = function(native_debug)

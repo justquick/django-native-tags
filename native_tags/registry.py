@@ -1,5 +1,5 @@
 from django.conf import settings as djsettings
-from django.template import add_to_builtins
+from django.template import add_to_builtins, Library as DjLib
 from django.utils.importlib import import_module
 from os import listdir
 import settings
@@ -31,7 +31,6 @@ class Library(dict):
             func = name_or_func
         elif func:
             name = name_or_func
-
         if name in self[bucket]:
             raise AlreadyRegistered('The function %s is already registered' % name)
 
@@ -95,6 +94,7 @@ def load_module(*module):
     Load a module string like django.contrib.markup.templatetags.markup into the registry
     Iterates through the module looking for callables w/ attributes matching Native Tags
     """
+    global register
     if len(module) == 1 and module[0].find('.') > -1:
         a = module[0].split('.')
         module = ('.%s' % a[-1], '.'.join(a[:-1]))
@@ -104,28 +104,17 @@ def load_module(*module):
         return
     for name in dir(mod):
         obj = getattr(mod, name)
-        if callable(obj):
+        if callable(obj) and not isinstance(obj, DjLib):
             for tag in settings.TAG_TYPES:
                 if hasattr(obj, tag):
+                    name = getattr(obj, 'name', obj.__name__)
+                    if name in register[tag]:
+                        continue
                     if hasattr(obj, 'name'):
                         register.register(tag, getattr(obj, 'name'), obj)
                     else:
                         register.register(tag, obj)
 
-# Comb through installed apps w/ templatetags looking for native tags
-for app in djsettings.INSTALLED_APPS:
-    try:
-        mod = import_module('.templatetags', app)
-    except ImportError:
-        continue
-
-    # TODO: Make this hurt less
-    for f in listdir(mod.__path__[0]):
-        if f.endswith('.py') and not f.startswith('__'):
-            try:
-                load_module('.%s' % f.split('.py')[0], '%s.templatetags' % app)
-            except ImportError:
-                continue
 
 # Load up the native contrib tags
 map(load_module, settings.TAGS)
@@ -136,3 +125,4 @@ for mod in settings.BUILTIN_TAGS:
     # this part is done in models.py
     if mod != 'native_tags.templatetags.native':
         add_to_builtins(mod)
+
