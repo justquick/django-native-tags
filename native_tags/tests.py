@@ -219,6 +219,8 @@ class TemplateTest(TestCase):
         self.assertEqual(float(render('{{ 4|sqrt }}')), 2.)
         self.assertAlmostEqual(float(render('{{ 180|radians }}')), math.pi)
 
+    def test_native_debug(self):
+        self.assertEqual(render('{% native_debug as debug %}{{ debug.keys|safe }}'), "['function', 'comparison', 'filter', 'block']")
 
 
     try:
