@@ -43,7 +43,6 @@ def template_block(context, nodelist):
 template_block = block(template_block)
 
 def native_debug():
-    from pprint import pformat
-    from native_tags import register
-    return pformat(register)
+    from native_tags.registry import register
+    return register
 native_debug = function(native_debug)
