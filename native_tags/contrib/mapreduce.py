@@ -2,7 +2,7 @@ from native_tags.decorators import function
 
 def get_func(func_name, op=True):
     import operator
-    from native_tags import register
+    from native_tags.registry import register
     try:
         return register['function'][func_name]
     except KeyError:

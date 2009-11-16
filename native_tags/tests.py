@@ -5,8 +5,8 @@ from django.test import TestCase
 from django.conf import settings as djsettings
 from django.core.serializers import deserialize
 
-from native_tags import settings, register
-from native_tags.registry import AlreadyRegistered
+from native_tags import settings
+from native_tags.registry import register, AlreadyRegistered
 
 def render(src, ctx={}):
     return Template(src).render(Context(ctx))
