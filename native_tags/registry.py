@@ -1,5 +1,5 @@
 from django.conf import settings as djsettings
-from django.template import add_to_builtins, Library as DjLib
+from django.template import add_to_builtins
 from django.utils.importlib import import_module
 from os import listdir
 import settings
@@ -104,9 +104,9 @@ def load_module(*module):
         return
     for name in dir(mod):
         obj = getattr(mod, name)
-        if callable(obj) and not isinstance(obj, DjLib):
+        if callable(obj):
             for tag in settings.TAG_TYPES:
-                if hasattr(obj, tag):
+                if hasattr(obj, tag) and getattr(obj, tag) in (1, True):
                     name = getattr(obj, 'name', obj.__name__)
                     if name in register[tag]:
                         continue
