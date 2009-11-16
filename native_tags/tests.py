@@ -9,7 +9,7 @@ from native_tags import settings, register
 from native_tags.registry import AlreadyRegistered
 
 def render(src, ctx={}):
-    return Template('{% load native %}' + src).render(Context(ctx))
+    return Template(src).render(Context(ctx))
 
 class TemplateTest(TestCase):
     def setUp(self):

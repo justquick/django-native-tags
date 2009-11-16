@@ -18,6 +18,29 @@ class BaseCalc(object):
         raise NotImplementedError()
 
 
+class BaseCalc(object):
+    def __init__(self, var1, var2=None, negate=False):
+        self.var1 = var1
+        self.var2 = var2
+        self.negate = negate
+
+    def resolve(self, context):
+        try:
+            var1, var2 = self.resolve_vars(context)
+            outcome = self.calculate(var1, var2)
+        except:
+            outcome = False
+        if self.negate:
+            return not outcome
+        return outcome
+
+    def resolve_vars(self, context):
+        var2 = self.var2 and self.var2.resolve(context)
+        return self.var1.resolve(context), var2
+
+    def calculate(self, var1, var2):
+        raise NotImplementedError()
+
 class Or(BaseCalc):
     def calculate(self, var1, var2):
         return var1 or var2
@@ -46,7 +69,7 @@ class GreaterOrEqual(BaseCalc):
 class In(BaseCalc):
     def calculate(self, var1, var2):
         return var1 in var2
-
+    
 OPERATORS = {
     '=': (Equals, True),
     '==': (Equals, True),
@@ -60,6 +83,17 @@ OPERATORS = {
     'in': (In, True),
 }
 BOOL_OPERATORS = ('or', 'and')
+
+class TestVar(object):
+    """
+    A basic self-resolvable object similar to a Django template variable. Used
+    to assist with tests.
+    """
+    def __init__(self, value):
+        self.value = value
+
+    def resolve(self, context):
+        return self.value
 
 
 class IfParser(object):
@@ -107,6 +141,8 @@ class IfParser(object):
     def at_end(self):
         return self.pos >= self.len
 
+    def create_var(self, value):
+        return TestVar(value)
 
     def get_bool_var(self):
         """
@@ -131,9 +167,10 @@ class IfParser(object):
         if isinstance(token, basestring) and token in OPERATORS:
             raise self.error_class('Expected variable, got operator (%s).' %
                                    token)
+        var = self.create_var(token)
         if negate:
-            return Or(token, negate=True)
-        return token
+            return Or(var, negate=True)
+        return var
 
     def get_operator(self):
         token, negate = self.get_token('Reached end of statement, still '
@@ -146,6 +183,7 @@ class IfParser(object):
         if not true:
             negate = not negate
         return op, negate
+
 
 def smart_if(*args):
     '''
@@ -166,5 +204,14 @@ def smart_if(*args):
     All supported operators are: ``or``, ``and``, ``in``, ``=`` (or ``==``),
     ``!=``, ``>``, ``>=``, ``<`` and ``<=``.
     '''
-    return IfParser(args).parse().resolve()
+    var1 = args[0]
+    for n,arg in enumerate(args[1:]):
+        if arg in OPERATORS:
+            op, negate = OPERATORS[arg]
+            continue
+        var1 = op(var1, args[n+1], negate=negate)
+    return var1
+    try:
+        return IfParser(args).parse().resolve(context)
+    except: return False
 smart_if = comparison(smart_if, name='if')
