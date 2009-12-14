@@ -19,7 +19,7 @@ class Library(dict):
     """
     def __init__(self):
         super(Library, self).__init__([(tag, {}) for tag in settings.TAG_TYPES])
-        self.update(filter(lambda k,v: k in settings.TAG_TYPES, settings.LIBRARY.items()))
+        self.update([i for i in settings.LIBRARY.items() if i[0] in settings.TAG_TYPES])
 
     def register(self, bucket, name_or_func, func=None):
         """
@@ -100,7 +100,7 @@ def load_module(*module):
         module = ('.%s' % a[-1], '.'.join(a[:-1]))
     try:
         mod = import_module(*module)
-    except ImportError:
+    except:
         return
     for name in dir(mod):
         obj = getattr(mod, name)
