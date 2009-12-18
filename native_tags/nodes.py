@@ -75,14 +75,9 @@ class NativeNode(template.Node):
     def get_kwargs(self, context, resolve=True, apply_filters=True):
         return dict(((k, lookup(self.parser, var, context, resolve)) for k, var in self.kwargs.items()))
 
-        
     def render(self, context):
-        resolve = True
-        if hasattr(self.func, 'resolve'):
-            resolve = getattr(self.func, 'resolve')
-        apply_filters = True
-        if hasattr(self.func, 'apply_filters'):
-            apply_filters = getattr(self.func, 'apply_filters')
+        resolve = getattr(self.func, 'resolve', True)
+        apply_filters = getattr(self.func, 'apply_filters', True)
         kwargs = self.get_kwargs(context, resolve, apply_filters)
         varname = kwargs.pop('varname', None)
 
@@ -201,7 +196,9 @@ def do_function(parser, token):
 class BlockNode(NativeNode):
     bucket = 'block'
     def get_result(self, context, *args, **kwargs):
-        return self.func(context, self.kwargs.pop('nodelist'), *args, **kwargs)
+        nodelist = self.kwargs.pop('nodelist', ())
+        print kwargs
+        return self.func(context, nodelist, *args, **kwargs)
 
 def do_block(parser, token):
     """
