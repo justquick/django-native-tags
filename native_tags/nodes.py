@@ -64,7 +64,18 @@ class NativeNode(template.Node):
         self.name = name
         self.args = args
         self.kwargs = kwargs
+        print parser,name,args,kwargs
 
+    def get_args(self, context, resolve=True, apply_filters=True):
+        args = (lookup(self.parser, var, context, resolve, apply_filters) for var in self.args)
+        if hasattr(self.func, 'takes_context') and getattr(self.func, 'takes_context'):
+            return (context,) + tuple(args)
+        return args
+
+    def get_kwargs(self, context, resolve=True, apply_filters=True):
+        return dict(((k, lookup(self.parser, var, context, resolve)) for k, var in self.kwargs.items()))
+
+        
     def render(self, context):
         resolve = True
         if hasattr(self.func, 'resolve'):
@@ -72,19 +83,17 @@ class NativeNode(template.Node):
         apply_filters = True
         if hasattr(self.func, 'apply_filters'):
             apply_filters = getattr(self.func, 'apply_filters')
-        self.args = (lookup(self.parser, var, context, resolve) for var in self.args)
-        if hasattr(self.func, 'takes_context') and getattr(self.func, 'takes_context'):
-            self.args = (context,) + tuple(self.args)
-        self.kwargs = dict(((k, lookup(self.parser, var, context, resolve)) for k, var in self.kwargs.items()))
-        varname = self.kwargs.pop('varname', None)
+        kwargs = self.get_kwargs(context, resolve, apply_filters)
+        varname = kwargs.pop('varname', None)
 
-        result = self.get_result(context)
+        result = self.get_result(context, *self.get_args(context, resolve, apply_filters), **kwargs)
         if hasattr(self.func, 'is_safe') and getattr(self.func, 'is_safe'):
             result = mark_safe(result)
-            
+
         if varname:
             context[varname] = result
             return ''
+        
         return result
     
     def get_result(self, context):
@@ -92,13 +101,13 @@ class NativeNode(template.Node):
 
 class ComparisonNode(NativeNode):
     bucket = 'comparison'
-    def get_result(self, context):
-        nodelist_false = self.kwargs.pop('nodelist_false')
-        nodelist_true = self.kwargs.pop('nodelist_true')
-        negate = self.kwargs.pop('negate', False)
+    def get_result(self, context, *args, **kwargs):
+        nodelist_false = kwargs.pop('nodelist_false')
+        nodelist_true = kwargs.pop('nodelist_true')
+        negate = kwargs.pop('negate', False)
         
         try:
-            truth_value = self.func(*self.args, **self.kwargs)
+            truth_value = self.func(*args, **kwargs)
         except TypeError:
             # If the types don't permit comparison, return nothing.
             return ''
@@ -160,8 +169,8 @@ def do_comparison(parser, token):
 
 class FunctionNode(NativeNode):
     bucket = 'function'
-    def get_result(self, context):
-        result = self.func(*self.args, **self.kwargs)
+    def get_result(self, context, *args, **kwargs):
+        result = self.func(*args, **kwargs)
         if hasattr(self.func, 'inclusion') and getattr(self.func, 'inclusion'):
             template_name, ctx = result
             if not isinstance(ctx, Context):
@@ -191,8 +200,8 @@ def do_function(parser, token):
 
 class BlockNode(NativeNode):
     bucket = 'block'
-    def get_result(self, context):
-        return self.func(context, self.kwargs.pop('nodelist'), *self.args, **self.kwargs)
+    def get_result(self, context, *args, **kwargs):
+        return self.func(context, self.kwargs.pop('nodelist'), *args, **kwargs)
 
 def do_block(parser, token):
     """
