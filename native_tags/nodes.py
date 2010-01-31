@@ -64,7 +64,6 @@ class NativeNode(template.Node):
         self.name = name
         self.args = args
         self.kwargs = kwargs
-        print parser,name,args,kwargs
 
     def get_args(self, context, resolve=True, apply_filters=True):
         args = (lookup(self.parser, var, context, resolve, apply_filters) for var in self.args)
@@ -197,7 +196,6 @@ class BlockNode(NativeNode):
     bucket = 'block'
     def get_result(self, context, *args, **kwargs):
         nodelist = self.kwargs.pop('nodelist', ())
-        print kwargs
         return self.func(context, nodelist, *args, **kwargs)
 
 def do_block(parser, token):
