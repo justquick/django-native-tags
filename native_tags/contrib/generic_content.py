@@ -49,7 +49,8 @@ def get_latest_objects(model, num, field='?'):
     
     """
     model = _get_model(model)
-    field = model._meta.get_latest_by and '-%s' % model._meta.get_latest_by or field
+    if field == '?':
+        field = model._meta.get_latest_by and '-%s' % model._meta.get_latest_by or field
     return model._default_manager.order_by(field)[:int(num)]
 get_latest_objects = function(get_latest_objects)
 
