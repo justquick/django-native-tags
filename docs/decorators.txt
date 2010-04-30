@@ -12,18 +12,24 @@ Their purpose is to just set some important attributes on the wrapped function a
 
 The normal syntax (without decorators)::
 
-    def myfunc():
-        return
+    def myfunc(context):
+        return context['myvar'].split()
     myfunc.function = 1
+    myfunc.takes_context = 1
     myfunc.name = 'my_function_tag'
+    myfunc.cache = 3600
     
 Is equivalent to::
 
     from native_tags.decorators import function
     
-    @function(name='my_function_tag')
-    def myfunc():
-        return
+    @function(takes_context=1, cache=3600, name='my_function_tag')
+    def myfunc(context):
+        return context['myvar'].split()
+        
+And can be used in the template using the `name`::
+
+    {% my_function_tag as varsplit %}
 
 Important Attributes
 --------------------
@@ -44,6 +50,9 @@ Important Attributes
     
     ``apply_filters`` - boolean. If ``True``, the filter expressions are resolved for each argument and keyword argument if present.
     Default is ``True``
+    
+    ``cache`` - integer. The cache timeout time in seconds to use if any.
+    Default is no caching.
     
 
 Decorator Types
