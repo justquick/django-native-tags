@@ -5,7 +5,10 @@ from django.template import Context, Variable, VariableDoesNotExist
 from django.template.loader import get_template
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
+from django.utils.hashcompat import sha_constructor
+from django.core.cache import cache
 from registry import register
+from settings import DEFAULT_CACHE_TIMEOUT
 
 class Constant(unicode):
     """Just a placeholder unicode constant so you can tell
@@ -30,6 +33,14 @@ def lookup(parser, var, context, resolve=True, apply_filters=True):
             return var
     return var
 
+def get_cache_key(bucket, name, args, kwargs):
+    """
+    Gets a unique SHA1 cache key for any call to a native tag.
+    Use args and kwargs in hash so that the same arguments use the same key
+    """
+    u = ''.join(map(str, (bucket, name, args, kwargs)))
+    return 'native_tags.%s' % sha_constructor(u).hexdigest()
+    
 def get_signature(token, contextable=False, comparison=False):
     """
     Gets the signature tuple for any native tag
@@ -79,10 +90,24 @@ class NativeNode(template.Node):
         apply_filters = getattr(self.func, 'apply_filters', True)
         kwargs = self.get_kwargs(context, resolve, apply_filters)
         varname = kwargs.pop('varname', None)
+        
+        def _get_result():
+            result = self.get_result(context, *self.get_args(context, resolve, apply_filters), **kwargs)
+            if hasattr(self.func, 'is_safe') and getattr(self.func, 'is_safe'):
+                return mark_safe(result)
+            return result
+        
+        if not DEFAULT_CACHE_TIMEOUT is None and not hasattr(self.func, 'cache'):
+            setattr(self.func, 'cache', DEFAULT_CACHE_TIMEOUT)
 
-        result = self.get_result(context, *self.get_args(context, resolve, apply_filters), **kwargs)
-        if hasattr(self.func, 'is_safe') and getattr(self.func, 'is_safe'):
-            result = mark_safe(result)
+        if hasattr(self.func, 'cache'):
+            key = get_cache_key(self.bucket, self.name, self.args, self.kwargs)
+            result = cache.get(key)
+            if result is None:
+                result = _get_result()
+                cache.set(key, result, getattr(self.func, 'cache'))
+        else:
+            result = _get_result()
 
         if varname:
             context[varname] = result
@@ -195,7 +220,7 @@ def do_function(parser, token):
 class BlockNode(NativeNode):
     bucket = 'block'
     def get_result(self, context, *args, **kwargs):
-        nodelist = self.kwargs.pop('nodelist', ())
+        nodelist = kwargs.pop('nodelist', ())
         return self.func(context, nodelist, *args, **kwargs)
 
 def do_block(parser, token):

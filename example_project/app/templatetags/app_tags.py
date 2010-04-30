@@ -1,4 +1,5 @@
 from native_tags.decorators import function, comparison, filter
+from datetime import datetime
 
 def dynamic(*a, **kw):
     return list(a) + sorted(kw.items())
@@ -27,3 +28,7 @@ myinc = function(myinc, inclusion=True)
 def ifsomething():
     return True
 ifsomething = comparison(ifsomething)
+
+def date():
+    return datetime.now()
+date = function(date, cache=3600)

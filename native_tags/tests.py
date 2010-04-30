@@ -4,9 +4,11 @@ from django.template import Template, Context, TemplateSyntaxError
 from django.test import TestCase
 from django.conf import settings as djsettings
 from django.core.serializers import deserialize
+from django.core.cache import cache
 
 from native_tags import settings
 from native_tags.registry import register, AlreadyRegistered
+from native_tags.nodes import get_cache_key
 
 def render(src, ctx={}):
     return Template(src).render(Context(ctx))
@@ -195,16 +197,6 @@ class TemplateTest(TestCase):
     def test_smartypants(self):
         # this should b bombing, but i get DEBUG as False when testing despite the settings (just in testing?)
         self.assertEqual(render('{{ value|smartypants }}', {'value': 'wtf'}), 'wtf')
-
-    if 'native_tags.contrib.smart_if' in settings.TAGS:
-        def test_smart_if(self):
-            self.assertEqual(render('{% if articles|length >= 5 %}yup{% endif %}', {'articles': range(5)}), 'yup')
-            self.assertEqual(render('{% if 5 < 0 %}yup{% else %}nope{% endif %}'), 'nope')
-            
-            self.assertEqual(render('{% if a > b and b < c %}yup{% endif %}', {'a': 2, 'b': 1, 'c': 9}), 'yup')
-            self.assertEqual(render('{% if not 0 and not 0 %}yup{% endif %}'), 'yup')
-            self.assertEqual(render('{% if 1 not = 1 %}yup{% else %}nope{% endif %}'), 'nope')
-            self.assertEqual(render('{% if 2 not in l %}yup{% else %}nope{% endif %}', {'l':[2, 3]}), 'nope')
         
     def test_custom_if(self):
         self.assertEqual(render('{% ifsomething %}yup{% endifsomething %}'), 'yup')
@@ -221,7 +213,12 @@ class TemplateTest(TestCase):
 
     def test_native_debug(self):
         self.assertEqual(render('{% native_debug as debug %}{{ debug.keys|safe }}'), "['function', 'comparison', 'filter', 'block']")
-
+        
+    def test_cache(self):
+        k = get_cache_key('function', 'date', (), {})
+        self.assert_(cache.get(k) is None)
+        self.assertEqual(render('{% date %}'), render('{% date %}'))
+        self.assert_(isinstance(cache.get(k), datetime.datetime))
 
     try:
         import hashlib
@@ -237,12 +234,12 @@ class TemplateTest(TestCase):
         def test_highlight_style(self):
             t = '<style>{% highlight_style style=native cssclass=srcdiv %}</style>'
             self.assert_(render(t).startswith('<style>.srcdiv .hll { background-color: #404040 }'))
-
+    
         def test_highlight(self):
             t = '{% highlight src python cssclass=srcdiv %}'
             self.assertEqual(render(t,{'src':'print "hello world"'}),
                 '<div class="srcdiv"><pre><span class="k">print</span> <span class="s">&quot;hello world&quot;</span>\n</pre></div>\n')
-
+    
         def test_highlight_block(self):
             t = "{% highlight_block python as source %}import this{% endhighlight_block %}{{ source|safe }}"
             self.assertEqual(render(t),'<div class="highlight"><pre><span class="kn">import</span> <span class="nn">this</span>\n</pre></div>\n')
@@ -268,14 +265,14 @@ class TemplateTest(TestCase):
                 '77f733ad30d44411b5b5fcac7e5848b5d5f2dd04')
     except ImportError:
         pass
-
-
+    
+    
     try:
         import feedparser
         def test_parse_feed(self):
             t = '{% load cache %}{% cache 3600 ljworld %}{% parse_feed "http://www2.ljworld.com/rss/headlines/" as ljworld_feed %}{{ ljworld_feed.keys|safe }}{% endcache %}'
             self.assertEqual(render(t), "['feed', 'status', 'version', 'encoding', 'bozo', 'headers', 'etag', 'href', 'namespaces', 'entries']")
-
+    
         def test_include_feed(self):
             self.assertEqual(render('{% load cache %}{% cache 3600 ljworld2 %}{% include_feed "http://www2.ljworld.com/rss/headlines/" 10 feeds.html %}{% endcache %}'), '10 10')
     except ImportError:

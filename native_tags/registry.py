@@ -89,21 +89,22 @@ class Library(dict):
 
 register = Library()
 
-def load_module(*module):
+def load_module(module):
     """
     Load a module string like django.contrib.markup.templatetags.markup into the registry
     Iterates through the module looking for callables w/ attributes matching Native Tags
     """
     global register
-    if len(module) == 1 and module[0].find('.') > -1:
-        a = module[0].split('.')
+    if isinstance(module, basestring) and module.find('.') > -1:
+        a = module.split('.')
         module = ('.%s' % a[-1], '.'.join(a[:-1]))
     try:
-        mod = import_module(*module)
+        module = import_module(*module)
     except:
         return
-    for name in dir(mod):
-        obj = getattr(mod, name)
+    for name in dir(module):
+        if name.startswith('_'): continue
+        obj = getattr(module, name)
         if callable(obj):
             for tag in settings.TAG_TYPES:
                 if hasattr(obj, tag) and getattr(obj, tag) in (1, True):

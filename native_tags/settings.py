@@ -11,6 +11,6 @@ TAGS = getattr(settings, 'NATIVE_TAGS', (
     'native_tags.contrib.feeds', # Feedparser
 ))
 
-BUILTIN_TAGS = getattr(settings, 'DJANGO_BUILTIN_TAGS', (
-    #'django.contrib.markup.templatetags.markup,
-))
+BUILTIN_TAGS = getattr(settings, 'DJANGO_BUILTIN_TAGS', ())
+
+DEFAULT_CACHE_TIMEOUT = getattr(settings, 'NATIVE_DEFAULT_CACHE_TIMEOUT', None)

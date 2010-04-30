@@ -77,7 +77,7 @@ TEMPLATE_DIRS = (
     'templates',
 )
 
-CACHE_BACKEND = 'file://%s' % os.path.join(os.getcwd(), 'cache')
+CACHE_BACKEND = 'locmem://'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -113,7 +113,6 @@ NATIVE_TAGS = (
     'native_tags.contrib.cal',
     'native_tags.contrib.math_',
     'native_tags.contrib.rand',
-    #'native_tags.contrib.smart_if',
         
     # Native tags with dependencies
     'native_tags.contrib.gchart', # GChartWrapper

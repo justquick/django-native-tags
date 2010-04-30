@@ -20,12 +20,11 @@ for app in settings.INSTALLED_APPS :
     for f in listdir(mod.__path__[0]):
         if f.endswith('.py') and not f.startswith('__'):
             try:
-                load_module('.%s' % f.split('.py')[0], '%s.templatetags' % app)
+                load_module('%s.templatetags.%s' % (app,f.split('.py')[0]))
             except AlreadyRegistered:
                 break
             except ImportError:
                 continue
-
 
 for tag_name in native_register['comparison']:
     if not tag_name.startswith('if'):

@@ -1,5 +1,5 @@
 from native_tags.decorators import function, block, filter
-from django.template import Template
+from django.template import Template, Context
 
 
 def document(o):
@@ -33,6 +33,8 @@ render_block = block(render_block)
 
 def template_string(context, template):
     'Return the rendered template content with the current context'
+    if not isinstance(context, Context):
+        context = Context(context)
     return Template(template).render(context)
 template_string = function(template_string, takes_context=1)
 
