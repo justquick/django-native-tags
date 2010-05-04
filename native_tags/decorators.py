@@ -51,7 +51,7 @@ Function tag function decorator
 
 Syntax::
 
-    @filter([**options]):
+    @function([**options]):
     def my_function([*args], [**kwargs]):
         return args, kwargs
 """)
