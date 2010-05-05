@@ -33,7 +33,9 @@ Other :ref:`Features <features>` of Native Tags:
  * Quoted strings parsed correctly
  * Add templatetags to Django's builtins (no ``{% load %}`` required)
  * Auto resolve of template variables
- * Universal and per-tag caching 
+ * Universal and per-tag caching
+ * Straightforward template tag unittesting
+
  
 The real power of the module comes in the :ref:`contrib-index` which has tons of tags for various uses including
 comparisons, regex operations, math operaions, and much more. By default it is a functional replacement to `James Bennett`_'s `django-template-utils`_ right out of the box

@@ -32,6 +32,7 @@ Other features of Native Tags:
  * Add templatetags to Django's builtins (no ``{% load %}`` required)
  * Auto resolve of template variables
  * Universal and per-tag caching
+ * Straightforward template tag unittesting
 
 The real power of the module comes in the contrib add ons which has tons of tags for various uses including
 comparisons, regex operations, math operations, and much more. By default it is a functional replacement to `James Bennett`_'s `django-template-utils`_ right out of the box
