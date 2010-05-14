@@ -1,5 +1,5 @@
 import re
-from shlex import split
+from shlex import split as lexsplit
 from django import template
 from django.template import Context, Variable, VariableDoesNotExist
 from django.template.loader import get_template
@@ -15,6 +15,13 @@ class Constant(unicode):
     which variables failed lookup and should be considered constant.
     You can tell by using ``isinstance(var_or_constant, Constant)``"""
     pass
+
+def split(s):
+    """
+    Split a string into a list, respecting any quoted strings inside
+    Uses ``shelx.split`` which has a bad habbit of inserting null bytes where they are not wanted
+    """
+    return map(lambda w: filter(lambda c: c != '\x00', w), lexsplit(s))
 
 def lookup(parser, var, context, resolve=True, apply_filters=True):
     """
@@ -48,8 +55,7 @@ def get_signature(token, contextable=False, comparison=False):
     comparison if true uses ``negate`` (p) to ``not`` the result (~p)
     returns (``tag_name``, ``args``, ``kwargs``)
     """
-    # shelx.split has a bad habbit of inserting null bytes where they are not wanted
-    bits = map(lambda bit: filter(lambda c: c != '\x00', bit), split(token.contents))
+    bits = split(token.contents)
     args, kwargs = (), {}
     if comparison and bits[-1] == 'negate':
         kwargs['negate'] = True
@@ -61,7 +67,7 @@ def get_signature(token, contextable=False, comparison=False):
     for bit in bits[1:]:
         match = kwarg_re.match(bit)
         if match:
-            kwargs[match.group(1)] = force_unicode(match.group(2))
+            kwargs[str(match.group(1))] = force_unicode(match.group(2))
         else:
             args += (bit,)
     return bits[0], args, kwargs
@@ -88,11 +94,12 @@ class NativeNode(template.Node):
     def render(self, context):
         resolve = getattr(self.func, 'resolve', True)
         apply_filters = getattr(self.func, 'apply_filters', True)
+        args = self.get_args(context, resolve, apply_filters)
         kwargs = self.get_kwargs(context, resolve, apply_filters)
         varname = kwargs.pop('varname', None)
-        
+
         def _get_result():
-            result = self.get_result(context, *self.get_args(context, resolve, apply_filters), **kwargs)
+            result = self.get_result(context, *args, **kwargs)
             if hasattr(self.func, 'is_safe') and getattr(self.func, 'is_safe'):
                 return mark_safe(result)
             return result
