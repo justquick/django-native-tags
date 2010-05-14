@@ -220,6 +220,13 @@ class TemplateTest(TestCase):
         self.assertEqual(render('{% date %}'), render('{% date %}'))
         self.assert_(isinstance(cache.get(k), datetime.datetime))
 
+    def test_split(self):
+        from native_tags.nodes import split
+        a = 'fetch_user username as "author"'
+        b = 'fetch_user "what the fuck" as "author"'
+        self.assertEqual(split(a), ['fetch_user', 'username', 'as', 'author'])
+        self.assertEqual(split(b), ['fetch_user', 'what the fuck', 'as', 'author'])
+
     try:
         import hashlib
         def test_sha224_hashlib(self):
