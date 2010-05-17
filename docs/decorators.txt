@@ -53,6 +53,11 @@ Important Attributes
     
     ``cache`` - integer. The cache timeout time in seconds to use if any.
     Default is no caching.
+
+    ``test`` - dictionary. Configuration data for a unittest.
+    Keys are: ``args``,``kwargs``, and ``result``. When testing native_tags it will
+    assert that the tag called with args/kwargs will return the expected result.
+    Default expected result is ``True``.
     
 
 Decorator Types
