@@ -24,6 +24,7 @@ Tags ported from `django-template-utils`_ and other sources
    generic_markup
    mapreduce
    math
+   op
    pygmentize
    rand
    regex
