@@ -20,6 +20,7 @@ def apply_markup(value, arg=None):
         return formatter(value, filter_name=arg)
     return formatter(value)
 apply_markup = filter(apply_markup, is_safe=True)
+apply_markup.test = {'args':('wtf',),'result':'<p>wtf</p>'}
 
 def smartypants(value):
     """

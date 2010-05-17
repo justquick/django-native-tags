@@ -37,7 +37,7 @@ def template_string(context, template):
         context = Context(context)
     return Template(template).render(context)
 template_string = function(template_string, takes_context=1)
-
+template_string.test = {'args':({'var':'T'},'W {{ var }} F'),'result':'W T F'}
 
 def template_block(context, nodelist):
     'Return the rendered block\'s content with the current context'

@@ -46,6 +46,7 @@ def do_map(func_name, *sequence):
         sequence = sequence[0]
     return map(get_func(func_name, False), sequence)
 do_map = function(do_map, name='map')
+do_map.test = {'args':('ord','wtf'),'result':[119, 116, 102]}
 
 def do_reduce(func_name, *sequence):
     """
@@ -72,4 +73,4 @@ def do_reduce(func_name, *sequence):
         sequence = sequence[0]
     return reduce(get_func(func_name), sequence)
 do_reduce = function(do_reduce, name='reduce')
-
+do_reduce.test = {'args':('add',1,2,3,4,5),'result':15}
