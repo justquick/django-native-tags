@@ -3,19 +3,19 @@ from datetime import datetime
 
 def dynamic(*a, **kw):
     return list(a) + sorted(kw.items())
-dynamic = function(dynamic)    
+dynamic = function(dynamic)
 
 def no_render(*a, **kw):
      return list(a) + sorted(kw.items())
 no_render = function(no_render, resolve=False)
 
-def myfilter(value, arg):# a, b, c):
+def myfilter(value, arg):
     return value + arg
-myfilter = filter(myfilter)
+myfilter = filter(myfilter, test={'args':(1,1),'result':2})
     
 def adder(x, y):
     return x + y
-adder = function(adder, name='add')    
+adder = function(adder, name='add', test={'args':(1,1),'result':2})
     
 def cmp_kwargs(**kw):
     return len(kw)
