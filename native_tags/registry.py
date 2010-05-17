@@ -23,6 +23,65 @@ class Library(dict):
         super(Library, self).__init__([(tag, {}) for tag in settings.TAG_TYPES])
         self.update([i for i in settings.LIBRARY.items() if i[0] in settings.TAG_TYPES])
 
+        
+        # Comb through installed apps w/ templatetags looking for native tags
+        for app in djsettings.INSTALLED_APPS :
+            if app == 'native_tags':
+                continue
+            try:
+                mod = import_module('.templatetags', app)
+            except ImportError, e:
+                #print 'Warning: Failed to load module "%s.templatetags": %s' % (app, e)
+                continue
+        
+            # TODO: Make this hurt less
+            for f in listdir(mod.__path__[0]):
+                if f.endswith('.py') and not f.startswith('__'):
+                    n = f.split('.py')[0]
+                    e = self.load_module('%s.templatetags.%s' % (app, n))
+                    if e is not None:# and settings.DEBUG:
+                        print 'Warning: Failed to load module "%s.templatetags.%s": %s' % (app, n, e)
+        
+        # Load up the native contrib tags
+        for tag_module in settings.TAGS:
+            e = self.load_module(tag_module)
+            if e is not None:# and djsettings.DEBUG:
+                print 'Warning: Failed to load module "%s": %s' % (tag_module, e)
+        
+        # Add the BUILTIN_TAGS to Django's builtins
+        for mod in settings.BUILTIN_TAGS:
+            # if it tries to add iself in here it blows up really badly
+            # this part is done in models.py
+            if mod != 'native_tags.templatetags.native':
+                add_to_builtins(mod)
+
+    def load_module(self, module):
+        """
+        Load a module string like django.contrib.markup.templatetags.markup into the registry
+        Iterates through the module looking for callables w/ attributes matching Native Tags
+        """
+        if isinstance(module, basestring) and module.find('.') > -1:
+            a = module.split('.')
+            module = ('.%s' % a[-1], '.'.join(a[:-1]))
+        try:
+            module = import_module(*module)
+        except Exception, e:
+            return e
+        
+        for name in dir(module):
+            if name.startswith('_'): continue
+            obj = getattr(module, name)
+            if callable(obj):
+                for tag in settings.TAG_TYPES:
+                    if hasattr(obj, tag) and getattr(obj, tag) in (1, True):
+                        name = getattr(obj, 'name', obj.__name__)
+                        if name in self[tag]:
+                            continue
+                        if hasattr(obj, 'name'):
+                            self.register(tag, getattr(obj, 'name'), obj)
+                        else:
+                            self.register(tag, obj)
+
     def register(self, bucket, name_or_func, func=None):
         """
         Add a function to the registry by name
@@ -90,64 +149,3 @@ class Library(dict):
         return reduce(lambda x,y: x+y, map(len, self.values()))
 
 register = Library()
-
-def load_module(module):
-    """
-    Load a module string like django.contrib.markup.templatetags.markup into the registry
-    Iterates through the module looking for callables w/ attributes matching Native Tags
-    """
-    global register
-    if isinstance(module, basestring) and module.find('.') > -1:
-        a = module.split('.')
-        module = ('.%s' % a[-1], '.'.join(a[:-1]))
-    try:
-        module = import_module(*module)
-    except Exception, e:
-        return e
-    
-    for name in dir(module):
-        if name.startswith('_'): continue
-        obj = getattr(module, name)
-        if callable(obj):
-            for tag in settings.TAG_TYPES:
-                if hasattr(obj, tag) and getattr(obj, tag) in (1, True):
-                    name = getattr(obj, 'name', obj.__name__)
-                    if name in register[tag]:
-                        continue
-                    if hasattr(obj, 'name'):
-                        register.register(tag, getattr(obj, 'name'), obj)
-                    else:
-                        register.register(tag, obj)
-
-
-# Comb through installed apps w/ templatetags looking for native tags
-for app in djsettings.INSTALLED_APPS :
-    if app == 'native_tags':
-        continue
-    try:
-        mod = import_module('.templatetags', app)
-    except ImportError, e:
-        #print 'Warning: Failed to load module "%s.templatetags": %s' % (app, e)
-        continue
-
-    # TODO: Make this hurt less
-    for f in listdir(mod.__path__[0]):
-        if f.endswith('.py') and not f.startswith('__'):
-            n = f.split('.py')[0]
-            e = load_module('%s.templatetags.%s' % (app, n))
-            if e is not None:# and settings.DEBUG:
-                print 'Warning: Failed to load module "%s.templatetags.%s": %s' % (app, n, e)
-
-# Load up the native contrib tags
-for tag_module in settings.TAGS:
-    e = load_module(tag_module)
-    if e is not None:# and djsettings.DEBUG:
-        print 'Warning: Failed to load module "%s": %s' % (tag_module, e)
-
-# Add the BUILTIN_TAGS to Django's builtins
-for mod in settings.BUILTIN_TAGS:
-    # if it tries to add iself in here it blows up really badly
-    # this part is done in models.py
-    if mod != 'native_tags.templatetags.native':
-        add_to_builtins(mod)
-
