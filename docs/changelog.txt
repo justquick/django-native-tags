@@ -4,6 +4,11 @@
 Change Log
 ===========
 
+v0.4
+-----
+
+    * Reorganized loader to index tags at the beginning and only load tags at runtime, good call legutierr!
+
 v0.3
 ----
     * ``smart_if`` tag removed in favor of Django v1.2's updated if tag.

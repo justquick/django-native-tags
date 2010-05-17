@@ -1,7 +1,9 @@
+from os import listdir
 from django.conf import settings as djsettings
 from django.template import add_to_builtins
 from django.utils.importlib import import_module
-from os import listdir
+from django.utils.importlib import import_module
+
 import settings
 
 
@@ -100,8 +102,9 @@ def load_module(module):
         module = ('.%s' % a[-1], '.'.join(a[:-1]))
     try:
         module = import_module(*module)
-    except:
-        return
+    except Exception, e:
+        return e
+    
     for name in dir(module):
         if name.startswith('_'): continue
         obj = getattr(module, name)
@@ -117,8 +120,30 @@ def load_module(module):
                         register.register(tag, obj)
 
 
+# Comb through installed apps w/ templatetags looking for native tags
+for app in djsettings.INSTALLED_APPS :
+    if app == 'native_tags':
+        continue
+    try:
+        mod = import_module('.templatetags', app)
+    except ImportError, e:
+        print 'Warning: Failed to load module "%s.templatetags": %s' % (app, e)
+        continue
+
+    # TODO: Make this hurt less
+    for f in listdir(mod.__path__[0]):
+        if f.endswith('.py') and not f.startswith('__'):
+            n = f.split('.py')[0]
+            e = load_module('%s.templatetags.%s' % (app, n))
+            if e is not None:# and settings.DEBUG:
+                print 'Warning: Failed to load module "%s.templatetags.%s": %s' % (app, n, e)
+
+
 # Load up the native contrib tags
-map(load_module, settings.TAGS)
+for tag_module in settings.TAGS:
+    e = load_module(tag_module)
+    if e is not None:# and djsettings.DEBUG:
+        print 'Warning: Failed to load module "%s": %s' % (tag_module, e)
 
 # Add the BUILTIN_TAGS to Django's builtins
 for mod in settings.BUILTIN_TAGS:
