@@ -1,0 +1,24 @@
+.. _testing:
+.. highlight:: python
+
+Testing Your Tags
+==================
+
+With native tags the templatetag is simply just a function you define which
+means that testing the underlying functionality of your templatetags does not
+require going to your browser. Just pass in the appropriate arguments and test the output. 
+Here is an example of unittesting a native tag which demonstrates how trivial it can be::
+    
+    # tests.py
+    from django.test import TestCase
+    from native_tags import function
+    
+    # Define or import your tags here
+    
+    @function
+    def adder(x, y):
+        return x + y
+
+    class AdderTest(TestCase):
+        def test_adder(self):
+            self.assertEqual(adder(1, 1), 2)

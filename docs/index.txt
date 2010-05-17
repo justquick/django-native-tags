@@ -54,6 +54,7 @@ Contents
    features
    configuration
    decorators
+   testing
    contrib/index
 
 Indices and tables
