@@ -1,9 +1,0 @@
-.. _smart_if:
-.. highlight:: django
-
-:mod:`smart_if` - Smarter if tag
-========================================================
-
-.. automodule:: native_tags.contrib.smart_if
-    :members:
-

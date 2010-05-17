@@ -28,5 +28,3 @@ Tags ported from `django-template-utils`_ and other sources
    rand
    regex
    serializers
-   smart_if
-   
