@@ -8,6 +8,8 @@ v0.4
 -----
 
     * Reorganized loader to index tags at the beginning and only load tags at runtime, good call legutierr!
+    * Per tag unittesting with the ``test`` funciton attribute and added lots more tests to use the new feature
+    * Added operator tags to ``native_tags.contrib.op``
 
 v0.3
 ----

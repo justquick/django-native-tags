@@ -5,7 +5,7 @@ Native Tags Documentation
 
 :Authors:
    Justin Quick <justquick@gmail.com>
-:Version: 0.3
+:Version: 0.4
 
 Django Native Tags is a way of making the creation of template tags stupidly simple.
 Tags are "native" because there is a much closer relationship between the tag in the template and a Python function behind the scenes.
