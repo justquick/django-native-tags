@@ -127,7 +127,7 @@ for app in djsettings.INSTALLED_APPS :
     try:
         mod = import_module('.templatetags', app)
     except ImportError, e:
-        print 'Warning: Failed to load module "%s.templatetags": %s' % (app, e)
+        #print 'Warning: Failed to load module "%s.templatetags": %s' % (app, e)
         continue
 
     # TODO: Make this hurt less
@@ -137,7 +137,6 @@ for app in djsettings.INSTALLED_APPS :
             e = load_module('%s.templatetags.%s' % (app, n))
             if e is not None:# and settings.DEBUG:
                 print 'Warning: Failed to load module "%s.templatetags.%s": %s' % (app, n, e)
-
 
 # Load up the native contrib tags
 for tag_module in settings.TAGS:
