@@ -21,7 +21,7 @@ html:
 	perl -i -pe 's/_sources/sphinx_sources/g' `find export/ -name '*.html'`
 
 upload:
-	cd export/; git pull origin master; git commit -a -m 'doc update'; git push origin master
+	cd export/; git pull origin master; git add *; git commit -a -m 'doc update'; git push origin master
 
 tex:
 	cd docs; make latex; make all-pdf

@@ -1,4 +1,5 @@
 from os import listdir
+from sys import stderr
 from django.conf import settings as djsettings
 from django.template import add_to_builtins
 from django.utils.importlib import import_module
@@ -31,7 +32,6 @@ class Library(dict):
             try:
                 mod = import_module('.templatetags', app)
             except ImportError, e:
-                #print 'Warning: Failed to load module "%s.templatetags": %s' % (app, e)
                 continue
         
             # TODO: Make this hurt less
@@ -40,13 +40,13 @@ class Library(dict):
                     n = f.split('.py')[0]
                     e = self.load_module('%s.templatetags.%s' % (app, n))
                     if e is not None:# and settings.DEBUG:
-                        print 'Warning: Failed to load module "%s.templatetags.%s": %s' % (app, n, e)
+                        print >>stderr, 'Warning: Failed to load module "%s.templatetags.%s": %s' % (app, n, e)
         
         # Load up the native contrib tags
         for tag_module in settings.TAGS:
             e = self.load_module(tag_module)
             if e is not None:# and djsettings.DEBUG:
-                print 'Warning: Failed to load module "%s": %s' % (tag_module, e)
+                print >>stderr, 'Warning: Failed to load module "%s": %s' % (tag_module, e)
         
         # Add the BUILTIN_TAGS to Django's builtins
         for mod in settings.BUILTIN_TAGS:
