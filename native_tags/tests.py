@@ -239,6 +239,9 @@ class TemplateTests(TestCase):
         b = 'fetch_user "what the fuck" as "author"'
         self.assertEqual(split(a), ['fetch_user', 'username', 'as', 'author'])
         self.assertEqual(split(b), ['fetch_user', 'what the fuck', 'as', 'author'])
+        
+    def test_fail(self):
+        self.assertEqual(render('{% fail %}'), 'woot')
     
     try:
         import hashlib

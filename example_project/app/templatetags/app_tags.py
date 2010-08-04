@@ -32,3 +32,7 @@ ifsomething = comparison(ifsomething)
 def date():
     return datetime.now()
 date = function(date, cache=3600)
+
+def fail():
+    1/0
+fail = function(fail, fallback='woot')
