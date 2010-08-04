@@ -85,7 +85,12 @@ class NativeNode(template.Node):
     def get_args(self, context, resolve=True, apply_filters=True):
         args = (lookup(self.parser, var, context, resolve, apply_filters) for var in self.args)
         if hasattr(self.func, 'takes_context') and getattr(self.func, 'takes_context'):
-            return (context,) + tuple(args)
+            args = (context,) + tuple(args)
+        if hasattr(self.func, 'takes_request') and getattr(self.func, 'takes_request'):
+            try:
+                args = (context['request'],) + tuple(args)
+            except KeyError:
+                raise KeyError('Request not found in context. Make sure "django.core.context_processors.request" is in your TEMPLATE_CONTEXT_PROCESSORS setting')
         return args
 
     def get_kwargs(self, context, resolve=True, apply_filters=True):
