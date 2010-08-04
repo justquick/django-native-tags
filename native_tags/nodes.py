@@ -104,7 +104,15 @@ class NativeNode(template.Node):
         varname = kwargs.pop('varname', None)
 
         def _get_result():
-            result = self.get_result(context, *args, **kwargs)
+            try:
+                result = self.get_result(context, *args, **kwargs)
+            except NotImplementedError:
+                raise
+            except:
+                if hasattr(self.func, 'fallback'):
+                    result = self.func.fallback
+                else:
+                    raise
             if hasattr(self.func, 'is_safe') and getattr(self.func, 'is_safe'):
                 return mark_safe(result)
             return result

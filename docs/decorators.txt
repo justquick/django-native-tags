@@ -62,6 +62,9 @@ Important Attributes
     assert that the tag called with args/kwargs will return the expected result.
     Default expected result is ``True``.
     
+    ``fallback`` - arbitrary object. If for any reason the native tag you are running encounters an error,
+    return this fallback value instead. Providing a default (like an empty list) is a good way to fail elegantly and not have your site crash.
+    
 
 Decorator Types
 ---------------
