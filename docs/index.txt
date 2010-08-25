@@ -39,6 +39,7 @@ Other :ref:`Features <features>` of Native Tags:
  * Auto resolve of template variables
  * Universal and per-tag caching
  * Straightforward template tag unittesting
+ * Error tolerant by letting you specify a fallback return value
 
  
 The real power of the module comes in the :ref:`contrib-index` which has tons of tags for various uses including
