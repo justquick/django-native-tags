@@ -132,3 +132,9 @@ try:
     INSTALLED_APPS += ('django.contrib.markup',)
 except ImportError:
     pass
+
+try:
+    import django_coverage
+    TEST_RUNNER = 'django_coverage.coverage_runner.run_tests'
+except ImportError:
+    pass
