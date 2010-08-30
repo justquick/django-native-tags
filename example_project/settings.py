@@ -125,6 +125,8 @@ DJANGO_BUILTIN_TAGS = (
     'django.contrib.markup.templatetags.markup',
 )
 
+MARKUP_FILTER = ('markdown', { 'safe_mode': True })
+
 try:
     import markdown
     INSTALLED_APPS += ('django.contrib.markup',)
