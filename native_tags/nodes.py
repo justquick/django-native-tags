@@ -94,7 +94,10 @@ class NativeNode(template.Node):
         return args
 
     def get_kwargs(self, context, resolve=True, apply_filters=True):
-        return dict(((k, lookup(self.parser, var, context, resolve)) for k, var in self.kwargs.items()))
+        d = dict(((k, lookup(self.parser, var, context, resolve)) for k, var in self.kwargs.items() if k != 'varname'))
+        if 'varname' in self.kwargs:
+            d['varname'] = self.kwargs['varname']
+        return d
 
     def render(self, context):
         resolve = getattr(self.func, 'resolve', True)
