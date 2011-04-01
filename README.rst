@@ -7,7 +7,7 @@ Native Tags Documentation
 
 ::
 
-    pip install django-native-tags==0.5
+    pip install django-native-tags==0.5.1
 
 Django Native Tags is a way of making the creation of template tags stupidly simple.
 Tags are "native" because there is a much closer relationship between the tag in the template and a Python function behind the scenes.
