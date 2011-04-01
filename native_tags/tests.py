@@ -28,6 +28,9 @@ def profile_tests(*args, **kwargs):
 class TemplateTests(TestCase):
     def setUp(self):
         self.test_user = User.objects.create(username='tester', email='test')
+        # User.objects.create(username='tester2', email='test2')
+        # User.objects.create(username='tester3', email='test3')
+        # User.objects.create(username='tester4', email='test4')
         self.hash = {'foo':'bar'}
 
 
@@ -172,6 +175,14 @@ class TemplateTests(TestCase):
     
     def test_random(self):
         self.assert_(0. <= float(render('{% random %}')) < 1.)
+    
+    def test_loops_work(self):
+        """
+        Does looping while setting a context variable work
+        """
+        t = "{% for i in items %}{% add 1 i as roomba %}{{roomba}}{% endfor %}"
+        o = render(t, {'items':[1,2,3]})
+        self.assertEqual(o, "234")
     
     def test_b64encode(self):
         self.assertEqual(render('{% b64encode "hello world" %}'), 'aGVsbG8gd29ybGQ=')
