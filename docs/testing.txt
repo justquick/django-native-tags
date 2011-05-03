@@ -31,5 +31,12 @@ Here is a shorter example that does the same thing as above::
         return x + y
     adder = function(adder, test={'args': (1, 1), 'result': 2})
     
-Running ``./manage.py test native_tags`` will test the native_tag core as well as
-any of your own test tags as defined like the above example.
+Running ``./manage.py test native_tags`` will test *only* your own tags in your project.
+This is useful for testing the sanity of your project and its applications and great to put in a CI job.
+
+Test Application
+=================
+
+The ``example_project`` folder in the source tree root is also useful for testing
+native tags itself. Run ``./manage.py test app`` in that directory to run a test application
+on native tags.
