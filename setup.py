@@ -1,14 +1,19 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 from native_tags import __version__
+
+try:
+    readme = open('README.rst').read()
+except IOError:
+    readme = ''
 
 setup(name='django-native-tags',
     version=__version__,
     description='Native, Pythonic Templatetags for Django',
-    long_description=open('README.rst').read(),
+    long_description=readme,
     author='Justin Quick',
     author_email='justquick@gmail.com',
     url='http://github.com/justquick/django-native-tags',
-    packages=['native_tags', 'native_tags.contrib', 'native_tags.templatetags'],
+    packages=find_packages(exclude=('example_project',)),
     classifiers=['Development Status :: 5 - Production/Stable',
                  'Environment :: Web Environment',
                  'Framework :: Django',
