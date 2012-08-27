@@ -107,8 +107,9 @@ def retrieve_object(model, *args, **kwargs):
     """
     if len(args) == 1:
         kwargs.update({'pk': args[0]})
+    _model = _get_model(model)
     try:
-        return _get_model(model)._default_manager.get(**kwargs)
-    except model.DoesNotExist:
+        return _model._default_manager.get(**kwargs)
+    except _model.DoesNotExist:
         return ''
 retrieve_object = function(retrieve_object)
