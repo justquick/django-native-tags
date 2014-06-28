@@ -1,4 +1,8 @@
-from django.utils.hashcompat import md5_constructor, sha_constructor
+from django import VERSION as django_version
+if django_version >= (1, 5, 0):
+    from hashlib import md5 as md5_constructor, sha1 as sha_constructor
+else:
+    from django.utils.hashcompat import md5_constructor, sha_constructor
 from native_tags.decorators import function, filter
 
 def hexd(algo, value):

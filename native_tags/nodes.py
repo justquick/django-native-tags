@@ -5,7 +5,11 @@ from django.template import Context, Variable, VariableDoesNotExist
 from django.template.loader import get_template
 from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
-from django.utils.hashcompat import sha_constructor
+from django import VERSION as django_version
+if django_version >= (1, 5, 0):
+    from hashlib import sha1 as sha_constructor
+else:
+    from django.utils.hashcompat import sha_constructor
 from django.core.cache import cache
 from registry import register
 from settings import DEFAULT_CACHE_TIMEOUT
